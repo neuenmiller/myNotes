@@ -1,0 +1,45 @@
+% chem.tex - Preamble for Chemistry documents.
+% Focuses on drawing structures, reactions, and proper chemical notation.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{thamchem}[2023/10/27 My Chemistry Preamble]
+
+%----------------------------------------------------------------------------------------
+%   THE ALL-IN-ONE CHEMISTRY SOLUTION
+%----------------------------------------------------------------------------------------
+% This is the modern, integrated bundle for all things chemistry.
+% It automatically loads 'chemformula', 'siunitx', and other helpers.
+\usepackage{chemmacros}
+\chemsetup{
+    formula=chemformula, % Use the modern 'chemformula' package for \ch{...}
+    modules=all          % Load all available modules
+}
+
+%----------------------------------------------------------------------------------------
+%   DRAWING CHEMICAL STRUCTURES & REACTIONS
+%----------------------------------------------------------------------------------------
+% The single most important package for an organic chemist.
+% Allows you to programmatically draw 2D chemical structures.
+\usepackage{chemfig}
+
+% Set default bond length for consistency. Adjust as needed.
+\setchemfig{atom sep=2em}
+
+%----------------------------------------------------------------------------------------
+%   CUSTOM COMMANDS & SETTINGS
+%----------------------------------------------------------------------------------------
+% Example: A shortcut for drawing a benzene ring.
+% Usage: \benzene
+\newcommand{\benzene}{\chemfig{[:30]*6(=-=-=-)}}
+
+% For typesetting reaction schemes nicely.
+\usepackage{schemabloc} % Good for flowcharts and reaction schemes.
+
+% Chemmacros provides \pKa, \eq, \ca (circa), etc.
+% And \NewChemReaction for custom reaction environments.
+
+% Example of using chemmacros for a numbered reaction scheme
+% \begin{reaction}
+%   \ch{A + B -> C}
+%   \label{rxn:my_reaction}
+% \end{reaction}

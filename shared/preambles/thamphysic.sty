@@ -1,0 +1,40 @@
+% physic.tex - Preamble for Physics documents, especially optics.
+% Includes packages for vectors, diagrams, and physical notation.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{thamphysic}[2023/10/27 My Physics Preamble]
+
+%----------------------------------------------------------------------------------------
+%   PHYSICS-SPECIFIC NOTATION
+%----------------------------------------------------------------------------------------
+\usepackage{physics} % A HUGE time-saver for common physics notation.
+                     % Provides \dv, \pdv, \grad, \div, \curl, \vb{a} (for vectors),
+                     % \expval{}, \bra{}, \ket{}, \braket{}, and much more.
+                     % Some people find it too verbose, but for "skipping the suffering," it's amazing.
+
+\usepackage{esvect}  % For beautiful vector arrows. Use \vv{F} instead of \vec{F}.
+
+%----------------------------------------------------------------------------------------
+%   DIAGRAMS (TIKZ)
+%----------------------------------------------------------------------------------------
+% TikZ is the undisputed king of programmatic drawing in LaTeX.
+% The learning curve is steep, but the power is unparalleled.
+\usepackage{tikz}
+\usepackage{pgfplots} % Built on TikZ, makes plotting data incredibly easy.
+\pgfplotsset{compat=1.18} % Always set the compatibility to a recent version.
+
+% Use TikZ libraries for specific diagram types.
+\usetikzlibrary{
+    arrows.meta,     % For modern, customizable arrow tips
+    calc,            % For coordinate calculations
+    positioning,     % For positioning nodes relative to each other
+    shapes.geometric % For drawing shapes like ellipses, polygons
+}
+
+% !!! SPECIALIZED OPTICS LIBRARY !!!
+% This is a game-changer for drawing optical setups.
+% Find it here: https://www.ctan.org/pkg/tikz-opm
+% You might need to install this manually.
+% \usepackage{tikz-opm} % Uncomment if you install the package
+
+% Example: \begin{tikzpicture} \draw[ray] (0,0) -- (5,0); \end{tikzpicture}
