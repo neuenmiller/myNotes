@@ -15,3 +15,42 @@ Also this shit.
 Second difference matrices includes \(K, T, B\).
 They all have the \(-1, 2, -1\) pattern.
 Now we can approximate \(-\frac{d^2 u}{dx^2} = f=(x)\) 
+
+\[
+K_4 =
+\frac{1}{h^2}
+    \begin{bmatrix}
+        2 & -1 & 0 & 0  \\
+         0 & -1 & 2 & -1  \\
+         0 &  0 & -1  & 2  \\
+        0 & 0 & -1 & 2  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        u_1  \\
+        u_2  \\
+        u_3  \\
+        u_4  \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        f(h)  \\
+        f(2h)  \\
+        f(3h)  \\
+        f(4h)  \\
+    \end{bmatrix}
+\]
+
+So, we want to compute \(-\frac{d^2 u}{dx^2}\) with a computer, but the computer can't understand derivative. 
+So what we do is we turn \(\frac{d^2 u}{dx^2}\)  into the matrix \(\frac{K^2}{h}\),
+function \(u(x)\)  into vector \(u\), and function \(f(x)\) into \(F\).
+We also need the boundary conditions, which are given where \(u(0) = 0 \text{ and } u(1)=0\). 
+We can't pick out the infinite space between 0 and 1, so we pick N equally spaced points at a regular interval. 
+The space between each points (and the first and the last point) becomes meshwidth (h). 
+If we have N interal points \(u_0, u_1, u_2, \ldots\) plus two boundary points \(u_0 \text{ and } u_{N+1}\), we divide the total length into N+1 segments.
+Therefore the spacing is \(h = \frac{1}{N+1}\).
+If we have 4 N, then the spacing is h = \(\frac{1}{5}\).
+So instead of finding the continuous function \(u(x)\), we will find the value at each internal points, and they becomes the unknown vector \(U = [u_1, u_2, u_3, u_4]^T\).
+\medbreak
+\(-\frac{d^2 u}{dx^2} \text{ is approximately } \frac{-u(x+h) + 2u(x) - u(x-h)}{h^2}\) 
+
+ 

@@ -393,7 +393,10 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/lm/ec-lmr7.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/lm/ec-lmr5.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
+INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
@@ -401,6 +404,7 @@ INPUT main.run.xml
 OUTPUT main.run.xml
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmex10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi12.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi7.pfb
@@ -408,4 +412,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr12.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr17.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr5.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr7.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmsy10.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmsy7.pfb
