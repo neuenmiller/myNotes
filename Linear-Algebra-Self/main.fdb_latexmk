@@ -1,16 +1,16 @@
 # Fdb version 4
-["biber main"] 0 "main.bcf" "main.bbl" "main" 1749746884.61639 0
+["biber main"] 0 "main.bcf" "main.bbl" "main" 1749799529.68274 0
   "main.bcf" 0 -1 0 "pdflatex"
   "references.bib" 0 -1 0 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1749746880.68504 "c:/Users/Thinkpad/Documents/MyRepo/myNotes/Linear-Algebra-Self/main.tex" "main.pdf" "main" 1749746884.61808 0
+["pdflatex"] 1749799524.96935 "c:/Users/Thinkpad/Documents/MyRepo/myNotes/Linear-Algebra-Self/main.tex" "main.pdf" "main" 1749799529.68406 0
   "../shared/preambles/thamcore.sty" 1749652659 6160 1d46b6e85601f984c3bc95ac7f41d17a ""
   "../shared/preambles/thammath.sty" 1749643994 3521 45379af38d3f0f0109d5872d64a9c000 ""
   "Chapter1.tex" 1749735246 230 8fd973f6151fb4cde827b64de55c8538 ""
-  "Chapter2.tex" 1749746879 2023 6d2547d6a5983c99ab2ada323aa7140e ""
+  "Chapter2.tex" 1749799523 2006 228e73d82fe8efa38889466764615ec8 ""
   "c:/Users/Thinkpad/Documents/MyRepo/myNotes/Linear-Algebra-Self/main.tex" 1749735246 367 3832c2f2d13300a30b01a9186c6076b7 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1749567490 2375 baa924870cfb487815765f9094cf3728 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1749567490 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
@@ -200,12 +200,12 @@
   "c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1749569826 5569470 f263a82cf6bb394f5bc87b63f38b78df ""
   "c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1749570139 3599222 1af2307219a1f48cbea72dfca14b4f88 ""
   "c:/texlive/2025/texmf.cnf" 1749569804 713 e69b156964470283e0530f5060668171 ""
-  "main.aux" 1749746883 1560 58bc42768b7e3c1b666e8d5e85a1fa78 "pdflatex"
+  "main.aux" 1749799528 1560 58bc42768b7e3c1b666e8d5e85a1fa78 "pdflatex"
   "main.bbl" 0 -1 0 "biber main"
-  "main.out" 1749746883 1797 03677c7cc43fb0a753e06de4fb3e1381 "pdflatex"
-  "main.run.xml" 1749746883 2279 b0d2810d319bbd6c94021a024309dacc "pdflatex"
+  "main.out" 1749799528 1797 03677c7cc43fb0a753e06de4fb3e1381 "pdflatex"
+  "main.run.xml" 1749799528 2279 b0d2810d319bbd6c94021a024309dacc "pdflatex"
   "main.tex" 1749735246 367 3832c2f2d13300a30b01a9186c6076b7 ""
-  "main.toc" 1749746883 736 0f085490fcf40063d3e4d1d3c1d67c07 "pdflatex"
+  "main.toc" 1749799528 736 0f085490fcf40063d3e4d1d3c1d67c07 "pdflatex"
   (generated)
   "main.aux"
   "main.bcf"
