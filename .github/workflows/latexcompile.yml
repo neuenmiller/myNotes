@@ -1,0 +1,41 @@
+name: Build LaTeX Notes
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-notes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install TeX Live & latexmk
+        uses: cramforce/texlive-action@v1
+        with:
+          extra-packages: |
+            latexmk
+
+      - name: Compile each chapter folder
+        run: |
+          # Loop through every subfolder with a main.tex
+          for d in */; do
+            if [ -f "$d/main.tex" ]; then
+              pushd "$d"
+              folder=$(basename "$PWD")
+              echo "Building notes for $folder…"
+              # Prefix underscore to pin it at the top
+              latexmk -pdf -interaction=nonstopmode -halt-on-error \
+                -jobname="_${folder}-PDF" main.tex
+              popd
+            fi
+          done
+
+      - name: Upload all PDFs
+        uses: actions/upload-artifact@v3
+        with:
+          name: Course-Notes-PDFs
+          path: |
+            */_*-PDF.pdf
