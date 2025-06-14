@@ -1,47 +1,51 @@
 name: Build LaTeX Notes
 
 on:
-  # manual trigger button in the Actions tab
-  workflow_dispatch:
-
-  # automatic run on every push to main that touches .tex files
   push:
-    branches: [ main ]
-    paths:
-      - "**/*.tex"
-      - ".github/workflows/**"
+    branches:
+      - main
 
 jobs:
-  compile:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      # Pull your repo
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # Tiny TeX Live distribution + latexmk
-      - name: Set up TeX Live
-        uses: xu-cheng/latex-action@v2
+      - name: Get changed note directories
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+        with:
+          files: theNotesHERE/**
 
-      # Compile all main.tex files (recursively)
-      - name: Compile every main.tex
-        shell: bash
+      - name: Build and rename PDFs
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          set -eu
-          mapfile -t TEX_FILES < <(git ls-files '**/main.tex')
-          echo "Found ${#TEX_FILES[@]} note folders."
-          for TEX in "${TEX_FILES[@]}"; do
-            DIR=$(dirname "$TEX")
-            FOLDER=$(basename "$DIR")
-            echo "▶︎ Building $TEX  →  _${FOLDER}-PDF.pdf"
-            latexmk -pdf -interaction=nonstopmode -halt-on-error \
-                    -jobname="_${FOLDER}-PDF" "$TEX"
+          echo "Changed note directories:"
+          CHANGED_DIRS=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | xargs -n1 dirname | sort -u)
+          echo "$CHANGED_DIRS"
+          
+          for dir in $CHANGED_DIRS; do
+            if [ -f "$dir/main.tex" ]; then
+              echo "Building PDF for $dir"
+              # Compile the LaTeX file
+              docker run --rm -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode -outdir="$dir" "$dir/main.tex"
+
+              # Rename the output PDF
+              FOLDER_NAME=$(basename "$dir")
+              PDF_NAME="_${FOLDER_NAME}-PDF.pdf"
+              mv "$dir/main.pdf" "$dir/$PDF_NAME"
+              echo "Renamed PDF to $PDF_NAME"
+            else
+              echo "No main.tex found in $dir, skipping."
+            fi
           done
 
-      # Collect all generated PDFs
       - name: Upload PDFs
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-notes
-          path: "**/_*-PDF.pdf"
+          name: LaTeX-PDFs
+          path: |
+            theNotesHERE/*/*.pdf
+            !theNotesHERE/*/*.tex
