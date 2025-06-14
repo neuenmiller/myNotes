@@ -31,8 +31,6 @@ jobs:
           for dir in $CHANGED_DIRS; do
             if [ -f "$dir/main.tex" ]; then
               echo "--- Building PDF for $dir ---"
-              # --- THIS IS THE CORRECTED LINE ---
-              # Run the Docker container as the current user to ensure correct file permissions
               if ! docker run --rm --user $(id -u):$(id -g) -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode "$dir/main.tex"; then
                 echo "::error::LaTeX compilation failed for $dir. Check the log files."
                 HAD_ERROR=true
@@ -48,11 +46,18 @@ jobs:
             exit 1
           fi
 
+      # --- THIS IS THE NEW FIX ---
+      - name: Forcefully add PDF files to git
+        if: steps.build-latex.outcome == 'success'
+        run: git add -f theNotesHERE/**/*.pdf
+
       - name: Commit PDF files
         if: steps.build-latex.outcome == 'success'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "ci: Automatically build and commit PDFs"
+          # The file_pattern is now less critical as we've already added the files,
+          # but it's good practice to keep it.
           file_pattern: theNotesHERE/**/*.pdf
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
