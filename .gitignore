@@ -1,0 +1,44 @@
+# — LaTeX intermediate files (aux, log, toc, etc.)
+*.aux
+*.bbl
+*.blg
+*.lof
+*.lot
+*.log
+*.out
+*.toc
+
+# — latexmk / build-system files
+*.fls
+*.fdb_latexmk
+*.run.xml
+*.bcf
+
+# — Index & Glossary
+*.idx
+*.ilg
+*.ind
+*.glo
+*.glg
+*.gls
+*.acn
+*.acr
+*.alg
+
+# — Beamer-specific
+*.nav
+*.snm
+*.vrb
+
+# — SyncTeX (for forward/backward search)
+*.synctex.gz
+
+# — Custom build folders
+auto/
+build/
+out/
+
+# — Generated documents
+ *.pdf
+ *.dvi
+ *.ps
