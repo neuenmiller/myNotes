@@ -1,41 +1,47 @@
 name: Build LaTeX Notes
 
 on:
+  # manual trigger button in the Actions tab
+  workflow_dispatch:
+
+  # automatic run on every push to main that touches .tex files
   push:
     branches: [ main ]
+    paths:
+      - "**/*.tex"
+      - ".github/workflows/**"
 
 jobs:
-  build-notes:
+  compile:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # Pull your repo
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Install TeX Live & latexmk
-        uses: cramforce/texlive-action@v1
-        with:
-          extra-packages: |
-            latexmk
+      # Tiny TeX Live distribution + latexmk
+      - name: Set up TeX Live
+        uses: xu-cheng/latex-action@v2
 
-      - name: Compile each chapter folder
+      # Compile all main.tex files (recursively)
+      - name: Compile every main.tex
+        shell: bash
         run: |
-          # Loop through every subfolder with a main.tex
-          for d in */; do
-            if [ -f "$d/main.tex" ]; then
-              pushd "$d"
-              folder=$(basename "$PWD")
-              echo "Building notes for $folder…"
-              # Prefix underscore to pin it at the top
-              latexmk -pdf -interaction=nonstopmode -halt-on-error \
-                -jobname="_${folder}-PDF" main.tex
-              popd
-            fi
+          set -eu
+          mapfile -t TEX_FILES < <(git ls-files '**/main.tex')
+          echo "Found ${#TEX_FILES[@]} note folders."
+          for TEX in "${TEX_FILES[@]}"; do
+            DIR=$(dirname "$TEX")
+            FOLDER=$(basename "$DIR")
+            echo "▶︎ Building $TEX  →  _${FOLDER}-PDF.pdf"
+            latexmk -pdf -interaction=nonstopmode -halt-on-error \
+                    -jobname="_${FOLDER}-PDF" "$TEX"
           done
 
-      - name: Upload all PDFs
+      # Collect all generated PDFs
+      - name: Upload PDFs
         uses: actions/upload-artifact@v3
         with:
-          name: Course-Notes-PDFs
-          path: |
-            */_*-PDF.pdf
+          name: compiled-notes
+          path: "**/_*-PDF.pdf"
