@@ -41,7 +41,7 @@ jobs:
 
       # Collect all generated PDFs
       - name: Upload PDFs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-notes
           path: "**/_*-PDF.pdf"
