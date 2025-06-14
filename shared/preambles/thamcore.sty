@@ -7,73 +7,95 @@
 %----------------------------------------------------------------------------------------
 %   DOCUMENT CLASS & ENCODING
 %----------------------------------------------------------------------------------------
-% Use 'article' for papers, reports, homework. Alternatives: 'report', 'book'.
-% The '11pt' option is a good balance of readability on screen and paper.
-% \documentclass[11pt, a4paper]{article} % Uncomment in your main file, not here.
-
-\usepackage[utf8]{inputenc} % Allows you to type characters like å, ö, à directly. Absolutely essential.
-\usepackage[T1]{fontenc}    % The modern font encoding. Fixes copy-pasting from PDFs and improves hyphenation.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 
 %----------------------------------------------------------------------------------------
-%   TYPOGRAPHY & FONTS
-%----------------------------------------------------------------------------------------
-\usepackage{lmodern}        % A modern, cleaner version of the default Computer Modern font.
-\usepackage{csquotes}
-\usepackage{babel}          % Manages language-specific rules (e.g., hyphenation).
-\usepackage{setspace}       % For line spacing control, e.g., \onehalfspacing or \doublespacing for drafts.
-\usepackage[
-    activate={true,nocompatibility}, % Enables all typographic refinements
-    final,                           % Ensures microtype is active
-    tracking=true,                   % Adjusts inter-word spacing
-    kerning=true,                    % Adjusts spacing between specific letter pairs
-    spacing=true,                    % Adjusts inter-word and inter-sentence spacing
-    factor=1100,                     % Stretch limit for justification
-    stretch=10,                      % Allowed stretchability
-    shrink=10                        % Allowed shrinkability
-]{microtype}                         % THE package for professional typography. It subtly adjusts spacing and font scaling
-                                     % to make paragraphs look perfect and reduce hyphenation. You will cry without it.
-\microtypecontext{spacing=nonfrench}
-\usepackage{textcase}       % For commands like \MakeUppercase, \MakeLowercase.
-
-%----------------------------------------------------------------------------------------
-%   PAGE LAYOUT & APPEARANCE
+%   PAGE LAYOUT & GEOMETRY
 %----------------------------------------------------------------------------------------
 \usepackage[
-    a4paper,            % Or 'letterpaper' for US standard
+    a4paper,
     top=2.5cm,
     bottom=2.5cm,
     left=2.5cm,
     right=2.5cm,
-    headheight=13.6pt   % Required for fancyhdr to work without warnings
-]{geometry}             % The easiest and best way to control page margins.
+    headheight=13.6pt
+]{geometry}
 
-\usepackage{fancyhdr}   % For customizing headers and footers.
-\pagestyle{fancy}       % Activates fancy headers/footers.
-\fancyhf{}              % Clears all header and footer fields.
-\renewcommand{\headrulewidth}{0.4pt} % Adds a rule below the header.
-\renewcommand{\footrulewidth}{0.4pt} % Adds a rule above the footer.
-\fancyhead[C]{My Document Title} % Example: Centered header
-\fancyfoot[C]{\thepage}          % Page number in the center of the footer.
+%----------------------------------------------------------------------------------------
+%   TYPOGRAPHY & FONTS
+%----------------------------------------------------------------------------------------
+\usepackage{lmodern}
+\usepackage{textcase}
+\usepackage{setspace}
+\usepackage{csquotes}
+\usepackage{babel}
+\usepackage[
+    activate={true,nocompatibility},
+    final,
+    tracking=true,
+    kerning=true,
+    spacing=true,
+    factor=1100,
+    stretch=10,
+    shrink=10
+]{microtype}
+\microtypecontext{spacing=nonfrench}
+
+%----------------------------------------------------------------------------------------
+%   COLORS & HEADERS
+%----------------------------------------------------------------------------------------
+\usepackage[svgnames]{xcolor}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[C]{My Document Title}
+\fancyfoot[C]{\thepage}
 \let\cleardoublepage\clearpage
-\usepackage[svgnames]{xcolor} % Provides access to a huge library of colors.
+
+%----------------------------------------------------------------------------------------
+%   TABLES, GRAPHICS, & LISTS
+%----------------------------------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+%----------------------------------------------------------------------------------------
+%   CORE MATH & SCIENCE PACKAGES
+%%> MOVED UP: These are fundamental and must be loaded before packages that
+%%> depend on them, like cleveref.
+%----------------------------------------------------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+%%> amsfonts is loaded by amssymb, so it's not explicitly needed here.
+
+\usepackage{siunitx}
+%%> FIXED: 'group-digits=false' is deprecated. Use 'none' instead.
+\sisetup{group-digits=none}
 
 %----------------------------------------------------------------------------------------
 %   BIBLIOGRAPHY & CITATIONS
+%%> MOVED UP: Load bibliography configuration before hyperlinks and references.
 %----------------------------------------------------------------------------------------
-% The modern way to do bibliography. More flexible and powerful than BibTeX.
 \usepackage[
-    backend=biber,      % The backend engine. Biber is modern and supports UTF-8.
-    style=numeric,      % Citation style. Alternatives: 'alphabetic', 'authoryear'.
-    sorting=none,       % How citations are sorted. 'nyt' = name, year, title.
-    citestyle=numeric-comp, % Compresses citation numbers, e.g., [1, 2, 3] becomes [1-3].
+    backend=biber,
+    style=numeric,
+    sorting=none,
+    citestyle=numeric-comp,
     language=english
 ]{biblatex}
-\addbibresource{references.bib} % The name of your .bib file.
+% \addbibresource{references.bib} %%> Good practice to keep this in the main .tex file
 
 %----------------------------------------------------------------------------------------
-%   HYPERLINKS & REFERENCES
+%   CROSS-REFERENCING & HYPERLINKS (CRITICAL ORDERING)
+%%> REORDERED: This is the most important fix. The correct order is:
+%%> 1. Math/theorem packages (amsmath)
+%%> 2. cleveref
+%%> 3. hyperref
 %----------------------------------------------------------------------------------------
-\usepackage{hyperref}
+\usepackage{hyperref} % Should be loaded late, but BEFORE cleveref.
 \hypersetup{
     colorlinks=true,
     linkcolor=NavyBlue,
@@ -81,29 +103,15 @@
     urlcolor=DarkBlue,
     pdftitle={My Document Title},
     pdfauthor={My Name},
-    pdfsubject={Subject},
-    pdfkeywords={keyword1, keyword2},
     bookmarksopen=true,
     bookmarksnumbered=true
 }
 
-% Must be loaded AFTER hyperref. Makes cross-referencing magical.
-% \cref{fig:my_figure} will produce "Figure 1" instead of just "1".
-\usepackage[noabbrev]{cleveref}
+\usepackage[noabbrev]{cleveref} %%> CORRECTED: Must be loaded AFTER amsmath and hyperref.
 
 %----------------------------------------------------------------------------------------
-%   COMMON PACKAGES FOR TECHNICAL CONTENT
+%   UTILITY & HELPER PACKAGES
 %----------------------------------------------------------------------------------------
-\usepackage{graphicx}       % For including images with \includegraphics.
-\usepackage{booktabs}       % For professional-looking tables (\toprule, \midrule, \bottomrule).
-\usepackage{amsmath}        % The American Mathematical Society's math package. Essential.
-\usepackage{amssymb}        % Provides many extra math symbols.
-\usepackage{amsfonts}       % Provides math fonts.
-\usepackage{enumitem}       % Gives you full control over lists (itemize, enumerate, description).
-\usepackage{siunitx}        % The ONLY way to correctly typeset units and numbers. \SI{2.5e3}{\kilo\gram\per\meter\cubed}.
-\sisetup{group-digits=false} 
-
-% For code snippets directly in your LaTeX file.
 \usepackage{listings}
 \lstset{
   basicstyle=\ttfamily\small,
@@ -117,5 +125,4 @@
   numberstyle=\tiny\color{gray},
 }
 
-% For placeholder text during drafting.
-\usepackage{lipsum}
+\usepackage{lipsum} % For placeholder text.

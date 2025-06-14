@@ -7,48 +7,41 @@
 %----------------------------------------------------------------------------------------
 %   ADVANCED MATH TOOLS
 %----------------------------------------------------------------------------------------
-\usepackage{mathtools} % An extension of amsmath with tons of fixes and new tools.
-                       % You'll love \coloneqq (:=) and paired delimiters.
-
-\usepackage{amsthm}    % For creating theorem-like environments.
-
-\usepackage{bm}        % For bold math symbols. \bm{\beta} is better than \mathbf{\beta}.
+\usepackage{mathtools} %%> Loads amsmath itself, but it's safe if already loaded.
+\usepackage{amsthm}
+\usepackage{bm}
 
 %----------------------------------------------------------------------------------------
 %   ALGORITHMS
 %----------------------------------------------------------------------------------------
 \usepackage{algorithm}
-\usepackage{algpseudocode} % A great combo for writing beautiful pseudocode.
+\usepackage{algpseudocode}
 
 %----------------------------------------------------------------------------------------
 %   CUSTOM THEOREM ENVIRONMENTS
 %----------------------------------------------------------------------------------------
-% These environments will share the same counter, numbered within sections.
-\theoremstyle{definition} % Upright text, bold heading.
+\theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{example}{Example}[section]
 
-\theoremstyle{plain} % Italicized text, bold heading.
+\theoremstyle{plain}
 \newtheorem{theorem}[definition]{Theorem}
 \newtheorem{lemma}[definition]{Lemma}
 \newtheorem{proposition}[definition]{Proposition}
 \newtheorem{corollary}[definition]{Corollary}
 
-\theoremstyle{remark} % Upright text, italic heading.
+\theoremstyle{remark}
 \newtheorem{remark}{Remark}[section]
 
 %----------------------------------------------------------------------------------------
 %   CUSTOM MATH COMMANDS & OPERATORS
 %----------------------------------------------------------------------------------------
-% Math sets
-\newcommand{\R}{\mathbb{R}} % Real numbers
-\newcommand{\Z}{\mathbb{Z}} % Integers
-\newcommand{\N}{\mathbb{N}} % Natural numbers
-\newcommand{\C}{\mathbb{C}} % Complex numbers
-\newcommand{\Q}{\mathbb{Q}} % Rational numbers
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
 
-% Paired delimiters from mathtools - automatically scales!
-% e.g., \abs{ \frac{1}{2} } will have the right size bars.
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
@@ -57,22 +50,18 @@
 \DeclarePairedDelimiter{\sqbrak}{[}{]}
 \DeclarePairedDelimiter{\braces}{\{}{\}}
 
-% Custom operators
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator{\E}{\mathbb{E}} % Expected value
-\DeclareMathOperator{\Var}{Var}      % Variance
-\DeclareMathOperator{\Cov}{Cov}      % Covariance
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
 
-% For derivatives (makes notation consistent)
 \newcommand{\dd}{\mathop{}\!\mathrm{d}}
 
 %----------------------------------------------------------------------------------------
 %   CUSTOM ENVIRONMENT
 %----------------------------------------------------------------------------------------
-
-\newenvironment{alignedMatrix}
-{%
+\newenvironment{alignedMatrix}{%
   \begingroup
   \sisetup{
     table-format=2.0,
@@ -80,9 +69,8 @@
     detect-weight=true,
     detect-family=true
   }
-  \left[ \begin{array}{*{20}{S}} % up to 20 columns
-}
-{%
+  \left[ \begin{array}{*{20}{S}}
+}{%
   \end{array} \right]
   \endgroup
 }
