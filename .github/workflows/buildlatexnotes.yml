@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+# --- THIS IS THE FINAL FIX ---
+# Grant the GITHUB_TOKEN permissions to write to the repository
+permissions:
+  contents: write
+
 jobs:
   build:
     if: "!contains(github.event.head_commit.message, 'ci: Automatically build and commit PDFs')"
@@ -29,7 +34,8 @@ jobs:
           echo "Found changes in the following directories:"
           echo "$CHANGED_DIRS"
           for dir in $CHANGED_DIRS; do
-            if [ -f "$dir/main.tex" ]; then
+            if [ -f "$dir/main.tex" ];
+            then
               echo "--- Building PDF for $dir ---"
               if ! docker run --rm --user $(id -u):$(id -g) -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode "$dir/main.tex"; then
                 echo "::error::LaTeX compilation failed for $dir. Check the log files."
@@ -46,7 +52,6 @@ jobs:
             exit 1
           fi
 
-      # --- THIS IS THE NEW FIX ---
       - name: Forcefully add PDF files to git
         if: steps.build-latex.outcome == 'success'
         run: git add -f theNotesHERE/**/*.pdf
@@ -56,9 +61,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "ci: Automatically build and commit PDFs"
-          # The file_pattern is now less critical as we've already added the files,
-          # but it's good practice to keep it.
-          file_pattern: theNotesHERE/**/*.pdf
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
 
