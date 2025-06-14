@@ -7,9 +7,7 @@ on:
 
 jobs:
   build:
-    # This condition prevents the workflow from running on its own commits
     if: "!contains(github.event.head_commit.message, 'ci: Automatically build and commit PDFs')"
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -24,7 +22,7 @@ jobs:
       - name: Build LaTeX and Rename PDFs
         id: build-latex
         if: steps.changed-dirs.outputs.any_changed == 'true'
-        continue-on-error: true # Keep this to allow log uploads on failure
+        continue-on-error: true
         run: |
           HAD_ERROR=false
           CHANGED_DIRS=$(echo "${{ steps.changed-dirs.outputs.all_changed_files }}" | xargs -n1 dirname | sort -u)
@@ -33,7 +31,9 @@ jobs:
           for dir in $CHANGED_DIRS; do
             if [ -f "$dir/main.tex" ]; then
               echo "--- Building PDF for $dir ---"
-              if ! docker run --rm -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode "$dir/main.tex"; then
+              # --- THIS IS THE CORRECTED LINE ---
+              # Run the Docker container as the current user to ensure correct file permissions
+              if ! docker run --rm --user $(id -u):$(id -g) -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode "$dir/main.tex"; then
                 echo "::error::LaTeX compilation failed for $dir. Check the log files."
                 HAD_ERROR=true
               else
@@ -48,24 +48,16 @@ jobs:
             exit 1
           fi
 
-      # --- This is the new, important step ---
       - name: Commit PDF files
-        # This step only runs if the build step succeeded
         if: steps.build-latex.outcome == 'success'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          # A clear commit message for the bot to use
           commit_message: "ci: Automatically build and commit PDFs"
-          
-          # The pattern of files to add and commit
           file_pattern: theNotesHERE/**/*.pdf
-
-          # The action will use a bot as the committer
           commit_user_name: GitHub Actions Bot
           commit_user_email: actions@github.com
 
       - name: Upload Log Artifacts on Failure
-        # This step still runs if the build step failed, which is great for debugging
         if: steps.build-latex.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
