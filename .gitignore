@@ -39,6 +39,6 @@ build/
 out/
 
 # — Generated documents
- *.pdf
- *.dvi
- *.ps
+*.pdf
+*.dvi
+*.ps
