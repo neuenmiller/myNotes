@@ -1,0 +1,47 @@
+# .github/workflows/release.yml
+
+name: Create LaTeX Release
+
+# HOW TO USE:
+# 1. Create a tag on your local machine: git tag v1.0
+# 2. Push all your tags to GitHub:       git push origin --tags
+# This will trigger the workflow and create a new official release.
+
+on:
+  push:
+    # This workflow only runs when a tag starting with 'v' is pushed
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build All LaTeX PDFs for Release
+        run: |
+          echo "Building all note directories for the release..."
+          # Loop through every subdirectory in theNotesHERE
+          for dir in theNotesHERE/*; do
+            if [ -d "$dir" ] && [ -f "$dir/main.tex" ]; then
+              echo "--- Building PDF for $dir ---"
+              docker run --rm --user $(id -u):$(id -g) -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode "$dir/main.tex"
+              FOLDER_NAME=$(basename "$dir")
+              PDF_NAME="_${FOLDER_NAME}-PDF.pdf"
+              mv "$dir/main.pdf" "$dir/$PDF_NAME"
+              echo "Successfully built and renamed $dir/$PDF_NAME"
+            fi
+          done
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # This automatically generates release notes from your recent commits.
+          generate_release_notes: true
+          # This attaches all the PDFs we just built to the release page.
+          files: theNotesHERE/*/*.pdf
