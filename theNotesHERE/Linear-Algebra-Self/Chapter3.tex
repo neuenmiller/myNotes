@@ -1,0 +1,33 @@
+\chapter{The Four Fundamental Subspaces}
+
+How can we define "vector space"? Well, if we are talking about \(R^3\), the key operation are \(v + w \text{ and } cv\).
+Notice that v and w could be matrices, so we could have matrix spaces and function spaces. Then inside \(R^n\) we could only allow \(x\) that satisfies \(Ax = 0\), which will produce "nullspace of A".
+All combination of solution to \(Ax = 0\) are also solutions, meaning that the nullspace is a subspace. To point it simply, nullspace is just \(x \text{ in } Ax \text{ that crushes it down to } 0\). Why is it called a space? Because it has structures and rules. 
+\begin{enumerate}
+    \item It must contain zero vector, \(A \times 0 = 0\) always.
+    \item It must be closed under addition, meaning that if you take two vectors from the nullspace then add them together, they must still be in the nullspace.
+    \item It must be closed under scalar addition, meaning that if you take any vector from the nullspace then multiplies them by a constant, the result must stil be in the nullspace. 
+\end{enumerate}
+Then, lastly, there are basis. A set of vectors that perfectly describes the space. Very important, some considers it the fundamental theorem. So, what it means is that basis are just sets of movement vectors for each dimension.
+\begin{enumerate}
+    \item For a 3D space, you will need forward, right, and up.
+    \item For a 2D space, you will need right and up.
+    \item For a 1D space (line of sight, nullspace), you only need the direction of the line.
+\end{enumerate}
+
+And so, \(n - r\) special solutions to \(Ax = 0\) are a basis for \(N(A)\). It's called rank-nullity theorem.
+\[
+    \text{Dimension of Input Space = Dimension of Column Space + Dimension of Nullspace, }
+    n = r + (n - r)
+\] 
+Note that \(n - r\) is the dimension of the nullspace. 
+One last note: THIS CHAPTER IS VERY IMPORTANT.
+\section{Vector Spaces and Subspaces}
+
+\section{The Nullspace of A: Solving \(Ax = 0\)}
+
+\section{The Complete Solution to \(Ax = b\)}
+
+\section{Independence, Basis, Dimension}
+
+\section{Dimensions of the Four Subspaces}

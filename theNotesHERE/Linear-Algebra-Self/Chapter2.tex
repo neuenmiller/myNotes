@@ -14,15 +14,35 @@ Also this shit.
 \section{Derivatives and Finite Difference Matrices}
 Second difference matrices includes \(K, T, B\).
 They all have the \(-1, 2, -1\) pattern.
-Now we can approximate \(-\frac{d^2 u}{dx^2} = f=(x)\) 
-
 \[
-K_4 =
+    K_4 =
+     \begin{bmatrix}
+        2 & -1 & 0 & 0  \\
+        -1 & 2 & -1 & 0  \\
+        0 &  -1 & 2 & -1  \\
+        0 & 0 & -1 & 2  \\
+    \end{bmatrix}
+\]
+Now we can approximate \(-\frac{d^2 u}{dx^2} = f=(x)\) 
+So, we want to compute \(-\frac{d^2 u}{dx^2}\) with a computer, but the computer can't understand derivative. 
+So what we do is we turn \(\frac{d^2 u}{dx^2}\)  into the matrix \(\frac{K^2}{h}\),
+function \(u(x)\)  into vector \(u\), and function \(f(x)\) into \(F\).
+We also need the boundary conditions, which are given where \(u(0) = 0 \text{ and } u(1)=0\). 
+We can't pick out the infinite space between 0 and 1, so we pick N equally spaced points at a regular interval. 
+The space between each points (and the first and the last point) becomes meshwidth (h). 
+If we have N interal points \(u_0, u_1, u_2, \ldots\) plus two boundary points \(u_0 \text{ and } u_{N+1}\), we divide the total length into N+1 segments.
+Therefore the spacing is \(h = \frac{1}{N+1}\).
+If we have 4 N, then the spacing is h = \(\frac{1}{5}\).
+So instead of finding the continuous function \(u(x)\), we will find the value at each internal points, and they becomes the unknown vector \(U = [u_1, u_2, u_3, u_4]^T\).
+\[
+-\frac{d^2 u}{dx^2} = f(x)
+\text{ becomes }
+\frac{KU}{h^2} = F,
 \frac{1}{h^2}
     \begin{bmatrix}
         2 & -1 & 0 & 0  \\
-         0 & -1 & 2 & -1  \\
-         0 &  0 & -1  & 2  \\
+        -1 & 2 & -1 & 0  \\
+        0 &  -1 & 2 & -1  \\
         0 & 0 & -1 & 2  \\
     \end{bmatrix}
     \begin{bmatrix}
@@ -39,16 +59,116 @@ K_4 =
         f(4h)  \\
     \end{bmatrix}
 \]
+The key point is that when divide the meshpoint into 4, therefore N = 4.
+Row 1 times \(U\) is \(2u_1 - u_2\), and we already got the boundary where \(u_0 = 0\text{ and } u_5 = 0\), making a typical row \(\frac{(-u_1 + 2u_2 - u_3)}{h^2} = f(h)\). The division by \(h^2\) makes \(\frac{K}{h^2}\) a second difference matrix, replacing \(-\frac{d^2 u}{dx^2}\).   
 
-So, we want to compute \(-\frac{d^2 u}{dx^2}\) with a computer, but the computer can't understand derivative. 
-So what we do is we turn \(\frac{d^2 u}{dx^2}\)  into the matrix \(\frac{K^2}{h}\),
-function \(u(x)\)  into vector \(u\), and function \(f(x)\) into \(F\).
-We also need the boundary conditions, which are given where \(u(0) = 0 \text{ and } u(1)=0\). 
-We can't pick out the infinite space between 0 and 1, so we pick N equally spaced points at a regular interval. 
-The space between each points (and the first and the last point) becomes meshwidth (h). 
-If we have N interal points \(u_0, u_1, u_2, \ldots\) plus two boundary points \(u_0 \text{ and } u_{N+1}\), we divide the total length into N+1 segments.
-Therefore the spacing is \(h = \frac{1}{N+1}\).
-If we have 4 N, then the spacing is h = \(\frac{1}{5}\).
-So instead of finding the continuous function \(u(x)\), we will find the value at each internal points, and they becomes the unknown vector \(U = [u_1, u_2, u_3, u_4]^T\).
-\medbreak
-\(-\frac{d^2 u}{dx^2} \approx  \frac{-u(x+h) + 2u(x) - u(x-h)}{h^2}\) 
+\subsection{Properties of K}
+K has 4 properties. For the sake of example, we will use \(K \text{ for } N = 4\). 
+\[
+    \begin{bmatrix}
+        2 & -1 & 0 & 0  \\
+        -1 & 2 & -1 & 0  \\
+        0 &  -1 & 2 & -1  \\
+        0 & 0 & -1 & 2  \\
+    \end{bmatrix}
+\]
+\begin{enumerate}
+    \item K is symmetrical, as in \(K_{ij} = K_{ji}\)
+    \item K is banded. All the non-zeros (-1, 2, -1) lie in a band around the main diagonal. The band has three diagonals, so K is a tridiagonal matrix. 
+    \item K has a constant diagonals. A diagonal of -1, then 2, then -1 again. The matrix is called "shift-invariant", because the differential equation always have a constant coefficient of -1. The approximation to \(-\frac{d^2 u}{dx^2}\)  is always \(-1, 2, -1 \text{ at every} X\).
+    \item X is invertible. It has an inverse matrix \(K^{-1} \text{ then } K^{-1}K = I \text{ and } KK^{-1} = I\). 
+    \[
+        K_4^{-1} = \bm{\frac{1}{5}} \begin{bmatrix}
+            4 & 3 & 2 & 1  \\
+            3 & 6 & 4 & 2  \\
+            2 & 4 & 6 & 3 \\
+            1 & 2 & 3 & 4  \\
+        \end{bmatrix}  
+    \]  
+    \(K^{-1} \) is aso symmetric but it is no diagonal. It is dense matrix, meaning no zeros. 
+    \item Symmetric \(K_n\) matrices are positive definite.  
+\end{enumerate}
+Invertible, positive definite symmetric matrix, and semidefinite matrix are defined by their pivots.
+\begin{enumerate}
+    \item Invertible matrices has nonzero pivots.
+    \item Positive definite symmetric matrices has positive nonzero pivots.
+    \item Positive semidefinite symmetric matrices has nonnegative pivots.
+\end{enumerate}
+
+\subsection{Free-fixed Matrice \(T_n\)}
+
+\(T_n \text{ and } B_n\) are variations on \(K_n\), where the variation comes from changing the boundary conditions.
+Think of it as an elastic band that are fixed at both ends, one end, or totally free at both ends.  
+For example, \(T_n\) is very similar to \(K_n\) except that input \((1, 1)\) is switched from 2 to 1., representing a free boundary condition where \(\frac{du}{dx} = 0\)
+\[
+    \text{Free-fixed boundary conditions, still positive definite }
+    T_4 =
+    \begin{bmatrix}
+        1 & -1 & 0 & 0  \\
+        -1 & 2 & -1 & 0  \\
+        0 &  -1 & 2 & -1  \\
+        0 & 0 & -1 & 2  \\
+    \end{bmatrix}
+\]    
+T is no longer Toeplitz because its main constant, though it does have a simpler factorization than K; every pivot of T equals 1.
+\[
+    T =
+    \begin{bmatrix}
+        1 &  &  &   \\
+        -1 & 1 &  &   \\
+        0 & -1 & 1 &   \\
+        0 & 0 & -1 & 1  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & -1 & 0 & 0  \\
+         & 1 & -1 & 0 \\
+         &  & 1 & -1  \\
+         &  &  & 1  \\
+    \end{bmatrix}
+    = LU
+\]
+
+Note that \(U = L^T\).
+Notice that U is a forward difference while L is a backward difference.
+Together, they add up to be a second difference, meaning that \(x_{i+1} - 2x_i + x_{i-1}  \) correspond to [-1, 2, -1], meaning that T is a second difference. 
+
+\subsection{The Free-Free Matrices \(B_n\) are Singular}
+
+In this context, "singular" means "not invertible".
+One test is simply seeing if determinant equals zero or not.
+
+\begin{theorem}
+    If B multiplies a nonzero vector \(x\) to produce \(Bx = 0\), then \(B\) can't be invertible.   
+\end{theorem}
+
+For example, free-free matrix has 1 (and not 2) in its (1, 1) and (3, 3) input.
+
+\[
+    B_3 =
+    \begin{bmatrix}
+        1 & -1 & 0  \\
+        -1 & 2 & -1  \\
+        0 & -1 & 1  \\
+    \end{bmatrix}
+    \text{ has }
+    B_{3}x =
+    \begin{bmatrix}
+        1 & -1 & 0  \\
+        -1 & 2 & -1  \\
+        0 & -1 & 1  \\
+    \end{bmatrix} 
+    \begin{bmatrix}
+        1 \\
+        1 \\
+        1 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        0  \\
+        0  \\
+        0  \\
+    \end{bmatrix}
+\]
+
+\(B_n \text{ is singular while } T_n \text{ and } K_n\) are invertible because \(T_n \text{ and } K_n\) have a fixed end, which allows them to adjust, whereas \(B_n\) is free on both end so it can't adjust. 
+
