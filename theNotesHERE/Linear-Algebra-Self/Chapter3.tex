@@ -24,10 +24,75 @@ Note that \(n - r\) is the dimension of the nullspace.
 One last note: THIS CHAPTER IS VERY IMPORTANT.
 \section{Vector Spaces and Subspaces}
 
-\section{The Nullspace of A: Solving \(Ax = 0\)}
+Here are a few fundamental points:
+\begin{enumerate}
+    \item All linear combination of \(cv + dw\) must stay in the vector space (What is a vector space? Very simply, all the possible spaces tha can be achieved by your given vector with vector addition or scalar multiplication), where \(c\) and \(d\) are scalar, and \(v \text{ and } w\) are vectors.
+    \item The row space (meaning all possible linear combination of the row vectors) is "spanned" (made up of) rows of \(A\). While the column of \(A\) spans \(C(A)\).
+    \item Matrices can be filled by more than just numbers. As long as it obeys the rules of a vector space, it can be treated as a vector. 
+    For example, we have two equations, \(f(x) = x^2\) and \(g(x) = 2x\). Can they be added together? 
+    Yes! \(h(x) = x^2 + 2\). Now if we fill it with the likes of \(\sin, \cos, x, x^2\), we can "span" and build a lot of other functions. 
+    For example, all quadratic polynomials are "spanned" by the functions \(f_1(x) = 1\), \(f_2(x) = x\), and \(f_3(x) = x^2\)       
+\end{enumerate}
+
+\(R^n\) contains all column vector \(v\) to the length of \(n\). For this case, the components from \(v_1 \text{ to } v_n\) are all real numbers. However, if they allow for complex numbers \((i)\), the \(R^n \text{ becomes } C^n\). 
+To reiterate, all linear combination of \(cv + dw\) must be in the vector space \(R^n\).
+For example, all positive the set with all positive (meaning no vector consist of ANY nonpositive numbers) vectors \((v_1, \ldots, v_n)\) areNOT a vector space. 
+Why? Simply take one simple vector, say \((1, 2)\) 
+then multiply it by scalar of, say, c = -1. 
+\((-1, -2)\) is NOT in our set, therefore it is not a vector space.
+Or for another example, a set of solution for \(Ax = (1, \ldots, 1)\) is not a vector space because a line in \(R^n\) is not a vector space unless it goes the central point \((0, \ldots, 0)\).
+
+\subsection{Examples of Vector Spaces}
+
+Here are some examples of a neat vector space, the \(Z\) (zero vector) where \(0 = (0, 0, \ldots, 0)\). Combinations of \(c0 + d0\) are all still 0, so  still in the subspace.
+How about vector space of matrices? We can do that. \(R^{3 \times 3} \) is a space that contains all \(3 \times 3\) matrices. It does satisfy all eight rules, so why not? It's also a vector space. 
+How about a vector space of functions? Sure can. The line of functions \(y = ce^x\) (any c) is a line in a function space. 
+This line contains all solutions to the differential equations of \(\frac{dy}{dx} = y\). Yet another function space contains all quadratics \(y = a + bx + cx^2\), where they are the solutions to \(\frac{d^3 y}{dx^3}\)
+And to reiterate, space in this context means all possible linear combination of the vectors or matrices or functions, and they all stay inside it.
+
+\subsection{Subspaces of Vector Spaces}
+
+What ar subspaces? To put it simply, they are a flat plane inside the dimensional space, however, they are still the same dimension. Let's say, we got a \(R^3\) space. We can make a plane any way we want as long as it passes \((0, 0, 0)\), what we get may look like a 2D plane, but it's still 3D. Therefore, the plane is a subspace of  the full vector space \(R^3\).
+\newline
+Here is a list of possible subspaces of \(R^3\):
+\begin{enumerate}
+    \item Any line through \((0, 0, 0)\)
+    \item Any plane through \((0, 0, 0)\)
+    \item The whole space \(R^3\) 
+    \item The zero vector \((0, 0, 0)\) 
+\end{enumerate}
+
+\subsection{The Column Space of A}
+
+What we are trying to solve here is \(Ax = b\). We want to know b, right? Well, \(b\)  are a column space of \(A\). \(Ax\) is just a combination of A, and to get every possible \(b\), we need all possible \(x\), which is just all linear combination of \(A\), which is the column space of \(A\), as written earlier. To build on that, vector space is made up of column vectors.       
+
+A crucial point to understand is that, \textbf{to solve \(Ax = b\) is just to express \(b\) as a combination of the columns}. \(b\) got to be in the column space of A, otherwise, it doesn't exist!
+
+Caution: columns of A do not form a subspace. Neither do invertible matrices, or singular matrices. Only all linear combinations.
+
+\subsection{The Row Space of A}
+
+\textbf{The rows of A are the column of \(A^T\)}, why do we do this?
+Because we like working with columns, so we use the column of \(A^T\)
+
+\[
+    \text{\textbf{The row space of A is just the column space of \(A^T\) }}
+\]  
+
+
+
+\section{Computing the Nullspace by Elimination: \(A = CR\) }
+
+\begin{enumerate}
+    \item The \textbf{nullspace N(A)} in \(\mathbf{R^n}\) contains all solutions x to \(Ax = 0\), including \(x = 0\).
+    \item CONTINUE THIS LATER      
+\end{enumerate}
+
+
 
 \section{The Complete Solution to \(Ax = b\)}
 
 \section{Independence, Basis, Dimension}
 
 \section{Dimensions of the Four Subspaces}
+
