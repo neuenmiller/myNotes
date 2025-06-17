@@ -88,9 +88,154 @@ Because we like working with columns, so we use the column of \(A^T\)
     \item CONTINUE THIS LATER      
 \end{enumerate}
 
+The goal of this section is to find all solutions for \(Ax = 0\). 
+If \(A\) is an invertible matrix, then the only solution is \(x = 0\). In general, A has \(r\)  independent columns, the other \(n - r\) are a linear combination. 
+\newline
+Here is a matrix \(R\) with rank \(r = 2\), with \(n = 4\) columns. This means we have \(n - r = 4 - 2 = 2\) independent solutions to \(Rx = 0\). So the nullspace \(N(R)\) will have 2 dimensions.
+\[
+    \text{\textbf{Example 1: }}
+    R = [I F] P = \begin{bmatrix}
+        1 & 0 & 3 & 5  \\
+        0 & 1 & 4 & 6  \\
+    \end{bmatrix}
+\]
 
+Which means \(Rx = 0\) is \(x_1 + 3x_3 + 5x_4 = 0\) and \(x_2 + 4x_3 + 6x_4 = 0\).
+We find the special solutions by just letting \(x_3 \text{ and } x_4\) equal 1 and 0 or 0 and 1.
+Set \(x_3 = 1, x_4 = 0\) the equations will give \(x_1 = -3, x_2 = -4\)    
+Set \(x_3 = 0, x_4 = 1\) the equations will give \(x_1 = -5, x_2 = -6\)
+This gives us two special solutions: \(s_1 = (-3, -4, 1, 0) \text{ and } s_2 = (-5, -6, 0, 1)\). They are both in the nullspace of \(R\), as we can also see, \(cs_1 + ds_2\) is still in the the nullspace. And so, \(s_1 \text{ and } s_2\) are the basis of nullspace.
+
+\[
+    \text{\textbf{Example 2: }} 
+    R_0 =
+    \begin{bmatrix}
+        1 & 7 & 0 & 8  \\
+        0 & 0 & 1 & 9  \\
+        0 & 0 & 0 & 0  \\
+    \end{bmatrix}
+\]
+
+Which means \(x_1 + 7x_2 + 0x_3 + 8x_4 = 0\), \(x_3 + 9x_4 = 0\), and \(0 = 0\) (wow on the last one). The matrix identity is inside column 1 and 3, and row 3 is all zero, which makes it a reduced row echelon form, even elimination can't make it simplier. We still have free variables for the special solution, namely, \(x_2 \text{ and } x_4\).   
+Set \(x_2 = 1, x_4 = 0\), the equations give \(x_1 = -7, x_3 = 0\).
+Set \(x_2 = 0, x_4 = 1\), the equations give \(x_1 = -8, x_3 = -9\).
+The special solutions are noe \(s_1 = (-7, 1, 0, 0)\) and \(s_2 = (-8 ,0 , -9, 1)\).
+
+First, we start with any \(m \text{ by } n\) matrix A, then apply elimination. That changes A into its reduced row echelon form, \(R_0 = \text{rref} (A)\). Removing all zero rows of \(R_0 \text{ leaves } R\).
+\[
+    r, m, n = 2, 2, 4 \text{ Simplest Case } R = [I F]
+    \text{ as in}
+    \begin{bmatrix}
+        1 & 0 & 3 & 5  \\
+        0 & 1 & 4 & 6  \\
+    \end{bmatrix}
+\]    
+
+\[
+    r, m, n = 2, 3, 4 \text{ General Case } 
+    R_0 =
+    \begin{bmatrix}
+        I & F  \\
+        0 & 0  \\
+    \end{bmatrix}
+    P
+    \text{ as in }
+    \begin{bmatrix}
+        1 & 7 & 0 & 8  \\
+        0 & 0 & 1 & 9  \\
+        0 & 0 & 0 & 0  \\
+    \end{bmatrix}
+\] 
+Hold up, what is rref, I, F here?
+For something to be rref, you need to satisfy 4 conditions.
+\begin{enumerate}
+    \item The zero row is at the botto
+    \item The first non-zero in row 1 is 1, the first non-zero entry in row 2 is 1. 
+    \item Each pivot is to the right of the pivots in the rows above it.
+    \item Every pivot is only non-zero number in its entire column.
+\end{enumerate}
+
+\(I\) in this context is still identity, but only if you take the pivot columns and align them chronologically as they were.
+\(F\) is free matrix, the other non-pivot columns, still in the same chronologically order.
+
+In this case \((R_0)\),
+\[
+    \text{I is }
+    \begin{bmatrix}
+        1 & 0  \\
+        0 & 1  \\
+        0 & 0  \\
+    \end{bmatrix}
+\]
+\[
+    \text{F is }
+    \begin{bmatrix}
+        7 & 8  \\
+        0 & 9  \\
+        0 & 0  \\
+    \end{bmatrix}
+\]
+
+\subsection{Elimination from \(A\)  to rref \((A)\): Reduced Row Echelon Form}
+
+Refresher, how does elimination works?
+\begin{enumerate}
+    \item Subtruct a multiple of one row from another row
+    \item Multiple a row by nonzero number
+    \item Exchange any rows
+\end{enumerate}
+For demonstration,
+\[
+    A =
+    \begin{bmatrix}
+        1 & 2 & 11 & 17  \\
+        3 & 7 & 37 & 57  \\
+    \end{bmatrix}
+    \text{ then }
+    \begin{bmatrix}
+        1 & 2 & 11 & 17  \\
+        0 & 1 & 4 & 6  \\
+    \end{bmatrix}
+    \text{ then }
+    \begin{bmatrix}
+        1 & 0 & 3 & 5  \\
+        0 & 1 & 4 & 6  \\
+    \end{bmatrix}
+\]
+So, what did elimination actually do? It inverted the leading 2 by 2 matrix, which we will call W.
+\[
+    W =
+    \begin{bmatrix}
+        1 & 2  \\
+        3 & 7  \\
+    \end{bmatrix}
+    \text{ into }
+    \begin{bmatrix}
+        1 & 0  \\
+        0 & 1  \\
+    \end{bmatrix}
+\]
+We multiplied \(W^{-1}A = W^{-1}[ W H ] \text{ to produce } R =  [I W^{-1} H ] = [ I F ]  \). We always knew that free columns \((H)\) is some combination of independent columns \((W)\), but we now know that \(H = W F\).
+\[
+    H =
+    \begin{bmatrix}
+        11 & 17 \\
+        37 & 57  \\
+    \end{bmatrix}
+    = W F =
+    \begin{bmatrix}
+        1 & 2  \\
+        3 & 7  \\
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        3 & 5  \\
+        4 & 6  \\
+    \end{bmatrix}
+\]
 
 \section{The Complete Solution to \(Ax = b\)}
+
 
 \section{Independence, Basis, Dimension}
 
