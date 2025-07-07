@@ -296,7 +296,7 @@ From example 2, we can see that the combination of independent and dependent com
 
 Right back to where we came from, showing that \(C\) are almost like the ingredients and \(F\) are almost like the method. 
 
-\subsection{The Matrix Factorization \(A + CR\) and the Nullspace}
+\subsection{The Matrix Factorization \(A = CR\) and the Nullspace}
 
 In chapters prior, we know that \(A = CR\) but we have no systemic way to find them, now we do. We apply elimination to reduce \(A \text{ to } R_0\). Then \(I\) in \(R_0\) locates the matrix C of independent columns in \(A\). Removing zero row in \(R_0\) produces \(R\) for \(A = CR\)
 
@@ -533,7 +533,84 @@ Again, to get special solutions out of it, we will let \(x_3 = 1, x_4 = 0\) and 
 
 \subsection{Block Elimination in Three Steps: Final Thoughts}
 
+We will conclude nicely with three steps to block elimination.
+
+\textbf{Step 1} Exchange the columns and rows of \(P_C\) and \(P_R\) so that that \(r\) independent columns and rows come first in \(P_{R}AP_C \)
+\[
+    P_{R}AP_C = 
+    \begin{bmatrix}
+        W & H  \\
+        J & K  \\
+    \end{bmatrix}
+    , C = 
+    \begin{bmatrix}
+         W \\
+         J \\
+    \end{bmatrix}
+    \text{ and }
+    , B = 
+    \begin{bmatrix}
+        W & H  \\
+    \end{bmatrix}
+\]    
+
+\textbf{Step 2} Multiple the top rows by \(W^{-1}\) to produce \(W^{-1}B = [I, W^{-1}H] = [I, F]\).
+
+\textbf{Step 3} Subtract \(J[I, W^{-1}H]\) from \([J, K]\) to produce \([0, 0]\). 
+
+\textbf{The results of the steps should be an rref form of \(R_0\)}
+\[
+    P_{R}AP_{C} = 
+    \begin{bmatrix}
+        W & H  \\
+        J & K  \\
+    \end{bmatrix}
+    \rightarrow
+    \begin{bmatrix}
+        I & W^{-1}H  \\
+        J & K  \\
+    \end{bmatrix}
+    \rightarrow
+    \begin{bmatrix}
+        I & W^{-1}H   \\
+        0 & 0  \\
+    \end{bmatrix}
+    = R_0
+\] 
+
+There are two things that need to be remembered. 
+\begin{enumerate}
+    \item \(W\)  is invertible
+    \item The block satisfies \(JW^{-1}H = K\) 
+\end{enumerate}
+
+1. We must think back to \(A = CR\). We can see that \(B = WR\), and since \(B\) and \(R\) have the rank of \(r\) and \(W\) is also \(r \text{ by } r\), that means that \(W\) must have a rank of \(r\) and be invertible. 
+
+2. We know that the first row \([I, W^{-1}H]\) is linearly independent. Since \(A\) has the rank \(r\), it means that the lower row \([J, K]\) must be a combination of the upper rows. This means for the combination to be valid, \(JI = J\) and \(JW^{-1}H = K\). 
+\[
+    \text{The conclusion is that }
+    P_{R}AP_{C} = 
+    \begin{bmatrix}
+         W \\
+         J \\
+    \end{bmatrix}
+    W^{-1}
+    \begin{bmatrix}
+        W & H  \\
+    \end{bmatrix}
+    = CW^{-1}B.
+\] 
+
 \section{The Complete Solution to \(Ax = b\)}
+
+Our goal in this section will be about: 
+\begin{enumerate}
+    \item The complete solution to \(Ax = b\): \(x = x_p + x_n\), where p starts for any particular x and \(n\) nullspace. 
+    \item Elimination from \(Ax = b\) to \(R_{0}x = d\): Solvable when zero rows of \(R_0\) have zero in \(d\).   
+    \item When \(R_{0}x = d\) is solvable, one \(x_p\) has all free variable equal to zero. 
+    \item A has full column rank \(r = n\) when its nullspace \(N(A)\) = zero vector: no free variables. 
+    \item A has full row rank \(r = m\) when its column space \(C(A)\) is \(R^m\): \(Ax = b\) is always solvable.         
+\end{enumerate}
 
 
 \section{Independence, Basis, Dimension}
