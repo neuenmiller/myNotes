@@ -612,8 +612,285 @@ Our goal in this section will be about:
     \item A has full row rank \(r = m\) when its column space \(C(A)\) is \(R^m\): \(Ax = b\) is always solvable.         
 \end{enumerate}
 
+The biggest thing that changed is that the \(b\) of \(Ax = b\) is now not zero. Therefore, the row operation will also act on the right side, the \(b\) side. \(Ax = b\) is reduced to a simpler \(R_{0}x = d\) with the same, if any, solutions. One way to organize that is by augmenting (adding another column to the right side of the matrix). We can augment \(A\) with the right side of \((b_1, b_2, b_3) = (1, 6, 7)\) to produce augmented matrix \([A b]\)         
+
+\[
+    \begin{bmatrix}
+        1 & 3 & 0 & 2  \\
+        0 & 0 & 1 & 4  \\
+        1 & 3 & 1 & 6  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         x_1 \\
+        x_2  \\
+        x_3  \\
+        x_4  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         1 \\
+         6 \\
+         7 \\
+    \end{bmatrix}
+    \text{ has the augmented matrix}
+    \begin{bmatrix}
+        1 & 3 & 0 & 2  & 1  \\
+        0 & 0 & 1 & 4 & 6  \\
+        1 & 3 & 1 & 6 & 7  \\
+    \end{bmatrix}
+    = [A b]
+\]
+
+Now if we turn it into its rref form 
+
+\[
+    \begin{bmatrix}
+        1 & 3 & 0 & 2  \\
+        0 & 0 & 1 & 4  \\
+        0 & 0 & 0 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         x_1 \\
+        x_2  \\
+        x_3  \\
+        x_4  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         1 \\
+         6 \\
+         0 \\
+    \end{bmatrix}
+    \text{ has the augmented matrix}
+    \begin{bmatrix}
+        1 & 3 & 0 & 2  & 1  \\
+        0 & 0 & 1 & 4 & 6  \\
+        0 & 0 & 0 & 0 & 0  \\
+    \end{bmatrix}
+    = [R_0 d]
+\]
+The last row is very important. Third equation became 0 = 0, each means it can be solved. In the original matrix, the first row plus the second row equals the third row. Meaning to solve \(Ax = b\) we need \(b_1 + b_2 = b_3\), which led to \(0 = 0\) in the third equation. 
+
+\subsection{One Particular Solution Ax_p = b}
+
+To get an easy \(x_p\), let the free variables be zeros: \(x_2 = x_4 = 0\), and the two nonzero equations be the two pivot variables \(x_1 = 1, x_3 = 6\). So our \(x_p\) is \(x_p = (1, 0, 6, 0)\). To put it simply, \textbf{free variables = zero, pivots = variable from d}. 
+
+For a solution to exist, zero rows in \(R_0\) must also be zero in \(d\). 
+
+\[
+    R_{0}x_p = 
+    \begin{bmatrix}
+        1 & 3 & 0 & 2  \\
+        0 & 0 & 1 & 4  \\
+        0 & 0 & 0 & 0  \\
+    \end{bmatrix} 
+    \begin{bmatrix}
+         1 \\
+         0 \\
+          6\\
+          0\\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         1 \\
+          6\\
+          0\\
+    \end{bmatrix}
+\]
+
+Notice how the complete solution includes all \(x_n\):
+\[
+    x = x_p + x_n = 
+    \begin{bmatrix}
+         1 \\
+         0 \\
+         6 \\
+         0 \\
+    \end{bmatrix}
+    + x_2
+    \begin{bmatrix}
+         -3 \\
+         1 \\
+         0 \\
+         0 \\
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        -2  \\
+        0  \\
+        -4  \\
+        1  \\
+    \end{bmatrix}
+\] 
+
+\textbf{Example 1}
+Find the condition on \(b_1, b_2, b_3\) for \(Ax = b\) for 
+\[
+    A = 
+    \begin{bmatrix}
+        1 & 1  \\
+        1 & 2  \\
+        -2 & -3  \\
+    \end{bmatrix}
+    \text{ and }
+    \begin{bmatrix}
+         b_1 \\
+         b_2 \\
+         b_3 \\
+    \end{bmatrix}
+\]   
+\textbf{Solution} Elimination using augmented matrix \([A, b]\)
+\[
+    \begin{bmatrix}
+        1 & 1 & b_1  \\
+        1 & 2 & b_2  \\
+        -2 & -3 & b_3  \\
+    \end{bmatrix}
+    \rightarrow
+    \begin{bmatrix}
+        1 & 1 & b_1  \\
+        0 & 1 & b_2 - b_1  \\
+        0 & -1 & b_3 + 2b_1  \\
+    \end{bmatrix}
+    \rightarrow
+    \begin{bmatrix}
+        1 & 0 & 2b_{1} - b_2  \\
+        0 & 1 & b_2 - b_1  \\
+        0 & 0 & b_3 + b_1 + b_2  \\
+    \end{bmatrix}
+    = 
+    [R_0 d ]
+\] 
+
+And since there is no special solution \((n - r = 2 - 2 = 0)\), the nullspace solution is \(x_n = 0\). So the complete solution is 
+\[
+    x = x_p + x_n = 
+    \begin{bmatrix}
+         2b_1 - b2 \\
+         b_2 - b_1 \\
+    \end{bmatrix}
+    + 
+    \begin{bmatrix}
+         0 \\
+         0 \\
+    \end{bmatrix}
+\]  
+
+\textbf{Every matrix \(A\) with full column rank \((r = n) has these properties:\)  }
+\begin{enumerate}
+    \item All columns are independent, no free variables. 
+    \item The nullspace \(N(A)\) include only the zero vector \(x = 0\)
+    \item If \(Ax = b\) has a solution, then it has only one solution.    
+\end{enumerate} 
+With full column rank, \(Ax = b\) will have \textbf{one or no solution only.}
+
+\subsection{Full Row Rank and the Complete Solution}
+
+Another extreme case is the full row rank. Now \(Ax = b\) has one or infinitely many solutions. Full row rank requires that the matrix be a short and wide one (m > n, row q > col q), and every row is independent. 
+For \textbf{example 2}, \(Ax = b\) has 3 n but only two m. 
+\[
+    \begin{bmatrix}
+        1 & 1 & 1 & 3  \\
+        1 & 2 & -1 & 4  \\
+    \end{bmatrix}
+    \text{ rank r = m = 2}
+\]   
+
+Imagine them as plane in \(xyz\) space. There are two planes, colliding into a line. The particular solution is a spot on that line, and the nullspace vector will move us along that line. \(x = x_p + \text{ all } x_n\) gives us the whole line solution. 
+
+Fast forward a bit, getting ex. 2 into the \([A b]\) form gives us:
+\[
+    \begin{bmatrix}
+        1 & 0 & 3 & 2  \\
+        0 & 1 & -2 & 1  \\
+    \end{bmatrix}
+    = [R, d]
+\] 
+This particular solution \((2, 1, 0)\) has free variable \(x_3 = 0\). The special solution has \(s_3 = 1\), and the \(-x_1\) and \(-x_2\) comes from the free column of R. 
+
+Check that \(x_p\) and \(s\) satisfies \(Ax_p = b\) and \(As = 0\)
+\[
+    2 + 1 = 3, 2 + 2 = 4
+    -3 + 2 + 1 = 0, -3 + 4 - 1 = 0
+\]    
+Remove that the nullspace solution \(x_n\) is just any multiple of \(s\). 
+\[
+    \text{Computer solution: } 
+    x = x_p + x_n = 
+    \begin{bmatrix}
+         2 \\
+         1 \\
+         0 \\
+    \end{bmatrix}
+    + x_3
+    \begin{bmatrix}
+         -3 \\
+         2 \\
+         1 \\
+    \end{bmatrix}
+\]  
+
+Every matrix \(A\) with a full row rank \((r = m)\) has all these properties: 
+\begin{enumerate}
+    \item All rows have pivot and \(R_0\) has no zero rows: \(R_0 = R\)
+    \item \(Ax = b\) has a solution for every right side \(b\).
+    \item The column space of \(A\) is the whole space \(R^m\).
+    \item If \(m < n\) , the equation has many solutions (called underdetermined in formal language).    
+    \item The rows are linearly independent.  
+\end{enumerate}  
+
+There are \textbf{four} possibilities for linear equation depend on rank \(r\)
+\begin{enumerate}
+    \item \(r = m\) and \(r = n\) Square ad invertible, \(Ax = b\) has 1 solution. 
+    \item \(r = m\) and \(r < n\) Short and wide, \(Ax = b\) has infinite solutions.    
+    \item \(r < m\) and \(r = n\) Tall and thin, \(Ax = b\) has 0 or 1 solutions. 
+    \item \(r < m\) and \(r < n\) Not full rank, \(Ax = b\) has 0 or infinite solutions.        
+\end{enumerate} 
+
+The reduced \(R_0\) will fall in the same category as matrix A. For \(R_{0}x = d\) and \(Ax = b\) to be solvable, \(d\) must end in \( m - r\) zeros. 
+
+\textbf{Four types for \(R_0\) }
+\[
+    \begin{bmatrix}
+         I \\
+    \end{bmatrix}
+    , r = m = n
+\] 
+\[
+    \begin{bmatrix}
+        I & F  \\
+    \end{bmatrix}
+    r = m < n 
+\]
+\[
+    \begin{bmatrix}
+         I \\
+         0 \\
+    \end{bmatrix}
+    r = n < m
+\]
+\[
+    \begin{bmatrix}
+        I & F  \\
+        0 & 0  \\
+    \end{bmatrix}
+    r < m, r , n
+\]
+
+Case 1 and 2 have full row rank \(r = m\). Case 1 and 3 have full column rank \(r = n\).  
 
 \section{Independence, Basis, Dimension}
+
+How big is the true size of a subspace? A matrix might be \(m\) by \(n\) but the column space is not necessarily \(n\). The column space \(C(A)\) is measured by independent columns. This will be clarified later. 
+
+Our goal here is to understand a \textbf{basis: independent vectors that "spans" a space.} Every vector in the space is an unique combination of the basis vectors. 
+Some vague explanation of the terms:
+\begin{enumerate}
+    \item Independent vectors, no extra vectors 
+    \item Spanning a space, enough vectors to produce the rest. 
+    \item Basis for a space, not too many and not too few 
+    \item Dimension of a space, the number of vectors in every basis. 
+\end{enumerate}
 
 \section{Dimensions of the Four Subspaces}
 
