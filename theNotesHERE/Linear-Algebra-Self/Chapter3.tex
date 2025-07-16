@@ -671,7 +671,7 @@ Now if we turn it into its rref form
 \]
 The last row is very important. Third equation became 0 = 0, each means it can be solved. In the original matrix, the first row plus the second row equals the third row. Meaning to solve \(Ax = b\) we need \(b_1 + b_2 = b_3\), which led to \(0 = 0\) in the third equation. 
 
-\subsection{One Particular Solution Ax_p = b}
+\subsection{One Particular Solution \(Ax_p = b\) }
 
 To get an easy \(x_p\), let the free variables be zeros: \(x_2 = x_4 = 0\), and the two nonzero equations be the two pivot variables \(x_1 = 1, x_3 = 6\). So our \(x_p\) is \(x_p = (1, 0, 6, 0)\). To put it simply, \textbf{free variables = zero, pivots = variable from d}. 
 
@@ -891,6 +891,214 @@ Some vague explanation of the terms:
     \item Basis for a space, not too many and not too few 
     \item Dimension of a space, the number of vectors in every basis. 
 \end{enumerate}
+
+
+\subsection{Linear Independence}
+Here's an odd definition for independence:
+
+\[
+    \text{The columns of \( A \) are linearly independent when the only solution of \( Ax = 0 \) is \( x = 0 \). No other combination of \( Ax \) gives the zero vector.}
+\]
+
+To illustrate why: it is impossible for three vectors that are not in a plane to be in a plane \textbf{unless} \( x \) is \( 0 \), i.e.,
+\[
+    0v_1 + 0v_2 + 0v_3 + \ldots
+\]
+
+Or to put it in other words:
+\[
+    \text{Linear independence only happens when } x_{1}v_1 + x_{2}v_2 + \ldots = 0 \text{ and all } x_i = 0.
+\]
+
+One point to drive is that vectors are either dependent or independent, no in between. For some examples:
+ \begin{enumerate}
+    \item \((1, 0)\) and \((1, 0.000001)\) are independent.
+    \item \((1, 1)\) and \((-1, -1)\) are dependent.
+    \item \((1, 1)\) and \((0, 0)\) are dependent because of the zero vector.
+    \item In \(\mathbb{R}^2\): Any three vectors \((a, b), (c, d), (e, f)\) are dependent.
+\end{enumerate}
+
+\textbf{Example 1: } The columns of this A are dependent, \(Ax = 0\)  has a nonzero solution: 
+\[
+    Ax = 
+    \begin{bmatrix}
+        1 & 0 & 3  \\
+        2 & 1 & 5  \\
+        1 & 0 & 3  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         -3 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+    \text{ is }
+    -3 \begin{bmatrix}
+         1 \\
+         2 \\
+         1 \\
+    \end{bmatrix}
+    +
+    1 \begin{bmatrix}
+         0 \\
+         1 \\
+         0 \\
+    \end{bmatrix}
+    +
+    1 \begin{bmatrix}
+         3 \\
+         5 \\
+         3 \\
+    \end{bmatrix} 
+    = 
+    \begin{bmatrix}
+         0 \\
+         0 \\
+         0 \\
+    \end{bmatrix}
+\]  
+
+\textbf{Question}, how do we fix this? Just do elimination.
+\[
+    A = 
+    \begin{bmatrix}
+        1 & 0 & 3  \\
+        2 & 1 & 5  \\
+        1 & 0 & 3  \\
+    \end{bmatrix}
+    \rightarrow
+    R_0 = 
+    \begin{bmatrix}
+        1 & 0 & -3  \\
+        0 & 1 & -1  \\
+        0 & 0 & 0  \\
+    \end{bmatrix}
+    . 
+    F = 
+    \begin{bmatrix}
+         3 \\
+         -1 \\
+    \end{bmatrix}
+    , x = 
+    \begin{bmatrix}
+         -3 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+\]
+
+Remember that \textbf{columns of A are independent exactly when r = n}, there are \(n\) pivots and zero free variable. \(x = 0\) is the only nullspace. 
+
+Also remember that any set of \(n\) vectors must be linearly dependent if \(n > m\). 
+
+\subsection{Vectors that Span a Subspace}
+
+To reiterate, column space consists of all combination of \(x_{1}v_1 + \ldots + x_{n}v_n\). The word "span" describes \(C(A)\). 
+\[
+    \text{The columns of a matrix span its column space. They might be dependent.}
+\]  
+
+\textbf{Example 2:} We will try to describe the column space and row space of A. 
+\[
+    m = 3, n = 2: 
+    A = 
+    \begin{bmatrix}
+        1 & 4  \\
+        2 & 7  \\
+        3 & 5  \\
+    \end{bmatrix}
+    \text{ and }
+    A^T = 
+    \begin{bmatrix}
+        1 & 2 & 3  \\
+        4 & 7 & 5  \\
+    \end{bmatrix}
+\] 
+We could say that the column space of A is a plane in \(R^3\) spanned by two columns of \(A\) The row space of A is spanned by three rows of A (which are columns in \(A^T\)) in \(R^2\). Oh, and the rows span \(R^n\) and columns span \(R^m\). Yes, they are swapped. 
+
+\subsection{A Basis for a Vector Space}
+To reiterate, the basis means just right. Two independent vectors can't span \(R^3\), four vectors can't be all independent even if they span \(R^3\). Three independent vectors for \(R^3\) is just right. 
+\[
+    \text{Basis vectors are independent and they span the space}
+\]    
+
+Note that there is \textbf{only one way to write \(v\) as a combinaion of the basis vector}
+
+\textbf{Example 3:} The column of \(I = \begin{bmatrix}
+    1 & 0  \\
+    0 & 1  \\
+\end{bmatrix}\) produce the standard basis for \(\mathbf{R^2}\). 
+\[
+    i = 
+    \begin{bmatrix}
+         1 \\
+         0 \\
+    \end{bmatrix}
+    \text{ and }
+    \begin{bmatrix}
+         0 \\
+         1 \\
+    \end{bmatrix}
+    \text{ are independent, and they span \(R^2\)}
+\] 
+
+\textbf{Example 4:} The column of every invertible \(n\) by \(n\) matrix give a basis for \(R^n\):
+\[
+    A =
+    \begin{bmatrix}
+        1 & 0 & 0  \\
+        1 & 1 & 0  \\
+        1 & 1 & 1  \\
+    \end{bmatrix}
+    , B = 
+    \begin{bmatrix}
+        1 & 0 & 1  \\
+        1 & 1 & 2  \\
+        1 & 1 & 2  \\
+    \end{bmatrix}
+\]    
+
+We can see that A is \textbf{invertible}, \textbf{independent}, with a rank = 3. B is singular matrix, which also have dependent columns, and it is not full column rank (column space \(\neq  R^3\) ). The only solution to \(Ax = 0\) is \(x = A^{-1}0 = 0\). However, for \(Ax = b\) can always be solved by \(x = A^{-1}b\) Everything comes together for invertible matrices. 
+ \textbf{The vector \(v_1, \ldots, v_n\) are a basis for \(R^n\) exactly when they are the column of an \(n\) by \(n\) invertible matrix. \(R^n\) also has infinitely many bases}
+ Or to put it more compactly, \textbf{every set of independent vectors can be extended to a basis; the spanning set of vectors can be reduced to a basis.} 
+
+ \textbf{Example 5:} The matrix is not invertible so its column are not basis for anything. 
+ \[
+    A = 
+    \begin{bmatrix}
+        2 & 4  \\
+        3 & 6  \\
+    \end{bmatrix}
+    \rightarrow
+    R_0 = 
+    \begin{bmatrix}
+        1 & 2  \\
+        0 & 0  \\
+    \end{bmatrix}
+ \] 
+
+ \textbf{Example 6:} Find the bases for the column and row spaces of this rank two matrix. 
+ \[
+    R_0 = 
+    \begin{bmatrix}
+        1 & 2 & 0 & 3  \\
+        0 & 0 & 1 & 4  \\
+        0 & 0 & 0 & 0  \\
+    \end{bmatrix}
+ \] 
+
+Like us see, so for column space of \(R_0\), we got two pivots in a \(R^3\), where \(m = 3\); we got a subspace in \(R^3\)  And for row space, we got two non-zero rows and a rank of \(R^4\) where \(n = 4\). 
+
+\textbf{Question!} Given five vectors in \(R^7\), how do we find their a basis that they span on? 
+Two ways,
+\begin{enumerate}
+    \item Make them into a row and eliminate to find their non-zero. 
+    \item Make them into columns, and eliminate to find pivots. The pivot columns are the basis. 
+\end{enumerate}  
+
+Another question, can another basis for the same vector space have more or less vectors? Answer, no! Number of vectors are tied to the space. 
+
+\subsection{Dimension of a Vector Space}
+
 
 \section{Dimensions of the Four Subspaces}
 
