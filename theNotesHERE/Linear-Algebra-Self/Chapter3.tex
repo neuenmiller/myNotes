@@ -149,7 +149,7 @@ First, we start with any \(m \text{ by } n\) matrix A, then apply elimination. T
 Hold up, what is rref, I, F here?
 For something to be rref, you need to satisfy 4 conditions.
 \begin{enumerate}
-    \item The zero row is at the botto
+    \item The zero row is at the bottom
     \item The first non-zero in row 1 is 1, the first non-zero entry in row 2 is 1. 
     \item Each pivot is to the right of the pivots in the rows above it.
     \item Every pivot is only non-zero number in its entire column.
@@ -370,7 +370,7 @@ It more correct than the other option because \(P P^T\) is the identity matrix o
     [0]
 \] 
 
-\textbf{Review} Say, the \(m\) by \(n\) matrix \(A\) has rank \(r\). We can find \(n - r\) special solution to \(Ax = 0\)  by comuting the rref \(R_0\) of \(A\). Remove the \(m - r\) zero rows of \(R_0\) to produce \(R = [I F] P\) and \(A = CR\). Then the special solutions to \(Ax = 0\) are the \(n - r\) columns of \(P^T [-F, I]^T\)  
+\textbf{Review} Say, the \(m\) by \(n\) matrix \(A\) has rank \(r\). We can find \(n - r\) special solution to \(Ax = 0\)  by computing the rref \(R_0\) of \(A\). Remove the \(m - r\) zero rows of \(R_0\) to produce \(R = [I F] P\) and \(A = CR\). Then the special solutions to \(Ax = 0\) are the \(n - r\) columns of \(P^T [-F, I]^T\)  
 
 \textbf{Example 3: Elimination of \(A\) gives \(R_0\) and \(R\). \(R\) reveals the nullspace of \(A\) } 
 \[
@@ -1099,6 +1099,136 @@ Another question, can another basis for the same vector space have more or less 
 
 \subsection{Dimension of a Vector Space}
 
+This chapter is proof heavy, but the gist of it is simply that there can be many vector bases to choose from but no matter what, to the same vector space, there will always be the same amount of vectors. 
+
+That is what dimension means, the number of basis vectors. 
+
+\subsection{Bases for Matrix Spaces and Function Spaces}
+
+We should also know that \textbf{independence}, \textbf{basis}, \textbf{dimension} are not just limited to column vectors. We can also ask whether specific matrices \(A_1, A_2, A_3\) are independent or not. Say, a \(3 \times 4\) matrix space, what dimension is that? 12 dimensions since you need twelve matrices in every basis. 
+
+In differential equation, \(\frac{d^{2}y}{dx^2} = y\) has a space of solutions. One of the basis is \(y = e^x\) and \(y = e^{-x}\). Oh, and the basis function gives dimension = 2 for this solution space because the linear equation starts with the second derivative. 
+
+\textbf{Matrix space} The vector space \(\mathbf{M} \) contains all 2 by 2 matrices, it's dimension is 4. 
+\[
+    A_1, A_2, A_3, A_4 = 
+    \begin{bmatrix}
+        1 & 0  \\
+        0 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        0 & 1  \\
+        0 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        0 & 0  \\
+        1 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        0 & 0  \\
+        0 & 1  \\
+    \end{bmatrix}
+    = A
+\]
+
+These matrices are linearly independent,  they can produce any matrix in M. 
+
+We can see from \(c_{1}A_1 + \ldots + c_{4}A_4\) that the only way to get 0 is if all coefficients are 0. We can use this basis for many things. \(A_1, A_2, A_4\) are a basis for the upper triangle matrices, \(A_1, A_4\) for diagonal matrices. What about for symmetric matrices? \(A_1, A_4, A_2 + A_3\). 
+
+If list out a few more dimensions:
+\begin{enumerate}
+    \item The dimension of whole \(n\) by \(n\) matrix space is \(n^2\)
+    \item The dimension of the subspace of upper triangular matrices is \(\frac{1}{2}n^2 + \frac{1}{2}n\) 
+    \item The dimension of diagonal matrices is \(n\). 
+    \item The dimension of the subspace of symmetric matrices is \(\frac{1}{2}n^2 + \frac{1}{2}n\)    
+\end{enumerate}
+
+Oh, and remember that \(Z\) is a vector that contains only zero vector. Its basis is a \textbf{empty set}, the one with no vector. NEVER allow zero vector into the basis because then nothing is independent. 
+
+For summary,
+\begin{enumerate}
+    \item Columns of \(A\) are independent if \(x = 0\) is the only solution to \(Ax = 0\).
+    \item \(v_1, \ldots, v_r\) \textbf{span} a space if their combinations fill that space.  
+    \item Basis consists of linearly independent vectors that span the space. Ever vector in the space is a unique combination of the basis vector. 
+    \item The number of basis vectors per basis is entirely dependent on the space. The number of vectors in a basis is the dimension of the space. 
+    \item Pivot columns are one basis for the column space. The dimension of \(C(A)\) is \(r\)     
+\end{enumerate}
 
 \section{Dimensions of the Four Subspaces}
 
+\begin{enumerate}
+    \item The column space \(C(A)\) and the row space \(C(A^T)\) both have dimension \(r\), the rank of \(A\). 
+    \item The nullspace \(N(A)\) has dimension \(n - r\). The left nullspace \(N(A^T)\) has dimension \(m - r\). 
+    \item Elimination from \(A\) to \(R_0\) changes \(C(A)\) and \(N(A^T)\) but their dimension doesn't change.
+\end{enumerate}
+
+We must separate the difference between rank and dimension. The rank of a matrix counts independent columns, the dimension counts the number of vectors in a basis. We can count both pivots and basis vector. Rank reveals the dimension of the four fundamental subspaces. 
+
+\begin{enumerate}
+    \item Row space, \(C(A^T)\), a subspace of \(R^n\), its dimension is \(r\)
+    \item Column space, \(C(A)\), a subspace of \(R^m\), its dimension is \(r\)     
+    \item Nullspace, \(N(A)\), a subspace of \(R^n\), its dimension is \(n - r\)
+    \item Left nullspace, \(N(A^T)\), a subspae of \(R^m\), its dimension is \(m - r\)      
+\end{enumerate}
+
+Keep in mind that row space is simply just the column space of \(A^T\). Remember again that the row space and column space have the same dimension \(r\). 
+
+\subsection{The Four Subspaces for \(R_0\)}
+
+We will now try to identify the four subspaces in \(R_0\). 
+Though the main point is that \textbf{the four dimensions are the same for \(A\) and \(R_0\)}
+\[
+    \begin{bmatrix}
+        1 & 3 & 5 & 0 & 7  \\
+        0 & 0 & 0 & 1 & 2  \\
+        0 & 0 & 0 & 0 & 0  \\
+    \end{bmatrix}
+\]  
+We can that see That
+\begin{enumerate}
+    \item The pivot row is row 1 and 2. 
+    \item The pivot column is column 1 and 3. 
+    \item \(r = 2\) 
+\end{enumerate}
+
+Now, finding the nullspace, \(n - r = 5 - 2 = 3\). We will need to find 3 special solutions. 
+\begin{enumerate}
+    \item Special solution 1 = \((-3, 1, 0, 0, 0)\) 
+    \item Special solution 2 = \((-5, 0, 1, 0, 0)\) 
+    \item Special solution 3 = \((-7, 0, 0, -2, 1)\) 
+\end{enumerate} 
+Now we will find the nullspace of \((R^{T}_{0}\) aka the left nullspace. Its dimension should be \(m - r = 3 - 2 = 1\)  
+\[
+    (R^{T}_{0}y = 
+    \begin{bmatrix}
+        1 & 0 & 0  \\
+        3 & 0 & 0  \\
+        5 & 0 & 0  \\
+        0 & 1 & 0  \\
+        7 & 2 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         y_1 \\
+         y_2 \\
+         y_3 \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         0 \\
+         0 \\
+         0 \\
+         0 \\
+         0 \\
+    \end{bmatrix}
+    \text{ is solved by }
+    y = 
+    \begin{bmatrix}
+         0 \\
+         0 \\
+         y_3 \\
+    \end{bmatrix}
+\]
+
+Wonder why it's called \textbf{left nullspace}? It's because we can transpose \((R^{T}_{0}y = 0\) to \(y^{T}R_0 = 0^T\), the \(y^T\) is now a row vector to the left of R.
+
+\subsection{The Four Subspaces for A}
