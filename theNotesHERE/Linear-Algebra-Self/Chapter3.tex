@@ -1232,3 +1232,121 @@ Now we will find the nullspace of \((R^{T}_{0}\) aka the left nullspace. Its dim
 Wonder why it's called \textbf{left nullspace}? It's because we can transpose \((R^{T}_{0}y = 0\) to \(y^{T}R_0 = 0^T\), the \(y^T\) is now a row vector to the left of R.
 
 \subsection{The Four Subspaces for A}
+
+A few things to remember,
+\begin{enumerate}
+    \item \(A\) has the same row space as \(R_0\) and \(R\). Same dimension \(r\) and same basis. Elimination changes the row, but the row space remains untouched. 
+    \item The column space of \(A\) has dimension \(r\). The column rank \textbf{equals} the row ranks. The same combination (as in the same column number) are zero or otherwise (meaning both get zero or none get zero) for both \(A\) and \(R_0\).
+    \item A has the same nullspace as \(R_0\), same dimension \((n - r)\) and same basis. Elimination doesn't change the solutions to \(Ax = 0\), including the special solutions. 
+    \item The left nullspace of \(A\) (the nullspace of \(A^T\)) has dimension \(m-f\). The counting rule for \(A\) was \(r + (n - r) = n\) and the counting rule for \(A^T\) is \(r + (m - r) = m\)        
+\end{enumerate}
+
+\textbf{Very IMPORTANT, This is a fundamental theoreom of linear algebra, part 1: The column space and row space both have dimension \(r\). The nullspaces have dimension \(n - r\) and \(m - r\)}
+
+Imagine we have a 11 by 17 matrix with 187 nonzero entries, there are two key facts:
+\begin{enumerate}
+    \item dimension of \(C(A)\) = dimension of \(C(A^T)\) = rank of \(A\)
+    \item dimension of \(C(A)\) + dimension of \(N(A)\) = 17
+\end{enumerate}
+
+\textbf{Example 1:}
+\[
+    A = 
+    \begin{bmatrix}
+        1 & 2 & 3  \\
+        2 & 4 & 6  \\
+    \end{bmatrix}
+\] 
+
+It has \(m = 2, n = 3, r = 1\). The row space is the line through \((1, 2, 3)\), the nullspace is the plane \(x_1 + 2x_2 + 3x_3 = 0\). The dimension of the row space is 1 since it is a line, and the dimension of the nullspace is 2 since it is a plane. We can do the equation \(r + (n - r)\), where \(n - r\) is the dimension of the nullspace and we get \(1 + 2 = 3\) where \(3 = n\), the number of column. 
+
+We can do the same for left nullspace and column space. The column space is \([1, 2]^T\) since we can see that everything in linearly dependent on it. And nullspace is perpendicular to column space, so try dotting it and see if it gets a 0 or not. In this case, the left nullspace is a line through \([2, 1]^T\)
+
+\textbf{The y's in the left nullspace combine the rows of A to give the zero row,}
+
+\textbf{Example 2:} Time for a more practical question (finally!) Say, we have five equations with four unknowns, one for every nodes. 
+\[
+    \begin{bmatrix}
+        -1 & 1 &  &   \\
+        -1 &  & 1 &   \\
+         & -1 & 1 &   \\
+         & -1 &  & 1  \\
+         &  & -1 & 1  \\
+    \end{bmatrix}
+\]  
+
+To find the nullspace \(N(A)\), set \(b = 0\). The first \(x_1 = x_2\), the second \(x_1 = x_3\), the third \(x_2 = x_3\), the fourth \(x_2 = x_4\), the fifth \(x_3 = x_4\). So all of them are equal, \(x = (c, c, c, c)\). Just one vector is enough to fill the nullspace of \(A\), there it is a line in \(R^4\). We can say \((1, 1, 1, 1)\) is a basis for \(N(A)\). \(N(A)\) has a dim of 1, then \(r\) of \(A\) must be 3 since \(4 - 3 = 1\). We now know the dimension of all four subspaces. 
+
+\textbf{The column space}  \(C(A)\) must be \(r = 3\). We can again easily find out the independent column by rrefing it. 
+\[
+    R_0 =
+    \begin{bmatrix}
+        1 & 0 & 0 & -1  \\
+        0 & 1 & 0 & -1  \\
+        0 & 0 & 1 & -1  \\
+        0 & 0 & 0 & 0  \\
+        0 & 0 & 0 & 0  \\
+    \end{bmatrix}
+\]  
+
+\textbf{The left nullspace} \(N(A^T)\), now we can solve \(A^{T}y = 0\). Note that the rows give zero, because of that we can say row 3 = row 2 - row 1, so one of the solution is \(y = (1, -1, 1, 0, 0)\). In case of the lower loop, row 3 = row 4 - row 5, \(y = (0, 0, -1, 1, 1)\). The dimension of \(m - r = 5 - 3 = 2\), giving us the basis for the left nullspace. 
+
+\begin{enumerate}
+    \item 1, 2, 3 forms a loop in the graph, (1, 2, 3)are dependent. 
+    \item 1, 2, 4 forms a tree in the graph, (1, 2, 4) are independent
+\end{enumerate}
+
+So, where the hell did loop and tree come from? Well, they didn't need to happen, we could've used elimination. But it is more elegant. Note that \(Ax = b\) gives voltage at \(x_1, x_2, x_3, x_4\) at the four nodes and \(A^{T}y = 0 \) gives currents \(y_1, y_2, y_3, y_4, y_5\) on the five edges. These wo equations are Kirchhoff's Voltage Law and Kirchhoff's Current Law. Now, I should've said this earlier, but we need a graph for this. I don't know how to make one \textbf{yet}. Check page \textbf{135} in Strang's Linear Algebra. Graphs are the most important model in discrete applied mathematics. 
+
+
+For summary, \textbf{Incidence matrix A} comes from a connected graph with \(n\) nodes and \(m\) edges. The row space and column space have dimensions of \(r = n - 1\), the nullspaces of \(A\) and \(A^T\) have dimensions 1 and \(m - n + 1\). 
+\begin{enumerate}
+    \item \(N(A)\) the constant vectors (c,c, \ldots, c) make up the nullspace of A: dim = 1.
+    \item \(C(A^T)\)  the edge of any tree give \(r\) independent rows of \(A\): r = n - 1. 
+    \item \(C(A)\) Voltage Law: The components of \(Ax\) add to zero around all loops: \(\dim = n - 1\). 
+    \item \(N(A^T)\) (Current Law): \(A^{T} y = \text{flow in} - \text{flow out} = 0\), which is solved by loop currents. There are \(m - r = m - n + 1\) independent small loops in the graph.
+\end{enumerate}    
+
+\subsection{Rank Two Matrices = Rank One plus Rank One}
+
+This one is a doozy. What it means is then any rank \(r\) matrix can be decomposed into \(r\) amount of rank 1 matrices. 
+
+For example, a rank 2 matrix:
+\[
+    A = 
+    \begin{bmatrix}
+        1 & 0 & 3  \\
+        1 & 1 & 7  \\
+        4 & 2 & 20  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        1 & 0  \\
+        1 & 1  \\
+        4 & 2  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 0 & 3  \\
+        0 & 1 & 4  \\
+    \end{bmatrix}
+\]
+
+For reminder, \(C\) is literally just pivot columns and \(R\) is just nonzero-only rref. 
+
+If we put it in letters for columns and rows, we can see \textbf{rank 2 = rank 1 + rank 1}. 
+\[
+    A = 
+    \begin{bmatrix}
+        u_1 & u_2 & u_3  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         v^{T}_1 \\
+         v^{T}_2 \\
+         \text{zero row} \\
+    \end{bmatrix}
+    = 
+    u_{1}v^{T}_1 + u_{2}v^{T}_2
+\] 
+
+To put in Strang's word, \textbf{Columns of \(C\)  times rows of \(R\), every rank \(r\) is a sum of \(r\) rank one matrices.  }
+
