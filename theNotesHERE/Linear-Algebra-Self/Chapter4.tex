@@ -1,6 +1,52 @@
 \chapter{Orthogonality}
 
+Two vectors are orthogonal (translated as right-angled from Greek) when their dot product is zero: \(v \cdot w = v^{T}w = 0\). The vectors in the two subspaces, the vectors in a basis, the column vectors in Q. Orthogonal vectors also have a curious behavior where it is also like pythagoras's theoreom. 
+\[
+    v^{T}w = 0 \text{ and } \left\lVert v \right\rVert^2 + \left\lVert w \right\rVert^2 = \left\lVert v + w \right\lVert^2
+\] 
+
+Important part, \textbf{the fundamental subspaces are orthogonal}
+\begin{enumerate}
+    \item N(A) contains all vectors orthogonal to the row space \(C(A^T)\).
+    \item \(N(A^T)\)  contains all vectors orthogonal to the column space \(C(A)\). 
+\end{enumerate} 
+\(Ax = 0\) makes \(x\) orthogonal to each row, \(A^{T}y = 0\) make \(y\) orthogonal to each column. 
+
+A key idea in this chapter is \textbf{projection}: If \(b\) is outside the column space of \(A\), then we must find the closest point \(p\) that is still inside. The line from \(b\) to \(p\) shows the error \(e\), and that line is perpendicular to the column space.    THe \textbf{least squares equation} \(A^{T}Ax = A^{T}b\) produces the closest \(p = Ax\) and smallest possible \(e\), it also gives the best \(e\) when \(Ax = b\) is unsolvable. The best \(x\) makes \(\left\lVert Ax - b \right\lVert\) as small as possible, the least squares. \(A^{T}Ax = A^{T}b\) is easy when \(A^{T}A = I\). Then \(A\) has orthonormal columns perpendicular unit vector. Remember that \(Q\) has \(Q^{T}Q = I\) and \(QR = A\), where the R is upper triangle. Orthogonal matrices are perfect for computations, \(A = QR\) is even better than \(A+LU\)               
+
 \section{Orthogonality of Vectors and Subspaces}
+
+\begin{enumerate}
+    \item Orthogonal vectors have \(v^{T}w = 0\), then \(\left\lVert v \right\lVert^2\) + \(\left\lVert w \right\lVert\) = \(\left\lVert v + w \right\lVert^2\) as in \(a^2 + b^2 = c^2\)
+    \item Subspace \(V\) and \(W\) are orthogonal when \(v^{T}w = 0\) for every \(v\) in \(V\) and every \(w\) in \(W\). 
+    \item Row space of \(A\) is orthogonal to nullspace, column space of \(A\) is orthogonal to left nullspace.    
+    \item The dimensions add to \(r + (n - r) = n\) and \(r + (m - r) = m\): orthogonal complements. 
+    \item If \(n\) vectors in \(R^n\) are independent, they span \(R^n\). If \(n\) vectors span \(R^n\), they are independent.                 
+\end{enumerate}
+
+How can we proof that the entirety of the nullspace of \(A\) is orthogonal to the row space of \(A\)? Look at \(Ax = 0\). 
+\[
+    Ax = 
+    \begin{bmatrix}
+         \text{row 1 of \(A\) } \\
+         \vdots \\
+         \text{row $m$ of $A$} \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         x \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+         0 \\
+         \vdots \\
+         0 \\
+    \end{bmatrix}
+\]  
+Notice how they are all zero? That means all of the row space is orthogonal to the nullspace. 
+
+But given that we like to work with columns, another way you can proof it is: \( x^{T}(A^{T}y) = (Ax)^{T}y = 0^{T}y = 0 \)
+
+
 
 \section{Projections onto Lines and Subspaces}
 
