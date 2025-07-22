@@ -174,6 +174,93 @@ The vector (2, 4) is in the row space, while the orthogonal vector is from the n
     \item What is the smallest possible size of a matrix \(B\) that has nullspace \(S^{\perp}\)? \textbf{6 by 9. We are told that \(R^9\) have an \(n\) of 9. And that \(S^{\perp} = 3\) from the second question, so we know that \(r + null = n \), we got \(r + 3 = 9\), r = 6. \(6 \times 9\)      }         
 \end{enumerate} 
 
+Notice how question 3 and 4 gives the same matrix? It is telling us that \(C(A^T) = (N(A))^{\perp} \) 
+
+\subsection{Projection onto Lines and Subspaces}
+\begin{enumerate}
+    \item The projection of \(b\) onto the line through \(a\) is the closest point to \(b\): \(p = a(\frac{a^{T}b}{a^{T}a})\). 
+    \item The error \(e = b - p\) is perpendicular to \(a\): the right triangle \(b p e\) has \(\lVert p \rVert^2 + \lVert e \rVert^2 = \lVert b \rVert^2   \). 
+    \item The projection of \(b\) onto to asubspace \(S\) is the closest vector \(p\) in \(S\); \(b - p\) is orthogonal to \(S\). 
+    \item \(A^{T}A\) is invertible and symmetric when \(A\) has independent columns: \(N(A^{T}A)= N(A)\).                 
+    \item The projection of \(b\) onto \(C(A)\) is the vector \(p = A(A^{T}A)^{-1}A^{T}b\).
+    \item The projection matrix onto \(C(A)\) is \(P = A(A^{T}A)^{-1}A^T\). It has \(p = Pb\) and \(P^2 = P = P^T\).  
+\end{enumerate}
+
+We can visual projection on a subspace S by having each vector \(b\) go the closest point \(p\) in \(S\). The error vector \(e = b - p\). If \(A\) has independent columns, the projection of \(b\) onto \(C(A)\) is \(p = A(A^{T}A^{-1})A^{T}b\). The projection matrix is \(P = A(A^{T}A)^{-1}A^T\). Its special property is \(P^2 = P\), a second projection changes nothing, because it projects onto itself. 
+
+For some really nice subspaces, we can directly see their projection matrices. 
+\begin{enumerate}
+    \item What are the projections of \(b = (2, 3, 4)\) onto the \(z\) axis and the \(xy\) plane.
+    \item What matrix \(P_1\) and \(P_2\) produce those projections onto a line and a plane?     
+\end{enumerate}
+
+When \(b\) is projected onto a line, its projection \(p\) is the part of the \(b\) along that line. If \(b\) is projected onto a plane, \(p\) is the part in that plane. The projection \(p\) is \(Pb\). 
+
+We will call projection onto the \(z\) axis \(p_1\). Where projection \(p_2\) drop straight down to the \(xy\) plane. To with \(b = (2, 3, 4)\). \(p_1 = (0, 0, 4), p_2 = (2, 3, 0)\). 
+We can see that 
+\[
+    \text{Onto the \(z\) axis: }
+    P_1 = 
+    \begin{bmatrix}
+        0 & 0 & 0  \\
+        0 & 0 & 0  \\
+        0 & 0 & 1  \\
+    \end{bmatrix}
+    , \text{ Onto the \(xy\) plane: }
+    P_2 = 
+    \begin{bmatrix}
+        1 & 0 & 0  \\
+        0 & 1 & 0  \\
+        0 & 0 & 0  \\
+    \end{bmatrix}
+\]      
+\[
+    p_1 = P_{1}b = 
+    \begin{bmatrix}
+         0 \\
+         0 \\
+         z \\
+    \end{bmatrix},
+    p_2 = P_{2}b = 
+    \begin{bmatrix}
+         x \\
+         y \\
+         0 \\
+    \end{bmatrix}
+\]
+
+In this case, the projections \(p_1\) and \(p_2\) are perpendicular. The \(xy\) plane and the \(z\) axs are orthogonal subspaces. More than that, they are orthogonal complements; their dimensions add to \(1 + 2 = 3\). Every vector \(b\) in the whole space is the sum of its part in two subspaces. 
+\begin{enumerate}
+    \item The vectors give \(p_1 + p_2 = b\).
+    \item The matrices give \(P_1 + P_2\) and \(P_{1}P_{2}=0\).   
+\end{enumerate}
+
+For this example, our goals have been reached, and it is the same for any line and any plane and any \(n\)-dimensional subspaces in \(m\) dimension. The objective is to find the part \(p\) in each subspaces, and the projection matrix \(P\) that produces that part \(p = Pb\). Every subspaces of \(R^m\) has its own \(m\) by \(m\) projection matrix \(P\). 
+
+So, if the best description of a subspace is a basis, by putting the basis vectors into the columns \(A\), we are now projecting onto the column space of \(A\).We can say that the \(z\) axis is the column space of the \(3 \times 1 A_1\). The \(xy\) plane is the column space of \(A_2\). That \(xy\) plane too is also the column space of \(A_3\). So \(p_2 = p_3\) and \(P_2 = P_3\). 
+\[
+    A_1 = 
+    \begin{bmatrix}
+         0 \\
+         0 \\
+         1 \\
+    \end{bmatrix}
+    , A_2 = 
+    \begin{bmatrix}
+        1 & 0  \\
+        0 & 1  \\
+        0 & 0  \\
+    \end{bmatrix}
+    , A_3 = 
+    \begin{bmatrix}
+        1 & 2  \\
+        2 & 3  \\
+        0 & 0 \\
+    \end{bmatrix}
+\]          
+
+Our problem is to project any \(b\) onto the column space of any \(m by n\) matrix. Starting with a line, dimension \(n = 1\), the matrix will have only one column; we will call it \(a\).    
+
 \section{Projections onto Lines and Subspaces}
 
 \section{Least Squares Approximations}
