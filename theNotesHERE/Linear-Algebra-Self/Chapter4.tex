@@ -174,7 +174,10 @@ The vector (2, 4) is in the row space, while the orthogonal vector is from the n
     \item What is the smallest possible size of a matrix \(B\) that has nullspace \(S^{\perp}\)? \textbf{6 by 9. We are told that \(R^9\) have an \(n\) of 9. And that \(S^{\perp} = 3\) from the second question, so we know that \(r + null = n \), we got \(r + 3 = 9\), r = 6. \(6 \times 9\)      }         
 \end{enumerate} 
 
-Notice how question 3 and 4 gives the same matrix? It is telling us that \(C(A^T) = (N(A))^{\perp} \) 
+Notice how question 3 and 4 gives the same matrix? It is telling us that \(C(A^T) = (N(A))^{\perp} \)  
+
+
+\section{Projections onto Lines and Subspaces}
 
 \subsection{Projection onto Lines and Subspaces}
 \begin{enumerate}
@@ -259,9 +262,158 @@ So, if the best description of a subspace is a basis, by putting the basis vecto
     \end{bmatrix}
 \]          
 
-Our problem is to project any \(b\) onto the column space of any \(m by n\) matrix. Starting with a line, dimension \(n = 1\), the matrix will have only one column; we will call it \(a\).    
+Our problem is to project any \(b\) onto the column space of any \(m by n\) matrix. Starting with a line, dimension \(n = 1\), the matrix will have only one column; we will call it \(a\). 
 
-\section{Projections onto Lines and Subspaces}
+\subsection{Projection Onto a Line}
+
+The thing we must remember is how the line from \(b\) to \(p\) called \(e\) is always perpendicular to \(a\). The projection \(p\) will be some multiple of \(a\), calling it \(p = \hat{x}a\). So first we need to find \(\hat{x}\), then vector \(p\), then matrix \(P\). Oh, and now \(e = b - \hat{x}a \) too. 
+\[
+    \hat{x} = \frac{a \cdot b}{a \cdot a} = \frac{a^{T}b}{a^{T}a}
+\]          
+The tranpose version is better because we can use it with matrices too. 
+\[
+    \text{For line, }
+    e = b - p 
+    p = \hat{x}a = \frac{a^{T}b}{a^{T}a}a
+\] 
+\[
+    \text{For plane project, }
+    p = A\hat{x} = A(A(A^{T}A)^{-1}A^{T}b) = Pb
+\]
+
+\textbf{Example one:} Find the \(p = \hat{x}a\)
+\[
+    b = 
+    \begin{bmatrix}
+         1 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+    \text{ onto }
+    a = 
+    \begin{bmatrix}
+         1 \\
+         2 \\
+         2 \\
+    \end{bmatrix}
+\]  
+\(\hat{x}\) is a ratio between \(\frac{a^{T}b}{a^{T}a} = \frac{5}{9}\). So \(p = \frac{5}{9}a = (\frac{5}{9}, \frac{10}{9}, \frac{10}{9})\) and \(e = b - p = (\frac{4}{9}, -\frac{1}{9}, \frac{1}{9})\). 
+And to check that \(e\) is perpendicular to \(a = (1, 2, 2)\), which it is: \(e^{T}a = \frac{4}{9} - \frac{2}{9} - \frac{2}{9}= 0 \). 
+
+So, about the projection matrix. In the formula for \(p\), what matrix is the multiplying \(b\)?
+\[
+    p = a\hat{x} = a\frac{a^{T}b}{a^{T}a} = Pb
+    \text{ when }
+    P = \frac{aa^T}{a^{T}a}
+\]  
+We can see that it is a column timed a row, where \(a\) is a column and \(a^T\) is a row. The projection matrix \(P\) is \(m \times m\) but its rank is \textbf{one} . We are just projecting onto a one-dimensional subspace, the line through \(a\). That line is the column space of \(P\). This proves that \(p\) will always be on \(a\). 
+
+\textbf{Example 2:} Find the projection matrix \(P = \frac{aa^T}{a^{T}a}\) onto the line \(a = \begin{bmatrix}
+     1 \\
+     2 \\
+     2 \\
+\end{bmatrix}\). 
+\[
+    \text{Projection matrix}
+    P = \frac{aa^T}{a^{T}a} = \frac{1}{9}
+    \begin{bmatrix}
+         1 \\
+         2 \\
+         2 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 2 & 2  \\
+    \end{bmatrix}
+    = \frac{1}{9}
+    \begin{bmatrix}
+        1 & 2 & 2  \\
+        2 & 4 & 4  \\
+        2 & 4 & 4  \\
+    \end{bmatrix}
+\]   
+
+This matrix projects \textbf{any} vector \(b\) onto \(a\). Check \(p = Pb\) for \(b = (1, 1, 1)\) in example 1: 
+\[
+    p = Pb = \frac{1}{9}
+    \begin{bmatrix}
+        1 & 2 & 2  \\
+        2 & 4 & 4  \\
+        2 & 4 & 4  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         1 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+    = 
+    \frac{1}{9}
+    \begin{bmatrix}
+         5 \\
+         10 \\
+         10 \\
+    \end{bmatrix}
+\]    
+\[
+    e = b - p = \begin{bmatrix}
+         1 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+    - \frac{1}{9}
+    \begin{bmatrix}
+         5 \\
+         10 \\
+         10 \\
+    \end{bmatrix}
+    = 
+    \frac{1}{9}
+    \begin{bmatrix}
+         4 \\
+         -1 \\
+         -1 \\
+    \end{bmatrix}
+\]
+
+Even if vector \(a\) is doubled, the \(P\) matrix stays the same. Again, for reminder, projecting a second line doesn't change anything since it is already at the closest spot. 
+
+Another thing could be a projection, \(I - P\), which projects onto the perpendicular subspace, ie a plane perpendicular to \(a\), the orthogonal complement.
+
+\subsection{Projection Onto a Subspace}
+
+Start with \(n\) vectors \(a_1, \ldots, a_n\) in \(R^m\). Assume the \(a\)'s are linearly independent. 
+Now, \textbf{find the combination \(p = \hat{x_1}a_1 + \ldots + \hat{x_n}a_n\) closest to a given vector b}. We are project each \(b\) in \(R^m\) onto the \(n\)-dimensional subspace spanned by the \(a\)'s. Where with just \(n = 1\), it's just a line, which is a column space of \(A\); where it is just one column. You should know that the hat on \(\hat{x}\) means the best. So when we say we are looking for particular solution \(p = A\hat{x}\), we are saying we are looking for the best approximation to \(b\) . And for what we know, \(\hat{x} = \frac{a^{T}b}{a^{T}a}\) when \(n = 1\). For the next part, we will try to find \(\hat{x}\)  when \(n > 1\). 
+
+We can compute projections onto \(n\)-dimensions subspaces in three steps as before:
+\begin{enumerate}
+    \item Find the vector \(\hat{x}\) in \((S)\). 
+    \item Find the projection \(p = A\hat{x}\) in \((C)\) .
+    \item Find the projection matrix \(P\) in \((T)\). 
+\end{enumerate} 
+
+Remember that the error vector \(b - A\hat{x}\) is perpendicular to the subspace, where it makes right angle with all the vector in the subspace. 
+\[
+    \begin{bmatrix}
+         a^T_1 \\
+         \ldots \\
+         a^T_n \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        b - A\hat{x} \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         0 \\
+    \end{bmatrix}
+    \text{ or }
+    A^{T}A\hat{x} = A^{T}b
+\] 
+
+We can see that \(A^{T}(b-A\hat{x})\), which can be rewritten was \(A^{T}A\hat{x} = A^{T}b\). This is the equation for \(\hat{x}\), where we can see \(A^{T}A\) as a coefficient matrix. With this, we can now find \(\hat{x}, p,\) and \(P\) in that order. \textbf{REMEMBER THE NEXT THREE EQUATIONS!}
+\begin{enumerate}
+    \item Find \(\hat{x} (n \times 1)\) \textbf{\(A^{T}(b - A\hat{x} = 0)\) or \(A^{T}A\hat{x} = A^{T}b\)} . 
+    \item The symmetric matrix \(A^{T}A\) is \(n \times n\). It is invertible if the \(a\)'s are independent. The solution is \(\hat{x} = (A^{T}A)^{-1}A^{T}b\) we can find the projection of b onto the subspace is p: \textbf{Find \(p (m \times 1) p = A\hat{x} = A(A^{T}A)^{-1}A^{T}b \)}. 
+    \item The projection matrix \(P\) is multiplying \(b\) in the last example, the one with four \(A\)'s. \textbf{Find \(P (m \times m)\), \(P = A(A^T A)^-1 A^T\)  }       
+\end{enumerate} 
 
 \section{Least Squares Approximations}
 
