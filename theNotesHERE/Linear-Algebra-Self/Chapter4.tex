@@ -415,6 +415,195 @@ We can see that \(A^{T}(b-A\hat{x})\), which can be rewritten was \(A^{T}A\hat{x
     \item The projection matrix \(P\) is multiplying \(b\) in the last example, the one with four \(A\)'s. \textbf{Find \(P (m \times m)\), \(P = A(A^T A)^-1 A^T\)  }       
 \end{enumerate} 
 
+For \(n = 1\)
+\begin{enumerate}
+    \item \(\hat{x} = \frac{a^T b}{a^T}a\)
+    \item \(p = a \frac{a^T b}{a^T a}\)
+    \item \(P = \frac{a a^T}{a^T a}\)   
+\end{enumerate} 
+
+It is very similar to the prior 3 equations. Where the number \(a^T a\) becomes \(A^T A\). When it is a number, we divide by it, when it becomes a matrix, we invert it. Since \(a_1, \ldots, a_n\) is independent, that means \(A^T A\) is invertible. From \(A^T (b - A\hat{x})\), we can tell that \(e\) is orthogonal to each \(a\). 
+\begin{enumerate}
+    \item Our subspace \(C(A)\) is the column space of \(A\)
+    \item The error \(e = b - A\hat{x}\) is in the perpendicular subspace \(N(A^T)\)    
+\end{enumerate}       
+That means that \(A^T (b - A\hat{x}) = 0\) and that left nullspace \(N(A^T)\) is important in projection since it contains the error vector \(e = b - A\hat{x}\). The vector \(b\) is split into the projection \(p\) and the error \(e\), where the production produces a right triangle with sides \(p, e, b\), remember we are talking about vector, the line begin from origin. 
+
+\textbf{Example 3:} If \(A = \begin{bmatrix}
+    1 & 0  \\
+    1 & 1  \\
+    1 & 2  \\
+\end{bmatrix}\) and \(b = \begin{bmatrix}
+     6 \\
+     0 \\
+     0 \\
+\end{bmatrix}\), find \(\hat{x}, p, P\)
+\begin{enumerate}
+    \item Find \(A^T A\) and \(A^T b\) 
+    \item Solve the normal equation \(A^T A\hat{x} = A^T b\) to find \(\hat{x}\)
+    \item The combination \(p = A\hat{x}\) is the projection of \(b\) onto the column space of \(A\).       
+\end{enumerate}   
+\[
+    A^T A =
+    \begin{bmatrix}
+        1 & 1 & 1  \\
+        0 & 1 & 2  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 0  \\
+        1 & 1  \\
+        1 & 2   \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        3 & 3  \\
+        3 & 5  \\
+    \end{bmatrix}
+    \text{ and }
+    A^T b = 
+    \begin{bmatrix}
+        1 & 1 & 1  \\
+        0 & 1 & 2  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         6 \\
+         0 \\
+         0 \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         6 \\
+         0 \\
+    \end{bmatrix}
+\]
+
+\[
+    \begin{bmatrix}
+        3 & 3  \\
+        3 & 5  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         \hat{x_1} \\
+         \hat{x_2} \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        6  \\
+        0  \\
+    \end{bmatrix}
+    \text{ gives }
+    \hat{x}
+    = 
+    \begin{bmatrix}
+         \hat{x_1} \\
+         \hat{x_2} \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         5 \\
+         -3 \\
+    \end{bmatrix}
+\]
+\[
+    p = 
+    5 \begin{bmatrix}
+         1 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+    - 3 
+    \begin{bmatrix}
+         0 \\
+         1 \\
+         2 \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         5 \\
+         2 \\
+         -1 \\
+    \end{bmatrix},
+    \text{ The error is }
+    e = b - p = 
+    \begin{bmatrix}
+         1 \\
+         -2 \\
+         1 \\
+    \end{bmatrix}
+\]
+
+We can now try to find \(P\) matrix. The projection is \(P = A(A^T A)^{-1} A^T \). The determinant of \(A^T A\) is \(15 - 9 = 6\), then also inverse the \(2 \times 2\). Multiple \(A \times (A^T A)^{-1} \times A = P \)  
+\[
+    (A^T A)^{-1} = 
+    \frac{1}{6}
+    \begin{bmatrix}
+        5 & -3  \\
+        -3 & 3  \\
+    \end{bmatrix}
+    \text{ and }
+    P = \frac{1}{6}
+    \begin{bmatrix}
+        5 & 2 & -1  \\
+        2 & 2 & 2  \\
+        -1 & 2 & 5  \\
+    \end{bmatrix} 
+\]    
+And \(P^2 = P\) must be true because we discuss before, it projects onto itself. 
+
+\textbf{Warning!} \(P = A(A^T A)^{-1} A^T \) can be deceptive. We can't split \((A^T A)^{-1} \) into \(A^{-1} \times (A^T)^{-1}  \). If we do that, we will find that \(P = AA^{-1}(A^T)^{-1} A^T  \) collapses into \(P = I\), which means this is wrong. Why? \textbf{Matrix A is rectangular, which means it has no inverse matrix (as in, \(A^{-1} \) )}. We can split \((A^T A)^{-1} \) into \(A^{-1} \times (A^T)^{-1} \) when \(m > n\). 
+Here is something we need to remember: 
+\[
+    \text{\(A^T A\) is invertible if and only if A has full-rank column.}
+\]          
+\[
+    \text{When \(A\) has independent columns, \(A^T A\) is square, symmetric, and invertible.}
+\]
+For emphasis, \(A^T A\) is \(n \times m\) times \(m \times n\), \(A^T A\) is square \(n \times n\). We just again prove \(A^T A\) is invertible, provided A is full-rank column. 
+\[
+    \begin{bmatrix}
+        1 & 1 & 0  \\
+        2 & 2 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 2  \\
+        1 & 2  \\
+        0 & 0  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        2 & 4   \\
+        4 & 8  \\
+    \end{bmatrix}
+\]      
+\[
+    \begin{bmatrix}
+        1 & 1 & 0  \\
+        2 & 2 & 1  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 2  \\
+        1 & 2  \\
+        0 & 1  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        2 & 4  \\
+        4 & 9  \\
+    \end{bmatrix}
+\]
+The first example has dependent \(A\) and singular output, where the second example has full-rank columns and the output is invertible. 
+
+\textbf{Very brief summary,} to find \(p = \text{x}_1 a_1 + \ldots + \hat{x}_n a_n\), solve \(A^T A\hat{x} = A^T b\). This gives us \(\hat{x}\). The projection is \(p = A\text{x}\) and the error is \(e = b - p = b - A\text{x}\). The projection matrix gives \(P = A(A^T A)^{-1} A^T \) gives \(p = Pb\). \(P\) is invertible only if \(P = I\). 
+This matrix satisfies \(P^2 = P\) and the distance from \(b\) to subspace \(C(A)\) is \(\lVert e \rVert \).
+
+Here is a review of a few key ideas, 
+\begin{enumerate}
+    \item Projection of \(b\) onto \(a\) is \(p = a\hat{x} = a(\frac{a^T b}{a^T a})\). 
+    \item Rank one projection is \(P = \frac{aa^T}{a^T a}\) multiples with \(b\) to produce \(p\). 
+    \item Projecting \(b\) onto a subspace leaves \(e = b - p\) perpendicular to the subspace.
+    \item When \(A\) has full rank \(n\), the equation \(A^T A \hat{x} = A^T b\) leads to \(\hat{x}\) and \(p = A\hat{x}\). 
+    \item Projection matrix \(P = A(A^T A)^{-1} A^T \) has \(P^T = P\) and \(P^2 = P\) and \(Pb = p\)                 
+\end{enumerate}
 \section{Least Squares Approximations}
 
 \section{Orthogonal Matrices and Gram-Schmidt}
