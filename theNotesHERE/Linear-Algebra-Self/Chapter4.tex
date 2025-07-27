@@ -606,6 +606,130 @@ Here is a review of a few key ideas,
 \end{enumerate}
 \section{Least Squares Approximations}
 
+A lot of \(Ax = b\) has no solution due to there being \emph{too} many equations, which happens when there is more rows than columns \((m > n)\). The \(n\) columns spans only a \textbf{small} part of the \emph{\(m\)-dimensional space } 
+\[
+    \text{When \(Ax = b\) has no solution, multiply by \(A^T\) and solve \(A^T A \hat{x} = A^T b\)   }
+\]  
+
+\textbf{Example 1:} One of the biggest use for least square is fitting a straight line to \(m\) points. 
+Say we have 3 points, we need to find the line closest to them \((0,6), (1, 0), (2, 0)\)
+No straight line go through these points, but we can turn them into three equations \((n = 2, m = 3)\). 
+\begin{enumerate}
+    \item \(t = 0\), the first point is on the line \(b = C + Dt\) if \(C \cdot D = 6\) 
+    \item \(t = 1\), the second point is on the line \(b = C + Dt\) if \(C \cdot D = 0\) 
+    \item \(t = 2\), the third point is on the line \(b = C + Dt\) if \(C \cdot D = 0\) 
+\end{enumerate}  
+
+\[
+    A = 
+    \begin{bmatrix}
+        1 & 0  \\
+        1 & 1  \\
+        1 & 2  \\
+    \end{bmatrix}, 
+    x = 
+    \begin{bmatrix}
+         C \\
+         D \\
+    \end{bmatrix}, 
+    b = 
+    \begin{bmatrix}
+         6 \\
+         0 \\
+         0 \\
+    \end{bmatrix}
+    , \text{ Ax = b is not solvable}
+\]
+
+This is the same question as example 3 in the last section, we computed that \(\hat{x} = (5, -3)\). So the line \(5 -3t\) will be the best for the three points. 
+
+\subsection{Minimizing the error}
+
+How do we make \(e = b - Ax\) as small as possible is a very important question. \(\hat{x}\) can be fonund by geometry, where \(e\) is perpendicular to \(A\). Calculus also gives the same \(\hat{x}\), the derivative of the error \(\lVert Ax -  \rVert^2 \) is zero \(\hat{x}\). 
+
+\emph{By geometry}, every \(Ax\) lies in the plane of the column \((1, 1, 1)\) and \((0, 1, 2)\). In that plane, we will need to look for the closest point to \(b\), which is \(p\). While all three points can't be connected with one line, they are all still within the column space of \(A\). Therefore, in a fitting straight line, \(\hat{x} = (C, D)\) is the best choice. 
+
+\emph{By algebra}, \(b\) splits into two parts, the part in column space is \(p\), the perpendicular part is \(e\). We can not solve \(Ax = b\), but we can solve \(A\hat{x} = p\) (by removing \(e\) and soling \(A^T A\hat{x} = A^T b\)  )
+\[
+    Ax = b = p + e 
+    \text{ is impossible}
+\]     
+\[
+    A\hat{x} = p 
+    \text{ is solvable}
+\]
+\[
+    \hat{x} = (A^T A)^{-1} A^T b  
+\]
+
+The solution to \(A\hat{x} = p\) leaves the least possible error, \(e\): 
+\[
+    \text{ Squared error for any \(x\), }
+    \lVert Ax - b \rVert^2 = \lVert Ax - p \rVert^2 + \lVert e \rVert^2   
+\]  
+
+We reduce \(Ax - p\) to zero by choosing \(x = \hat{x}\), so we get the smallest \(e = (e_1, e_2, e_3)\), which we can't reduce further. 
+\[
+    \text{The least square solutions \(\hat{x}\) makes } E = \lVert Ax - b \rVert^2 \text{ as small as possible.} 
+\]   
+
+Look along at figure 4.6 on page 165. We can see that the best line is \(b = 5 - 3t\), and the closest point is \(p = 5a_1 - 3a_2\). 
+
+Notice how the errors are \((1, -2, 1)\), adding to zero. The reason is that the error \(e = (e_1, e_2, e_3)\) is perpendicular to the first column (and the second column too) \((1, 1, 1)\) in \(A\). The dot product gives \(e_1 + e_2 + e_3 = 0\). 
+\[
+    e = \begin{bmatrix}
+         e_1 \\
+         e_2 \\
+         e_3 \\
+    \end{bmatrix}
+    \rightarrow
+    e \cdot
+    \begin{bmatrix}
+         1 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+    = 
+    e_1 + e_2 + e_3 
+    = 
+    0
+\]
+
+Most functions are minimized by calculus, where the graph bottoms out and the derivative is every direction is \textbf{zero} . Where \(E\)is minimized is a sum of squares. 
+\[
+    E = \lVert Ax - b \rVert^2 = (C + D \cdot 0 - 6)^2 + (C + D \cdot 1)^2 + (C + D \cdot 2)^2 
+\] 
+
+Since there are two unknowns, where we want the two derivative at zero, we will need to do partial derivative. 
+\[
+    \frac{\partial E}{\partial C} = 2(C + D \cdot 0 - 6)^2 + 2(C + D \cdot 1)^2 + 2(C + D \cdot 2)^2 = 0
+\]
+\[
+    \frac{\partial E}{\partial D} = 2(C + D \cdot 0 - 6)^2 (0) + 2(C + D \cdot 1)^2 (1) + 2(C + D \cdot 2)^2 (2) = 0
+\]
+
+\(\frac{\partial E}{\partial D}\) contains factor \emph{0, 1, 2} from the chain rule. It is not an accidental that the factor \((1, ,1 ,1)\) and \((0,1,2)\) is in the derivative of \(\lVert Ax - b \rVert^2 \) are in the columns of \(A\). Now cancel 2 from every term and we get: 
+\begin{enumerate}
+    \item C derivative is zero: \(3C + 3D = 6\)
+    \item D derivative is zero: \(3C + 5D = 0\) 
+\end{enumerate}     
+\[
+    \begin{bmatrix}
+        3 & 3  \\
+        3 & 5  \\
+    \end{bmatrix}
+    \text{ is \(A^T A\) }
+\]
+
+Those two equations are \(A^T A \hat{x} = A^T b\). The best \(C\) and \(D\) are components of \(\hat{x}\). The equations from calculus are the same as the normal equations from linear algebra. These equation are to minimize \(\lVert Ax - b \rVert^2 = x^T A^T Ax - 2x^T A^T b + b^T b \)
+\[
+    \text{The partial derivatives of  } \lVert Ax - b \rVert^2 \text{ are zero when } A^T A\hat{x} = A^T b  
+\]     
+
+And the solution are \(C = 5\)and \(D = -3\) therefore \(b = 5 - 3t\) is the best line. This is the vector of \(e\). 
+
+\subsection{The Big Picture for Least Square}
+
 \section{Orthogonal Matrices and Gram-Schmidt}
 
 \section{The Pseudoinverse of a Matrix}
