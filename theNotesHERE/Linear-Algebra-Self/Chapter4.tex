@@ -730,6 +730,154 @@ And the solution are \(C = 5\)and \(D = -3\) therefore \(b = 5 - 3t\) is the bes
 
 \subsection{The Big Picture for Least Square}
 
+This correspond to page 166 (176), figure 4.7. We can remember  how on an older "big picture" figure, that we needed to split \(x\) into \(x_p + x_n\). That was for when there were \textbf{many} solutions. This is for cases where there is \textbf{no} answer to \(Ax = b\), however. Instead of splitting \(x\) we are splitting \(b = p + e\). Instead of \(Ax = b\), we solve \(A\hat{x} = p\). 
+From the figure 4.7, we can see that the nullspace \(N(A)\) is very small. Remember that \(A^T A\) is an invertible matrix. The equation \(A^T A \hat{x} = A^T b\) determines \(\hat{x}\). The error \(e = b - p\) has \(A^T e = 0\). 
+
+\subsection{Fitting a Straight Line}
+
+Fitting a line requires \(m > 2\) points; at time \(t_1, \ldots, t_2\), those points are at height \(b_1, \ldots, b_m\). The best line \(C + Dt\) misses the point by vertical distance \(e_1, \ldots, e_m\). No line is perfect, so we want to minimize \(E = e^2_1 + \ldots + e^2_m\). We used \(m = 3\) for the last example, but really, \(m\) can be a very large number; though we will still have the component of \(\hat{x}\)  be \(C\) and \(D\).
+When \(Ax = b\) is solved exactly, the line goes through the \(m\) points, which rarely happens. Two unknown \((C, D)\) determines a line, so \(A\) has \(n = 2\) columns. 
+\[
+    Ax = b 
+    \text{ is }
+    \begin{bmatrix}
+         C + Dt_1 = b_1 \\
+         C + Dt_2 = b_2\\
+         \vdots \\
+         C + Dt_m = b_m \\
+    \end{bmatrix}
+    \text{ with }
+    A = 
+    \begin{bmatrix}
+        1 & t_1  \\
+        1 & t_2  \\
+        \vdots & \vdots  \\
+        1 & t_m  \\
+    \end{bmatrix}
+\]     
+
+The column space is so so thin that it is almost certain that \(b\) is outside of it. When \(b\) \textbf{does} lie inside of it, that means the points are on the line. In that case, \(b = p\), therefore \(Ax = b\) and \(e = (0, \ldots, 0)\). 
+
+The closest line \(C + Dt\) has heights \(p_1, \ldots, p_m\) with errors \(e_1, \ldots, e_m\). 
+
+Solve \(A^T A = A^T b\) for \( \hat{x} = (C, D)\). The errors are \(e_i = b_i - C -Dt_i\). 
+\[
+    \text{Dot-product matrix}
+    A^T A = 
+    \begin{bmatrix}
+        1 & \ldots & 1  \\
+        t_1 & \ldots & t_m  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & t_1  \\
+        \ldots & \ldots  \\
+        1 &  t_m \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        m & \Sigma t_i  \\
+        \Sigma t_i & \Sigma t^2_i  \\
+    \end{bmatrix}
+\]
+
+On the right side of the normal equation is the \(2 \times 1\) vector \(A^T b\):
+\[
+    A^T A 
+    \begin{bmatrix}
+         C \\
+         D \\
+    \end{bmatrix}
+    = A^T A\hat{x} = A^T b = 
+    \begin{bmatrix}
+        1 & \ldots & 1  \\
+        t_1 & \ldots & t_m  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         b_1 \\
+         \ldots \\
+         b_m \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         \Sigma b_i \\
+         \Sigma t_i b_i \\
+    \end{bmatrix}
+    \]  
+
+The best  \(\hat{x} = (C, D)\) is \((A^T A)^{-1} A^T b \): 
+\[
+    A^T A\hat{x} = A^T b 
+    \begin{bmatrix}
+        m & \Sigma t_i  \\
+        \Sigma t_i & \Sigma t^2_i  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         C \\
+         D \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         \Sigma b_i \\
+         \Sigma t_i b_i \\
+    \end{bmatrix}
+\]  
+
+The vertical errors at the \(m\) points on the line are the components of the \(e = b - p\). \emph{The error vector is perpendicular to the column of \(A\), in term of geometry. The error is in the nullspace of \(A^T\), in term of linear algebra. The best \(\hat{x} = (C, D)\) minimizes the total error \(E\), the sum of squares, in term of calculus    }
+\[
+    E(x) = \lVert Ax - b \rVert^2 = (C + Dt_1 - b_1)^2 + \ldots + (C + Dt_m - b_m)^2 
+\]
+Calculus sets the derivative \(\frac{\partial E}{\partial C}\) and \(\frac{\partial E}{\partial C}\) to zero, and recovers \(A^T A\hat{x} = A^T b\). A lot of other problem have more than two unknowns. In general, we are fitting \(m\) data points by \(n\) parameters \(x_1, \ldots, x_n\). The matrix \(A\). The matrix \(A\) has \(n\) columns and \(n < m\). The derivative of \(\lVert Ax - b \rVert^2 \) gives the \(n\) equations \(A^T A \hat{x} = A^T b\), the derivative of a square is linear. 
+
+\textbf{Example 2:} \(A\) has an \textbf{orthogonal} columns when the measurement times \(t_i\) add to zero. Suppose \(b = 1, 2, 4\) when \(t = -2, 0, 2\), where the time adds to zero. The columns of \(A\) have zero dot product: \((1, 1, 1)\) is orthogonal to \(02, 0, 2\):
+\[
+    \begin{bmatrix}
+         C + D(-2) = 1\\
+         C + D(0) = 2\\
+         C + D(2) = 4\\
+    \end{bmatrix}
+    \text{ or }
+    Ax = 
+    \begin{bmatrix}
+        1 & -2  \\
+        1 & 0  \\
+        1 & 2  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         C \\
+         D \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         7 \\
+         6 \\
+    \end{bmatrix}
+\]       
+Since \(A^T A\) is diagonal, we can easily solve separate that \(C = \frac{7}{3}\) and \(D = \frac{6}{8}\). The zeros in \(A^T A\) are dot products of perpendicular columns in \(A\). With the lower right input, we can see that \(t^2_1 + t^2_2 + t^2_3 = 8\). 
+
+Orthogonal columns are very helpful so much so that it can be worth shifting the times by subtracting the average time \(\hat{t}\). If the average times were 1, 3, 5 then their average is \(\hat{t} = 3\). The shifted times \(T = t - \hat{t} = t - 3\) adds up to zero. 
+\[
+    \begin{bmatrix}
+         T_1 = 1 - 3 = 2 \\
+         T_2 = 3 - 3 = 0 \\
+         T = 5 - 3 = 2 \\
+    \end{bmatrix}
+    , 
+    A_{new} = 
+    \begin{bmatrix}
+        1 & T_1  \\
+        1 & T_2  \\
+        1 & T_3  \\
+    \end{bmatrix} 
+    , 
+    A^T_{new} A = 
+    \begin{bmatrix}
+        3 &  0 \\
+        0 &  8 \\
+    \end{bmatrix} 
+\]   
+
+\subsection{Dependent Columns in A: What is \hat{x}?}
+
 \section{Orthogonal Matrices and Gram-Schmidt}
 
 \section{The Pseudoinverse of a Matrix}
