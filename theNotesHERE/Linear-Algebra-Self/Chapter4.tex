@@ -876,8 +876,102 @@ Orthogonal columns are very helpful so much so that it can be worth shifting the
     \end{bmatrix} 
 \]   
 
-\subsection{Dependent Columns in A: What is \hat{x}?}
+\subsection{Dependent Columns in A: What is \(\hat{x}\) ?}
+
+So far, we have assumed that the columns in \(A\) are independent. What if they aren't? For this example: 
+\[
+    \begin{bmatrix}
+        1 & 1  \\
+        1 & 1  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         x_1 \\
+         x_2 \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         3 \\
+         1 \\
+    \end{bmatrix}
+    = b 
+    \text{, Ax = b}
+\] 
+\[
+    \begin{bmatrix}
+        1 & 1  \\
+        1 & 1  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         \hat{x_1} \\
+         \hat{x_2} \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         2 \\
+         2 \\
+    \end{bmatrix}
+    = p
+    \text{, Ax = b}
+\] 
+
+We can see a figure on page 169 (179), at the same \(T\), \(b_1 = 3\) and \(b_2 = 1\). A straight line \(C + Dt\) can't go through both points. If we can first try to see the column space of \(A\) but it still provides us with 3 solutions. We could do \(\hat{x}_1 = C = 2, \hat{x}_2 = D = 0\). We could also do \(\hat{x}_1 = C = 1, \hat{x}_2 = D = 1\). But we can also make a line as \(b = ct + d\), where \(\hat{x}_1 = C = 0, \hat{x}_2 = D = 2\) is also correct. We will have a different answer when we get to the pseudoinverse but here, our shortest solution will be \(x^+ = (1, 1)\). This is because \(x^+\) has the length of \(\sqrt{2} \), whereas the solution \(\hat{x} = (0, 2) \text{ or } (2, 0)\) have a length of 2. 
+
+\subsection{Fitting by a Parabola} 
+
+When we throw a ball, the most accurate approximation would be  a parabola \(b = C + Dt + Et^2\) so that it can come up and down. But even with non-linear function like \(t^2\), the unknowns \(C, D, E\) still appear linearly. 
+
+\textbf{Problem} Try to fit heights \(b_1, \ldots, b_m\) at times \(t_1, \ldots, t_m\) by parabola \(C + Dt + Et^2\)
+
+\textbf{Solution} 
+\[
+    \begin{bmatrix}
+         C + Dt_1 + Dt^2_1 = b_1 \\
+         \vdots \\
+         C + Dt_m + Dt^2_m = b_m \\
+    \end{bmatrix}
+    \text{ is Ax = b with}
+    \begin{bmatrix}
+        1 & t_1 & t^2_1  \\
+        \vdots & \vdots & \vdots  \\
+        1 & t_m & t^2_m   \\
+    \end{bmatrix}
+\]
+
+So what we are dealing with here is a 3 dimensional column space of \(A\). Where the projection of \(b\) is \(p = A\hat{x}\), with three columns of coefficient \(C, D, E\). The error at the data points are \(e_m = b_m - C - Dt_m - Et^2_m\). We can minimize it by calculus by taking partial derivative of \(e^2_1 + \ldots + e^2_m\) with respect to \(C, D, E\). 
+
+\textbf{Example 3:} For the the parabola \(b = C + Dt + Et^2\) to go through the three heights \(b = 6, 0, 0\) when \(t = 0, 1, 2\) the equation for \(C, D, E\) are 
+\[
+    \begin{bmatrix}
+         C + D \cdot 0 + E \cdot 0^2 = 6\\
+         C + D \cdot 1 + E \cdot 1^2 = 0 \\
+         C + D \cdot 2 + E \cdot 2^2 = 0 \\
+    \end{bmatrix}
+\]     
+
+We can solve this directly for \(x = (C, D, E) = (6, -9, 3)\). The parabola through the three points is \(b\)  
+
+Here are a few important points to remember:
+\begin{enumerate}
+    \item The least square solution \(\hat{x}\) minimizes the \(\lVert Ax - b \rVert^2 \) = \(x^T A^T Ax - 2x^T A^T b + b^T b\). That is E, the sum of squares of the errors \(e_1, \ldots, e_m\) in the \(m\) equations \(m > n\). 
+    \item The best \(\hat{x}\) comes from the normal equations \(A^T A \hat{x} = A^T b\). E is a minimum. 
+    \item To fit \(m\) points by a line \(b = C + Dt\), the normal equations give \(C and D\). 
+    \item The heights of the best line are \(p = p_1, \ldots, p_m\). The vertical distance to the data points are the errors \(e = e_1, \ldots, e_m\). A key equation is \(A^T e = 0\). 
+    \item If we try to fit \(m\) by a combination of \(n < m\), the \(m\) equations \(Ax = b\) are generally unsolvable. The equation \(A^T A\hat{x} = A^T b\) give the least square solution, the combination with the smallest mean square error (MSE).               
+\end{enumerate}
 
 \section{Orthogonal Matrices and Gram-Schmidt}
+
+\begin{enumerate}
+    \item The columns \(q_1, \ldots, q_n\) are orthogonal if \(q^T_i q_j = \begin{bmatrix}
+         0 \text{ for  \(i \neq j \) } \\
+         1 \text{ for  \(i = j \) } \\
+    \end{bmatrix}\). Then \(Q^T Q = I\). 
+    \item If \(Q\) is also square, then \(QQ^T = I\) and \(Q^T = Q^{-1} \). Now \(Q\) is an orthogonal matrix. 
+    \item The least squares solution to \(Qx = b \text{ is } \hat{x} = Q^T b\). Projection of \(b: p = QQ^T b = Pb\).
+    \item The \textbf{Gram-Schmidt} process takes independent \(a_i\) to orthonormal \(q_i\). Start with \(q_1 = \frac{a_i - \text{ its projection } p_i}{\lVert a_1 - p_i \rVert }\); projection \(p_i = (a^T_i q_1 + \ldots + a^T_i q_{i-1} )q_{i-1} \). 
+    \item Each \(a_i\) will be a combination of \(q_1\) to \(q_i\). Then \(A = QR\) othrogonal \(Q\) and triangular \(R\).      
+\end{enumerate}
+
+We have two goal in this section, \textbf{why} and \textbf{how} . We will first see why orthogonal column in \(A\) are good. The second goal is to construct orthogonal vectors \(q_i\). The orthonormal basis vectors \(q_i\) will be the columns of a new matrix \(Q\). The vector \(q_1, \ldots, q_n\) are orthogonal when their dot products \(q_i \cdot q_j\) are zero, more exactly \(q^t_i q_j = 0\) whenever \(i \neq j\). With one more step, we can divide each vector by its length for the vectors to become \emph{orthogonal unit vector}. All their length are 1 (called \textbf{normal} ), then the basis is called \textbf{orthonormal}.          
 
 \section{The Pseudoinverse of a Matrix}
