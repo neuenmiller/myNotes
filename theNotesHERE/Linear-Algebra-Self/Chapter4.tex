@@ -974,4 +974,259 @@ Here are a few important points to remember:
 
 We have two goal in this section, \textbf{why} and \textbf{how} . We will first see why orthogonal column in \(A\) are good. The second goal is to construct orthogonal vectors \(q_i\). The orthonormal basis vectors \(q_i\) will be the columns of a new matrix \(Q\). The vector \(q_1, \ldots, q_n\) are orthogonal when their dot products \(q_i \cdot q_j\) are zero, more exactly \(q^t_i q_j = 0\) whenever \(i \neq j\). With one more step, we can divide each vector by its length for the vectors to become \emph{orthogonal unit vector}. All their length are 1 (called \textbf{normal} ), then the basis is called \textbf{orthonormal}.          
 
+\textbf{Definition} the \(n\) vectors \(q_1, \ldots, q_n\) are orthogonal if 
+
+\[
+    q^T_i q_j = 
+    \begin{dcases}
+      0, & \text{if } i \neq j \text{ (orthogonal vectors)}; \\
+      1, & \text{if } i = j \text{ (unit vectors, } \lVert q_i \rVert = 1 \text{)}
+    \end{dcases}
+\]
+
+A matrix \(Q\) with orthonormal columns has \(Q^T Q = I\), typically \(m > n\). 
+
+Matrix \(Q\) is easy to work with because \(Q^T Q = I\), which means that the columns \(q_1, \ldots, q_n\) are orthonormal. Q is not required to be square. 
+
+\[
+    Q^T Q = 
+    \begin{bmatrix}
+         q^T_1 \\
+         q^T_2 \\
+         \vdots \\
+         q^T_n \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        q^T_1 & q^T_2 & \ldots & q^T_n  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        1 & 0 & \ldots & 0  \\
+        0 & 1 & \ldots & 0  \\
+        \vdots & \vdots & \ddots & \vdots  \\
+        0 & 0 & \ldots & 1  \\
+    \end{bmatrix}
+    = I 
+\]
+
+When row \(i\) of \(Q^T\) multiples column \(j\) of \(Q\), the dot product is \(q^T_i q_j\). Off the diagonal \((i \neq j)\), the dot is zero by orthogonality. On the diagonal \((i - j)\) the unit vector gives \(q^T_i q_i = \lVert q_i \rVert^2 = 1\). 
+\[
+    \text{When \(Q\) is square, \(Q^T Q = I\) means that \(Q^T = Q^-1\): tranpose = inverse.   }
+\]       
+
+If the column are only orthogonal and not unit vector, they still give non-1 diagonal matrix. The inverse is the transpose of \(Q^T\). In the case it's square, we call it orthogonal matrix.
+
+\textbf{Example 1 (Rotation):} \(Q\) rotates every vector in the plane by the angle \(\theta \): 
+\[
+    Q = 
+    \begin{bmatrix}
+        \cos \theta   & -\sin \theta   \\
+        \sin \theta  & \cos \theta   \\
+    \end{bmatrix}
+    \text{ and }
+    Q^T = Q^{-1} 
+    \begin{bmatrix}
+        \cos \theta  & \sin \theta   \\
+        - \sin \theta  & \cos \theta   \\
+    \end{bmatrix}
+\]   
+
+The columns of \(Q\) are orthogonal. They are unit vectors because \(\sin \theta ^2 + \cos \theta ^2 = 1\), giving us an orthonormal basis for the plane \(R^2\). The standard basis vectors \(i\) and \(j\) are rotated through \(\theta \). Then \(Q^{-1} \) rotate back through \(-\theta \). It does agrees with \(Q^T\) because \(\cos -\theta = \cos  \theta \) and \(\sin  -\theta = -\sin \theta   \). We have \(QQ^T = I = Q^T Q\). 
+
+\textbf{Example 2 (Permutation): } The matrices change the order to \((y, z, x)\) and \((y, x)\):
+\[
+    \begin{bmatrix}
+        0 & 1 & 0  \\
+        0 & 0 & 1  \\
+        1 & 0 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         x \\
+         y \\
+         z \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         y \\
+         z \\
+         x \\
+    \end{bmatrix}
+    \text{ and } 
+    \begin{bmatrix}
+        0 &  1 \\
+        1 &  0 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         x \\
+         y \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         y \\
+         x \\
+    \end{bmatrix}
+\]   
+
+The column of these \(Q\) are orthogonal and also unit vectors. \emph{The inverse of a permutation matrix is its transponse: \(Q^{-1} = Q^T \) }. 
+\[
+    \begin{bmatrix}
+        0 & 0 & 1  \\
+        1 & 0 & 0  \\
+        0 & 1 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         y \\
+         z \\
+         x \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         x \\
+         y \\
+         z \\
+    \end{bmatrix}
+    \text{ and }
+    \begin{bmatrix}
+        0 & 1  \\
+        1 &  0 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         y \\
+         x \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         x \\
+         y \\
+    \end{bmatrix}
+\]  
+\[
+    \text{\textbf{Every permutation matrix is an orthogonal matrix.} }
+\]
+
+\textbf{Example 3 (Reflection):} If \(u\) is any unit vector, set \(Q = I - 2uu^T\). Notice that \(uu^T\) is a matrix while \(u^T u\) is the number \(\lVert u \rVert^2 = 1 \). Then \(Q^T and Q^{-1} \) both equal \(Q\): 
+\[
+    Q^T = I - 2uu^T = Q 
+    \text{ and }
+    Q^T Q = I - 4uu^T + 4uu^T uu^T = I 
+\]        
+Reflection matrix \(I - 2uu^T\) are symmetric and orthogonal. If we square them, we get the identity matrix: \(Q^2 = Q^T Q = I\), where reflecting the mirror twice bring us back to the original \((-1)^2 \rightarrow 1\) 
+Check figure 4.9, page 178. we achieve rotation by \(Q = \begin{bmatrix}
+    c & -s  \\
+    s & c  \\
+\end{bmatrix}\) and reflection by \(Q = \begin{bmatrix}
+    1 & 0  \\
+    0 & 1 \\
+\end{bmatrix}\) 
+
+Say, we choose the direction \(u = (\frac{-1}{\sqrt{2} },\frac{1}{\sqrt{2} })\), compute \(2uu^T\) and subtract it from \(I\) to get reflection \(Q\): 
+\[
+    Q = I - 2
+    \begin{bmatrix}
+        .5 & -.5  \\
+        -.5 & .5  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        0 & 1  \\
+        1 & 0  \\
+    \end{bmatrix}
+    \text{ and }
+    \begin{bmatrix}
+        0 & 1  \\
+        1 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         x \\
+         y \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         y \\
+         x \\
+    \end{bmatrix}
+\]    
+So when we change \(x, y\) to \(y, x\), vectors like \(3, 3\) or on the diagonal doesn't move because it is on the mirror line. It tells us that rotation, reflection, and permutations doesn't change the length of any vectors. 
+
+\textbf{Proof} \(\lVert Qx \rVert^2 = \lVert x \rVert^2  \) because \((Qx)^T (Qx) = x^T Q^T Qx = x^T Ix, x^T x\). 
+\[
+    \text{If \(Q\) has orthonormal columns, it leaves length unchanged. Same length for \(Qx\) too. \(\lVert Qx \rVert = \lVert x \rVert\) for every \(x\)   }
+\]  
+
+\(Q\) also preserves dot products, \((Qx)^T (Qy)=x^T Q^T Qy = x^T y\), or just use \(Q^T Q = I\).  
+
+\subsection{Projection \(QQ^T\) Using Orthonormal Bases: \(Q\) Replaces A}
+
+
+For projection onto subspaces all far, all formula involves \(A^T A\), where the entries are dot products \(a^T_i a_j\) of the basis vector \(a_1, \ldots, a_n\). 
+Say, \emph{what if these basis vectors orthonormal?} The \(a\)'s become \(q\)'s. Then \(A^T A\) simplies to \(Q^T Q = I\). Look at the improvement for \(\hat{x}, p, P\). 
+\[
+    \hat{x} = Q^T b, 
+    p = Q\hat{x}, 
+    P = QQ^T 
+\]        
+
+\emph{The least squares solution of \(Qx = b\) is \(\hat{x} = Q^T b\)}. The projection matrix if \(QQ^T\). 
+
+\[
+    \text{Projection onto \(q\)'s }, 
+    p = 
+    \begin{bmatrix}
+        q_1 & \ldots & q_n  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+         q^T_1 b \\
+         \vdots \\
+         q^T_n b \\
+    \end{bmatrix}
+    = q_1(q^T_1 b) + \ldots + q_n(q^T_n b)
+\]
+
+\textbf{Important}, when \(Q\) is square and \(m = n\), the subspace is whole space. Meaning that \(Q^T = Q^{-1} \) and \(\hat{x} = Q^T b\) is the same as \(x = Q^{-1} b \), the solution are exact. The projection of \(b\) onto the whole space is \(b\) itself. So \(p = b\) and \(P = QQ^T = I\). 
+
+Now that doesn't sound like much, but when \(p = b\), then a formula assembles  \(b\) out of its 1-dimensional projections. If \(q_1, \ldots, q_n\) is an orthonormal basis for the whole space, then \(Q\) is square. Every \(b = QQ^T b\) is the sum of its component along the \(q\)'s:
+
+\[
+    b = q_1(q^T_1 b) + \ldots + q_n(q^t_n b)
+\]
+
+\textbf{Transform} \(QQ^T = I\) is the foundation of Fourier series and all the great transform. It breaks \(f(x)\) into perpendicular pieces then adding the pieces like the equation above, inverse transform puts \(b\) and \(f(x)\) back together. 
+
+\textbf{Example 4:} The columns of this orthogonal \(Q\) are orthonormal vectors \(q_1, q_2, q_3\):
+\[
+    m = n = 3, Q = \frac{1}{3}
+    \begin{bmatrix}
+        -1 & 2 & 2  \\
+        2 & -1 & 2  \\
+        2 & 2 & -1  \\
+    \end{bmatrix}
+    \text{ has }
+    Q^T Q = Q Q^T = I 
+\]   
+
+Separate projection \(b\) onto \(q_1, q_2, q_3\) are \(p_1, p_2, p_3\):
+\[
+    q_1(q^T_1 b) = \frac{2}{3}q_1 
+    , q_2(q^T_2 b) = \frac{2}{3}q_2
+    , q_3(q^T_3 b) = -\frac{1}{3}q_3
+\]   
+
+The first two sum of projection \(p_1 + p_2\) projects \(b\) onto the \textbf{plane} of \(q_1\) and \(q_2\). The sum of all three is the projection of \(b\) onto the whole space, where \(p_1 + p_2 + p_3 = b\):
+\[
+    \frac{2}{3}q_1 + \frac{2}{3}q_2 + \frac{1}{3}q_3
+    = \frac{1}{9}
+    \begin{bmatrix}
+        -2 & +4 & -2  \\
+        4 & -2 & -2  \\
+        4 & +4 & 1  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+         0 \\
+         0 \\
+         1 \\
+    \end{bmatrix}
+    = b 
+\]      
+
 \section{The Pseudoinverse of a Matrix}
