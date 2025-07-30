@@ -1229,4 +1229,236 @@ The first two sum of projection \(p_1 + p_2\) projects \(b\) onto the \textbf{pl
     = b 
 \]      
 
+\subsection{The Gram-Schmidt Process}
+
+To make orthonormal vectors, we will need to start with independent vectors. Say \(a, b , c\). Will we turn these into orthogonal vectors \(A, B, C\). Then we will turn them orthonormal by \(q_1 = \frac{A}{\lVert A \rVert }, q_2 = \frac{B}{\lVert B \rVert }, q_3 = \frac{C}{\lVert C \rVert }\), and so on for other cases. 
+
+We start by choosing \(A = a\), as the first direction. Next, \(B\) must be perpendicular to \(A\). We can do that by making \(b\) minus its projection on \(A\), which is just its \(e\), which is of course perpendicular. 
+
+\[
+    B = b - \frac{A^T b}{A^T A}A
+\]
+
+We should confirm that they are orthogonal by \(A^T B = 0\). If \(B\) is 0, that means \(A\) and \(B\) is dependent. The direction for \(A\) and \(B\) is now set and we can continue to \(C\). 
+\[
+    C = c - \frac{A^T c}{A^T A}A - \frac{B^T c}{B^T B}B
+\]     
+
+The core idea of Gram-Schmidt process is that we \emph{subtract from every new vector its projections in the direction already set.} If we had \(D\), we would minus \(d\)  with its projection on \(A, B, C\). Then to turn them orthonormal, we divide them by their norm length.
+
+\textbf{Example}, suppose we have three independent non-orthogonal vectors \(a, b, c\):
+\[
+    a = 
+    \begin{bmatrix}
+         1 \\
+         -1 \\
+         0 \\
+    \end{bmatrix}
+    \text{ and }
+    b = 
+    \begin{bmatrix}
+         2 \\
+         0 \\
+         -2 \\
+    \end{bmatrix}
+    \text{ and }
+    \begin{bmatrix}
+         3 \\
+         -3 \\
+         3 \\
+    \end{bmatrix}
+\] 
+
+The math says, \(A = a, A^T A = 2, A^T b = 2\). Subtract \(b\) from its projection on \(A\). 
+\[
+    B = b - \frac{A^T b}{A^T A} = b - \frac{2}{2}A = 
+    \begin{bmatrix}
+         1 \\
+         1 \\
+         -2 \\
+    \end{bmatrix}
+\]   
+
+Check whether \(A^T B = 0\) or not, it should. Now, we do the same to \(c\) on \(A, B\) for \(C\). 
+\[
+    C = c - \frac{A^T C}{A^T A}A - \frac{B^T C}{B^T B} = c - \frac{6}{2}A + \frac{6}{6}B = 
+    \begin{bmatrix}
+         1 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+\]    
+
+Check that \(C\) is perpendicular to \(A\) and \(B\). Then we convert them to unit, \(A, B, C\)'s length should be \(\sqrt{2}, \sqrt{6}, \sqrt{3}   \) respectively. 
+\[
+    q_1 = \frac{1}{\sqrt{2}}
+    \begin{bmatrix}
+         1 \\
+         -1 \\
+         0 \\
+    \end{bmatrix}
+    \text{ and }
+    q_2 = \frac{1}{\sqrt{6} }
+    \begin{bmatrix}
+         1 \\
+         1 \\
+         -2 \\
+    \end{bmatrix}
+    \text{ and }
+    q_2 = \frac{1}{\sqrt{3} }
+    \begin{bmatrix}
+         1 \\
+         1 \\
+         1 \\
+    \end{bmatrix}
+\]     
+
+\(A, B, C\) usually contains fraction, \(q_1, q_2, q_3\) usually contains square roots. That is just the price we have to pay for this tool. 
+
+\subsection{The Factorization \(A = QR\) }
+
+
+Since we moved from \(A\) to \(Q\), and found that they are related, then what is the third matrix for their relation? It's \(R\) in \(A = QR\) , not the same \(R\) from chapter 1. If look back, we will see how the later \(q\)'s are not involved in the prior \(q\)'s
+\begin{enumerate}
+    \item The vector \(a, A, q_1\) are all along a single line. 
+    \item The vector \(a, b, A, B, q_1, q_2\) are all in the same place. 
+    \item The vector \(a, b, c, A, B, C, q_1, q_2, q_3\) are in one 3D subspace.  
+\end{enumerate}       
+
+We can see that the \(R\) is a triangular matrix. 
+\[
+    \begin{bmatrix}
+        a & b & c  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        q_1 & q_2 & q_3  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        q^T_1 a & qT^T_1 b & q^T_1 c  \\
+         & q^T_2 b & q^T_2 c  \\
+         &  & q^T_3 c  \\
+    \end{bmatrix}
+    \text{ or }
+    A = QR
+\]
+
+Remember that \(R = Q^T A\) is upper triangular because later \(q\)'s are orthogonal to earlier \(a\)'s. 
+
+\[
+A = \begin{bmatrix}
+1 & 2 & 3 \\
+-1 & 0 & -3 \\
+0 & -2 & 3
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{6}} & \frac{1}{\sqrt{3}} \\
+-\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{6}} & \frac{1}{\sqrt{3}} \\
+0 & -\frac{2}{\sqrt{6}} & \frac{1}{\sqrt{3}}
+\end{bmatrix}
+\begin{bmatrix}
+\sqrt{2} & \sqrt{2} & \sqrt{18} \\
+0 & \sqrt{6} & -\sqrt{6} \\
+0 & 0 & \sqrt{3}
+\end{bmatrix}
+= QR.
+\]
+
+We we look closely at the diagonal of \(R\), we can see the length of \(A, B, C = \sqrt{2}, \sqrt{6}, \sqrt{3}   \) there. 
+
+We must remember that this is useful for least square. 
+\[
+    A^T A = (QR)^T QR = R^T Q^T QR = R^T R, A^T A\hat{x} = A^T b \text{ simpflies to } R^T R\hat{x} = R^T Q^T b, \text{ and finally } R\hat{x} = Q^T b 
+\]
+
+\[
+    \text{Least squares: }
+    R^T R\hat{x} = R^T Q^T b \text{ or } R\hat{x} = Q^T b \text{ or } \hat{x} = R^{-1} Q^T b 
+\]
+
+While \(Ax = b\) is impossible, \(R\hat{x} = Q^T b\) is very fast. Page 183 will have a code and logic worth looking through. 
+
+\textbf{Key ideas:}
+\begin{enumerate}
+    \item If the orthonormal vectors \(q_1, \ldots, q_n\) are the columns of \(Q\), then \(q^T_i q_j = 0\) and \(q^T_i q_i = 1\), which translate to \(Q^T Q = I\). 
+    \item If \(Q\) is square then \(Q^T = Q^{-1} \), transpose = inverse. 
+    \item Length of \(Qx\) equals the length of x, \(\lVert Qx \rVert = x \)
+    \item The projection onto the column space of \(Q\) spanned by the \(q\)'s is \(P\) = \(Q Q^T\). 
+    \item If \(Q\) is square then \(P = Q Q^T = I\) and every \(b = q_1(q^T_1 b) + \ldots + q_n(q^T_n b)\). 
+    \item Gram-Schmidt produces orthormal vectors \(q_1, q_2, q_3\) from independent \(a, b, c\). In matrix form, it is the factorization \(A = QR\)              
+\end{enumerate}
+
 \section{The Pseudoinverse of a Matrix}
+
+\[
+    r = m = n = 2 
+    I = 
+    \begin{bmatrix}
+        1 & 0  \\
+        0 &  1 \\
+    \end{bmatrix}
+    I = I^{-1}, (I)(I) = I 
+\]
+
+\[
+    r = m < n = 3
+    I_L = 
+    \begin{bmatrix}
+        1 & 0 & 0  \\
+        0 & 1 & 0  \\
+    \end{bmatrix}
+    I_L = \text{left inverse} of I_R
+    I_R = \text{right inverse} of I_L
+\]
+
+\[
+    r = n < m = 3
+    I_R = 
+    \begin{bmatrix}
+        1 & 0 \\
+        0 & 1  \\
+        0 & 0  \\
+    \end{bmatrix}
+    (I_L)(I_R) = I 
+    (I_R)(I_L) \neq I
+\] 
+
+Only the first \(I\) is truly invertible. \(I_L\) and \(I_R\) have one-sided inverses but not true inverses. Every matrix \(A\) have a \textbf{pseudoinverse} \(A^+\). Which includes left inverse and right inverse. 
+
+\emph{A has a left inverse:}
+\begin{enumerate}
+    \item \(A^+ A = I \) 
+    \item \(A\) has independent columns 
+    \item A can be tall and thin, \(r = n\)
+    \item \(Ax = b\) can have no solution or one solution. 
+    \item \(N(A)\) = zero vector 
+    \item \(A^T A\) is \(n \times n\) and invertible. 
+    \item The left inverse is \(A^+ (A^T A)^{-1} A^T \)      
+\end{enumerate}
+
+\emph{A has a right inverse:}
+\begin{enumerate}
+    \item \(A A^+ = I\)
+    \item A has independent rows 
+    \item A can be short and wide, \(r = m\)
+    \item \(Ax = b\) can have one or many solutions 
+    \item Left nullspace \(N(A)^T\) = zero vector 
+    \item \(A A^T\) is \(m \times m\) and invertible 
+    \item \(A^+ = A^T (A A^T)^{-1} \)      
+\end{enumerate}
+
+\(A^+ A = I\) describes the matrices in the least square chapter. The rank of \(r = n < m\) where \(Ax = b\) might be unsolvable. Then \(\hat{x} = A^+ b\) is the vector that solves \(A^T A\hat{x} = A^T b\) and makes the error \(e = b - A\hat{x}\) as small as possible, that is least square. 
+
+\(A A^+ = I\) describes the opposite problem, \(r = m < n\), which means \(Ax = b\) has infinitely many solutions. In this case \(x^+ = A^+ b\) is the minimum length solution to \(Ax = b\) . The solution is in the row space of \(A\) and all other solutions \(x = x^+ + x_n\) have a nullspace component \(x_n\), which increases the length. 
+
+\[
+    \text{\(x^+\) is the minimum norm least squares solution to \(Ax = b\)  }
+\]
+\(x^+ = A^+ b\) also minimizes \(\lVert x \rVert^2 \). \emph{\(x^+\) has nullspace component = 0 }. If \(A\) has dependent columns, we need \(A^+\).
+
+\subsection{The Pseudoinverse \(A^+\) \((n \times m)\)  of a Matrix \(A\) \((m \times n)\)}
+
+
+
+
