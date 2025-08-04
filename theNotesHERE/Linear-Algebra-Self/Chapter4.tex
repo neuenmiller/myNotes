@@ -1459,6 +1459,109 @@ Only the first \(I\) is truly invertible. \(I_L\) and \(I_R\) have one-sided inv
 
 \subsection{The Pseudoinverse \(A^+\) \((n \times m)\)  of a Matrix \(A\) \((m \times n)\)}
 
+To get this, we must remember a few things. 
+\begin{enumerate}
+    \item Every \(y\) in \(m\) dimensions has two perpendicular parts, \(y = b + z\).
+    \item \(b\) is in the column space of \(A\) where \(z\) is in the nullspace of \(A^T\) .
+    \item We can invert \(Ax = b\) to find \(A^+ b = x\).         
+\end{enumerate}
 
+\[
+    \text{Pseudoinverse of \(A\) has \(A^+ b = x, A^+ z = 0, A^+ y = A^+ b + A^+ z = x\)  }
+\]
 
+If I were to put it into simple words, pseudoinverse is a practical, flawed, and yet the best undo button we have. It is guaranteed to exist, unlike a perfect inverse inverse. If you look on page 191 of Strang's, you will see that \(A^+\) looks at \(y = b + z\), and ignores \(z\) then send it off to an appropriate \(x\). However, in a case where \(y = b + 0\), it is the same since no matter what the \(z\) is, it is ignored. 
+
+If we look at it, it is basically projection onto the row or col space. 
+Therefore, each projection onto the row and col space have an equation. 
+\[
+    P_{row} = A^+ A = (A^+ A)^2 = (A^+ A)^T, 
+    P_{col} = AA^+ = (A A^+)^2 = (A A^+)^T  
+\]
+
+\textbf{Example 1:} 
+\[
+    A = 
+    \begin{bmatrix}
+        2 &  0 \\
+        0 &  0 \\
+    \end{bmatrix}, 
+    y = 
+    \begin{bmatrix}
+         y_1 \\
+         0 \\
+    \end{bmatrix}
+    + 
+    \begin{bmatrix}
+         0 \\
+         y_2 \\
+    \end{bmatrix}
+    = b + z , 
+    A^+ = 
+    \begin{bmatrix}
+        \frac{1}{2} & 0  \\
+        0 & 0  \\
+    \end{bmatrix}
+\] 
+
+\(b = 
+\begin{bmatrix}
+     y_1 \\
+     0 \\
+\end{bmatrix}\) is in the column space of \(A\), \(Ax = b\) is \(\begin{bmatrix}
+    2 & 0  \\
+    0 & 0  \\
+\end{bmatrix}
+ \begin{bmatrix}
+     \frac{y_1}{2} \\
+     0 \\
+ \end{bmatrix}
+ = 
+ \begin{bmatrix}
+     y_1 \\
+     0 \\
+ \end{bmatrix}\)  
+
+ \(z = \begin{bmatrix}
+     0 \\
+     y_2 \\
+ \end{bmatrix}\) in the nullspace of \(A^T\), \(A^T z = 0\), you get the jazz. 
+ 
+ Then it ends at \(A^+ y = A^+ b + A^+ z = x + 0 = \begin{bmatrix}
+     \frac{y_1}{2} \\
+     0 \\
+ \end{bmatrix}\). Then \(A^+ = \begin{bmatrix}
+    \frac{1}{2} & 0  \\
+    0 & 0  \\
+ \end{bmatrix}\)  
+ where 
+ \(A^+ A = \begin{bmatrix}
+    1 &  0 \\
+    0 &  0 \\
+ \end{bmatrix}\). 
+
+ Another useful usecase is diagonal matrix \(D\), square or rectangular: 
+ \[
+    \text{Pseudoinverse of } D = 
+    \begin{bmatrix}
+        2 & 0 & 0  \\
+        0 & 3 & 0  \\
+        0 & 0 & 0  \\
+    \end{bmatrix}
+    \rightarrow
+    D^+ = 
+    \begin{bmatrix}
+        \frac{1}{2} & 0 & 0  \\
+        0 & \frac{1}{3} & 0  \\
+        0 & 0 & 0  \\
+    \end{bmatrix}
+ \] 
+
+ Remember though, \(\frac{1}{0}\) must be zero. This also extends from a diagonal \(D\) to any matrix \(A = BDC\). If \(B\) and \(C\) are invertible then \(A^+ = B^{-1} D^+ C^{-1}\), and for completion, if only \(B\) is invertible, then \(A^+ = B^+ D^{-1 C^{-1} } \)       
+
+ Is there a general solution Yes, SVD. But that is still far off. For now, we are only concerned with solution for specific cases. Tall thin matrices, and short wide matrices. Most matrices do not have a \(A^{-1} \) where \(A^{-1} A = I \) and \(A A^{-1} = I \), only square invertible matrices can do that.
+
+ For tall thin matrices where the columns are independent, \(A^+ = (A^T A)^{-1} A^T \) is the left inverse of \(A\). Which makes \(A^+ A = I\), but \(A A^+ \neq I\). 
+ 
+ Then for short wide matrices where the rows are independent, \(A^+ = A^T (A A^T)^{-1} \), as the right inverse of \(A\). Here, \(A A^+ = I\), but \(A^+ A \neq I\).  
 
