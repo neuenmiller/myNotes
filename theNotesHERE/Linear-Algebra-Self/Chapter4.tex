@@ -1565,3 +1565,100 @@ Therefore, each projection onto the row and col space have an equation.
  
  Then for short wide matrices where the rows are independent, \(A^+ = A^T (A A^T)^{-1} \), as the right inverse of \(A\). Here, \(A A^+ = I\), but \(A^+ A \neq I\).  
 
+\subsection{The Important Action of \(A\) is Row Space to Column Space }
+
+One thing to remember is that two vectors \(x\) and \(X\) can't go to the same vector \(Ax = AX\) in the column space. They each value are unique and only come from other unique value. 
+
+We can prove this by letting \(Ax = AX = b\), which makes \(x - X\) be in the nullspace of \(A\). But it can't be since it would mean it would be orthogonal to itself because it would be in both the row space and nullspace. 
+
+Another thing to know is that: 
+\[
+    A^+ = R^+ C^+
+\]
+
+\subsection{The Pseudoinverse \(A^+ = R^+ C^+ \text{ of } A = CR\) }
+
+\(C\) has \(r\) independent columns so \(C^+ = (C^T C)^{-1} C^T\) and \(R\) has \(r\) independent rows so \(R^+ = R^T(R R^T)^{-1} \)
+
+There is actually another way to explain \(A^+\). 
+
+\[
+    A A^+ A = A, A^+ A A^+ = A^+, (A^+ A)^T = A^+ A, (A A^+)^T = A A^+
+\]
+
+The spirit of this explanation is that \(A^+ A\) and \(A A^+\) are projections onto the row space and column space of \(A\). 
+
+\subsection{Example of \(A^+\) from \(A =\) Incidence Matrix of a Graph  }
+
+Imagine an edge graph with this matrix:
+
+\[
+A = 
+\begin{bmatrix}
+-1 & 1  & 0 & 0 \\
+-1 & 0  & 1 & 0 \\
+0  & -1 & 1 & 0 \\
+-1 & 0  & 0 & 1 \\
+0  & -1 & 0 & 1
+\end{bmatrix}
+\quad
+\begin{matrix}
+\text{edge }a\\
+\text{edge }b\\
+\text{edge }c\\
+\text{edge }d\\
+\text{edge }e
+\end{matrix}
+\]
+
+So the matrix \(A\) has \(m = 5, n = 4, r = 3\), its three first columns are independent. 
+\[
+    A = CR = 
+    \begin{bmatrix}
+-1 & 1  & 0 & 0 \\
+-1 & 0  & 1 & 0 \\
+0  & -1 & 1 & 0 \\
+-1 & 0  & 0 & 0 \\
+0  & -1 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & 0 & 0 & -1 \\
+0 & 1 & 0 & 0 & -1 \\
+0 & 0 & 1 & 0 & -1 \\
+0 & 0 & 0 & 1 & -1
+\end{bmatrix}
+\]  
+
+\emph{How do we compute \(A\)? } We could do SVD, where \(A^+ = V \Sigma ^+ U^T\). \(U\) and \(V\) are square orthogonal matrices with the \(n\) by \(m\) diagonal pseudoinverse \(\Sigma ^+\). But for here where the matrix is small, we can do \(A^+ = R^+ C^+\). 
+\[
+    A^+ = R^T (C^T A R^T)^{-1} C^T 
+\]  
+
+\(A^+\) and \(A^T\) share the same row and cl space, but \(A^+ A\) is a symmetrical projection matrix onto the row space. 
+
+\[
+C^T A R^T
+=
+\begin{bmatrix}
+4 & 0 & 0\\
+0 & 4 & 0\\
+-1 & -1 & 2
+\end{bmatrix},
+\qquad
+A^+
+=
+\frac{1}{8}
+\begin{bmatrix}
+-2 & -2 &  0 & -2 &  0\\
+ 2 &  0 & -2 &  0 & -2\\
+ 0 &  3 &  3 & -1 & -1\\
+ 0 & -1 & -1 &  3 &  3
+\end{bmatrix}.
+\]
+
+Since the four subspaces for \(A^T\) are the same as \(A^+\), we can just assume the spaces will agree by orthogonality. 
+\begin{enumerate}
+    \item Each row of \(A\) adds to zero, each column of \(A^+\) adds to zero. 
+    \item Row 2 of \(A\) = Row 1 + Row 3, column 2 of \(A^+\) = column 1 + column 3
+    \item Row 1 of \(A\) = Row 4 - Row 5, Column 1 of \(A^+\) = Column 4 = Column 5      
+\end{enumerate}  
