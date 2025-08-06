@@ -1,4 +1,185 @@
 \chapter{Determinants}
 \section{3 by 3 Determinants and Cofactors}
+
+\begin{enumerate}
+    \item \(\det \) of \(A= \begin{bmatrix}
+        a & b  \\
+        c & d  \\
+    \end{bmatrix}\) 
+    is \(ad - bc\), the singular matrix \(\begin{bmatrix}
+        a & 2a  \\
+        c & 2c  \\
+    \end{bmatrix}\) 
+    has \(\det  = 0\)
+    \item \(P A = \begin{bmatrix}
+        0 & 1  \\
+        1 & 0  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        a & b  \\
+        c & d  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        c & d  \\
+        a & b  \\
+    \end{bmatrix}\)  
+    has \(\det  P A = bc - ad = - \det A\)  
+    \item \(\det \) of \(\begin{bmatrix}
+        xa + yA & xb + yB  \\
+        c & d  \\
+    \end{bmatrix}\) 
+    is \(x(ad - bc) + y(Ad - Bc)\), where the \(\det \)  is linear in row 1 by itself. 
+    \item \(3 \times 3\)  determinants have \(3! = 6\)terms. 
+\end{enumerate}
+
+One thing to remember that determinants reverse sign when two rows are exchanged \((\det A \rightarrow -\det A)\) 
+
+For \(2 \times 2\) matrices, \(\det = 0\) means that \(\frac{a}{c} = \frac{b}{d}\), meaning the columns are parallel. For \(n \times n\), it means that the columns of \(A\) are not independent. 
+
+\subsection{3 by 3 Determinants}
+
+\(3 \times 3\) matrices have 6 terms, starting from \(\det I = 1\). 
+
+\[
+\begin{bmatrix}
+1 &   &   \\
+  & 1 &   \\
+  &   & 1
+\end{bmatrix}
+%
+\begin{bmatrix}
+  & 1 &   \\
+1 &   &   \\
+  &   & 1
+\end{bmatrix}
+%
+\begin{bmatrix}
+  & 1 &   \\
+  &   & 1 \\
+1 &   &
+\end{bmatrix}
+%
+\begin{bmatrix}
+  &   & 1 \\
+  & 1 &   \\
+1 &   &
+\end{bmatrix}
+%
+\begin{bmatrix}
+  &   & 1 \\
+1 &   &   \\
+  & 1 &
+\end{bmatrix}
+%
+\begin{bmatrix}
+1 &   &   \\
+  &   & 1 \\
+  & 1 &
+\end{bmatrix}
+\]
+
+The \(\det \)  are respectively \(+1, -1, +1, -1, +1, -1\). Which means row exchanges multiplies \(\det \) by \(-1\). 
+
+Say we make a matrix of \(\begin{bmatrix}
+    a & b & c  \\
+    p & q & r  \\
+    x & y & z  \\
+\end{bmatrix}\) 
+
+It would be 
+
+\[
+\begin{bmatrix}
+a & & \\
+& q & \\
+& & z
+\end{bmatrix}
+%
+\begin{bmatrix}
+& b & \\
+p & & \\
+& & z
+\end{bmatrix}
+%
+\begin{bmatrix}
+& b & \\
+& & r \\
+x & &
+\end{bmatrix}
+%
+\begin{bmatrix}
+& & c \\
+& q & \\
+x & &
+\end{bmatrix}
+%
+\begin{bmatrix}
+& & c \\
+p & & \\
+& y &
+\end{bmatrix}
+%
+\begin{bmatrix}
+a & & \\
+& & r \\
+& y &
+\end{bmatrix}
+\]
+
+We can see that the determinant of \(A\) is linear in each row separately. We can combine them to get \(\det A = aqz + brx + cpy - ary - bpz- cqx\). 
+
+Notice that each term have at least one entry from the row and column. That means that a \(4 \times 4\) matrix will have 24 definitions. 
+
+\[
+    A_3 = 
+    \begin{bmatrix}
+        2 & -1 & 0  \\
+        -1 & 2 & -1  \\
+        0 & -1 & 2  \\
+    \end{bmatrix}
+    \text{ \(\det\) = 4 }
+\]
+\(2 \times 2 \times 2\) already give us \(8\). We'll see how the rest goes. 
+
+\[
+\begin{bmatrix}
+2 &   &    \\
+  &   & -1 \\
+  & -1 &
+\end{bmatrix}
+%
+\begin{bmatrix}
+  & -1 &   \\
+-1 &    &   \\
+  &    & 2
+\end{bmatrix}
+%
+\begin{bmatrix}
+  & -1 &    \\
+  &    & -1 \\
+0 &    &
+\end{bmatrix}
+%
+\begin{bmatrix}
+  &    & 0  \\
+-1 &    &    \\
+  & -1 &
+\end{bmatrix}
+%
+\begin{bmatrix}
+  &   & 0 \\
+  & 2 &   \\
+0 &   &
+\end{bmatrix}
+\]
+
+So, \(8 -2 -2 = 4\). Since we get one number from every row and every column, if any entire row or column are zero, then the whole term is zero. 
+
 \section{Computing and Using Determinants}
+
+
+
 \section{Areas and Volumes by Determinants}
+
+
