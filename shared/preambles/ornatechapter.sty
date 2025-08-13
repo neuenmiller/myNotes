@@ -1,0 +1,44 @@
+% shared/preambles/ornatechapter.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ornatechapter}[2025/08/10 Fancy chapter opener]
+
+% Only packages this feature truly needs:
+\RequirePackage{titlesec}
+
+% Optional ornaments (graceful fallback if not installed)
+\IfFileExists{pgfornament.sty}{%
+  \RequirePackage{pgfornament}
+  \newcommand{\ornL}{\pgfornament[width=1.4cm]{88}}% try 61/87/88
+  \newcommand{\ornR}{\pgfornament[width=1.4cm,symmetry=v]{88}}%
+}{%
+  % Fallback: short rules as “ornaments”
+  \newcommand{\ornL}{\rule[0.6ex]{1.2em}{0.4pt}}
+  \newcommand{\ornR}{\rule[0.6ex]{1.2em}{0.4pt}}
+}
+
+% Thin line with ornaments at the ends
+\newcommand{\chapdecor}{%
+  \noindent
+  \ornL\hfill
+  \rule[0.6ex]{\dimexpr\textwidth-2.8cm\relax}{0.4pt}%
+  \hfill\ornR\par
+}
+
+% Chapter format: huge number right, title left
+\titleformat{\chapter}[display]
+  {\normalfont}
+  {%
+    \hfill
+    \parbox[b]{0.34\textwidth}{%
+      \raggedleft\itshape Chapter\\[-0.4ex]
+      {\fontsize{120}{120}\selectfont\thechapter}%
+    }%
+  }
+  {1.6ex}
+  {%
+    \chapdecor
+    \vspace{1.2ex}
+    {\Huge\scshape}%
+  }
+  [\vspace{0.5ex}]
+\titlespacing*{\chapter}{0pt}{*0.8}{*3.0}
