@@ -176,6 +176,155 @@ Notice that each term have at least one entry from the row and column. That mean
 
 So, \(8 -2 -2 = 4\). Since we get one number from every row and every column, if any entire row or column are zero, then the whole term is zero. 
 
+\[
+A_4=
+\begin{bmatrix}
+2 & -1 & 0 & 0\\
+-1 & 2 & -1 & 0\\
+0 & -1 & 2 & -1\\
+0 & 0 & -1 & 2
+\end{bmatrix},
+\qquad
+\det A_4
+= 2 \det\!\begin{bmatrix}
+2 & -1 & 0\\
+-1 & 2 & -1\\
+0 & -1 & 2
+\end{bmatrix}
+- (-1)\det\!\begin{bmatrix}
+-1 & -1 & 0\\
+0 & 2 & -1\\
+0 & -1 & 2
+\end{bmatrix}.
+\]
+
+
+We can see also see that \(A_4\) is made from smaller matrixes, namely \(A_3\) or \(A_{n-1} \) for general cases. We simply exclude the column and row it is in.  
+
+Now might wonder why the second matrix has a \(-1\)? That is because it's cofactor is  \(a_{12} \)! We can find out what is minus or not by doing \((-1)^{i \times j}\). Here, \(i \times j\) is odd, so the \(-1\) goes through.    
+
+
+\[
+\begin{bmatrix}
++ & - & + & -\\
+- & + & - & +\\
++ & - & + & -\\
+- & + & - & +
+\end{bmatrix}
+\]
+
+
+What does this means?
+\[
+  \det \begin{bmatrix}
+    a & b  \\
+    c & d  \\
+  \end{bmatrix}
+  = \det  
+  \begin{bmatrix}
+    a &   \\
+     & d  \\
+  \end{bmatrix}
+  + 
+  \det  
+  \begin{bmatrix}
+     & b  \\
+    c &   \\
+  \end{bmatrix}
+  = a \times d \text{\textbf{ MINUS } } b \times c
+\]
+
+\subsection{Cofactors and a formula for \(A^{-1} \) }
+
+Cofactor formula of \(3 \times 3\) matrix is simply 
+\[
+  \det  A = a (qz - ry) + b (rx - pz) + c(py - qx)
+\] 
+Notice that each cofactor is \(2 \times 2\). Also notice that \(b\) has a cofactor of \(rx - pz\) instead of \(pz - rx\). Why? \(b\) is \(M_{12} \) and \(1 + 2\) is odd. 
+
+\begin{enumerate}
+  \item For \(i, j\) in \(C_ij\), remove \(i\) row and \(j\) column from A. 
+  \item \(C_{ij}\) equals \(-1^{i+j}\) times the \(\det \) of the remaining minor 
+  \item The cofactor formula along row \(i\) is \(\det  A = a_{i1}C_{i1} + \ldots + a_{in}C_{in}    \)  
+\end{enumerate}
+
+The cofactor \(C_{ij} \) just collects all term in \(\det A\) that are multiplied by \(a_{ij} \)
+
+\[
+  A = 
+  \begin{bmatrix}
+    a & b  \\
+    c & d  \\
+  \end{bmatrix}
+  , C = 
+  \begin{bmatrix}
+    d & -c  \\
+    -b & a  \\
+  \end{bmatrix}
+\]
+
+Now, if \(A \times C^T\), we get \(\det A \times I\). 
+\[
+  AC^T = 
+  \begin{bmatrix}
+    ad-bc & 0  \\
+    0 &  ad-bc \\
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+    \det A &  0 \\
+    0 & \det A  \\
+  \end{bmatrix}
+  = (\det A) I
+\]  
+Which gives us:
+\[
+  \text{Inverse matrix formula }
+  \quad 
+  A^{-1} = \frac{C^T}{\det A} 
+\]
+
+\subsection{Example: The \(-1, 2, -1\) tridiagonal matrix}
+
+Remember, \(D_n = \det A_n = 2 \det(A_{n-1}) + (-1) (1)^{i+j} (M_{12} )\)
+
+\[
+\det\!\begin{bmatrix}
+2 & -1 & 0 & 0 & \cdots & 0\\
+-1 & 2 & -1 & 0 & \cdots & 0\\
+0 & -1 & 2 & -1 & \ddots & \vdots\\
+0 & 0 & -1 & 2 & \ddots & 0\\
+\vdots & \vdots & \ddots & \ddots & \ddots & -1\\
+0 & 0 & \cdots & 0 & -1 & 2
+\end{bmatrix}
+=
+2(-1)^{1+1}\!
+\det\!\begin{bmatrix}
+2 & -1 & 0 & \cdots & 0\\
+-1 & 2 & -1 & \ddots & \vdots\\
+0 & -1 & 2 & \ddots & 0\\
+\vdots & \ddots & \ddots & \ddots & -1\\
+0 & \cdots & 0 & -1 & 2
+\end{bmatrix}
+\;-\;
+1\,(-1)^{1+2}\!
+\det\!\begin{bmatrix}
+-1 & -1 & 0 & \cdots & 0\\
+0 & 2 & -1 & \ddots & \vdots\\
+0 & -1 & 2 & \ddots & 0\\
+\vdots & \ddots & \ddots & \ddots & -1\\
+0 & \cdots & 0 & -1 & 2
+\end{bmatrix}.
+\]
+
+
+The first one is plain old \(n - 1\), but the second one, remember that it is \(M_{12} \). And the cofactor is \((-1)^{1+2} = -1\). 
+\[
+  \det  A_n = 2 \det A_{n-1} - \det A_{n-2}  
+\]   
+
+Working it, we find that \(A_n = 2, 3, 4, 5\) for \(n = 1, 2, 3, 4\). We now see that \(\det A_n = n + 1\) for every \(n\). Cofactor formula is most useful when the matrix is mostly zero, so we have few cofactor to find.     
+
 \section{Computing and Using Determinants}
 
 
