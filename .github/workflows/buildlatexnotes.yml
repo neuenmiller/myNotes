@@ -1,3 +1,5 @@
+name: Build and Commit LaTeX PDFs
+
 on:
   push:
     branches:
@@ -10,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    if: ${{ !contains(github.event.head_commit.message, 'ci: Automatically build and commit PDFs') }}
+    if: "!contains(github.event.head_commit.message, 'ci: Automatically build and commit PDFs')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,13 +37,6 @@ jobs:
             if [ -f "$dir/main.tex" ];
             then
               echo "--- Building PDF for $dir ---"
-
-              # NEW: Uncomment ONLY lines that are \include{...} (remove leading % on those lines)
-              # - Anchored at start of line, allows leading whitespace, then %,
-              #   then (and only then) \include{...}. Leaves everything else untouched.
-              cp "$dir/main.tex" "$dir/main.ci.backup.tex"
-              sed -i -E 's/^[[:space:]]*%+[[:space:]]*(\\include\{[^}]+\})/\1/' "$dir/main.tex"
-
               if ! docker run --rm --user $(id -u):$(id -g) -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode "$dir/main.tex"; then
                 echo "::error::LaTeX compilation failed for $dir. Check the log files."
                 HAD_ERROR=true
