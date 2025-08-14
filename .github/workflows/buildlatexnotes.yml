@@ -51,7 +51,6 @@ jobs:
           if [ "$HAD_ERROR" = true ]; then
             exit 1
           fi
-
       - name: Forcefully add PDF files to git
         if: steps.build-latex.outcome == 'success'
         run: git add -f theNotesHERE/**/*.pdf
