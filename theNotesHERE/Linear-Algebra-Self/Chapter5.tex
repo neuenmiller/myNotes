@@ -327,8 +327,305 @@ Working it, we find that \(A_n = 2, 3, 4, 5\) for \(n = 1, 2, 3, 4\). We now see
 
 \section{Computing and Using Determinants}
 
+\begin{enumerate}
+  \item \(\det A^T = \det A, \det AB = (\det A)(\det B), \vert \det Q \vert = 1 \).
+  \item Elimination matrix have \(\det E = 1\) therefore \(\det EA = \det A\).  
+  \item Cramer's rule find \(x = A^{-1} b \) from ratio of determinant, slow. 
+  \item \(\det A = \pm \) product of the pivots in \(A = LU\), fast. 
+  \item Big formula for \(\det A\) has \(n!\) term from \(n!\) permutation, very slow.      
+\end{enumerate}
+
+Determinant of a square matrix tells us that invertible matrix has \(\det A \neq 0\), where a singular matrix can have \(\det A = 0\). 
+
+\[
+\det\!\begin{bmatrix}
+a & b & c\\
+0 & q & r\\
+0 & 0 & z
+\end{bmatrix}
+=
+\det\!\begin{bmatrix}
+a & 0 & 0\\
+0 & q & 0\\
+0 & 0 & z
+\end{bmatrix}
+= aqz.
+\]
+
+It tells us a few things. 
+
+\begin{enumerate}
+  \item \(\det A^T = \det A\)
+  \item \(\det (AB) = (\det A)(\det B)\)  
+  \item Orthogonal matrices \(Q\) have determinant \(\pm 1\).  
+\end{enumerate}
+
+The last one requires a bit more explanation. 
+\[
+  Q^T Q = I, (\det Q)^2 = (\det Q^T)(\det Q) = 1, \text{ therefore } Q = \pm 1. 
+\]
+
+\emph{Invertible matrices have \(\det A = \pm\) product of the pivots. }
+
+If \(A = LU\), \(\det A = (\det L)(\det U) = \det U\). 
+If \(PA = LU\), then there was row exchanges/permutation and \(P = \pm 1\).     
+
+\subsection{Proving the Properties}
+
+We must agree on 3 things.
+\begin{enumerate}
+  \item \(\det I = 1\) 
+  \item Exchanging two rows of \(A\) turns \(\det A \rightarrow - \det A\)
+  \item If row 1 of \(A\) is a combination \(cv + dw\) then add 2 determinants.     
+\end{enumerate}
+
+\[
+\det\begin{bmatrix}
+c\,v + d\,w\\
+\text{row }2\\
+\vdots\\
+\text{row }n
+\end{bmatrix}
+= c\,\det\!\begin{bmatrix}
+v\\
+\text{row }2\\
+\vdots\\
+\text{row }n
+\end{bmatrix}
++ d\,\det\!\begin{bmatrix}
+w\\
+\text{row }2\\
+\vdots\\
+\text{row }n
+\end{bmatrix}.
+\]
+
+\(\det A\) is linear with respect to every row separately. If \(A\) has two equal rows, its determinant is \textbf{zero}. If you try to swap two rows, that mean it swaps sign, but if it has to swap sign and stay the same, that means it's 0. Rule 3 means that subtracting \(d\) times row \(i\) from row \(j\) leaves \(\det A\) unchanged. 
+
+\[
+\det\!\begin{bmatrix}
+\text{row }1\\
+\text{row }2 - d\,\text{row }1\\
+\vdots\\
+\text{row }n
+\end{bmatrix}
+=
+\det\!\begin{bmatrix}
+\text{row }1\\
+\text{row }2\\
+\vdots\\
+\text{row }n
+\end{bmatrix}
+-
+d\,\det\!\begin{bmatrix}
+\text{row }1\\
+\text{row }1\\
+\vdots\\
+\text{row }n
+\end{bmatrix}
+= \det A.
+\]
+
+This is linearity in row 2 with row 1 fixed.  It means elimination steps from the original matrix \(A\) to an upper triangular \(U\) do not change the determinant. Elimination is the way to simplify \(A\) and its determinant. 
+
+\[
+  \det A = \det U = U_{11} U_{22} U_{33}  \ldots U_{nn} 
+\]   
+
+\subsection{Cramer's Rule to Solve \(Ax = b\) }
+
+Cramer's rule work by letting \(M_1\) has determinant \(x_1\). If you multiply it by \(A\), the first column becomes \(Ax\) which is \(b\). 
+
+\[
+A
+\begin{bmatrix}
+x_1 & 0 & 0\\
+x_2 & 1 & 0\\
+x_3 & 0 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+b_1 & a_{12} & a_{13}\\
+b_2 & a_{22} & a_{23}\\
+b_3 & a_{32} & a_{33}
+\end{bmatrix}
+= B_1.
+\]
+
+Which gives us the product rule:
+\[
+  (\det A)(x_1) = \det B_1 \text{ or }
+  x_1 = \frac{\det B_1}{\det A}
+\]
+
+\[
+\begin{bmatrix} a_1 & a_2 & a_3 \end{bmatrix}
+\begin{bmatrix}
+1 & x_1 & 0\\
+0 & x_2 & 0\\
+0 & x_3 & 1
+\end{bmatrix}
+=
+\begin{bmatrix} a_1 & b & a_3 \end{bmatrix}
+= B_2.
+\]
+
+Same thing but \((\det A)(x_2) = \det B_2\) or \(x_2 = \frac{\det B_2}{\det A}\)  
+
+\textbf{Example 1:} Solve for \(3x_1 + 4x_2 = 2, 5x_1 + 6x_2 = 4\)
+
+\[
+  \det A = 
+  \begin{bmatrix}
+    3 & 4  \\
+    5 & 6  \\
+  \end{bmatrix}
+  \quad 
+  \det B_1 = 
+  \begin{bmatrix}
+    2 & 4  \\
+    4 & 6  \\
+  \end{bmatrix}
+  \quad 
+  \det B_2 = 
+  \begin{bmatrix}
+    3 & 2  \\
+    5 & 4  \\
+  \end{bmatrix}
+\]
+
+Determinant of \(B_1\) and \(B_2\) are \(-4\) and \(2\), divided by \(\det A = -2\)
+
+
+
+\[
+  x_1 = \frac{-4}{-2} = 2
+  \quad 
+  x_2 = \frac{2}{-2} = -1
+  \quad 
+  \text{Check }
+  \begin{bmatrix}
+    3 & 4  \\
+    5 & 6  \\
+  \end{bmatrix}
+  \begin{bmatrix}
+     2 \\
+     -1 \\
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+     2 \\
+     4 \\
+  \end{bmatrix}
+\]
+
+
+And so the Cramer's rule is:
+\[
+  x_1 = \frac{\det B_1}{\det A}
+  \quad 
+  x_2 = \frac{\det B_2}{\det A}
+  \quad 
+  \ldots 
+  \quad 
+  x_n = \frac{\det B_n}{\det A}
+\]
+
+
+
+\textbf{Example 2:} We want to find a \(A[x \quad y] = I\). 
+\[
+  Ax = 
+  \begin{bmatrix}
+    a & b  \\
+    c & d  \\
+  \end{bmatrix}
+  \begin{bmatrix}
+     x_1 \\
+     x_2 \\
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+     1 \\
+     0 \\
+  \end{bmatrix}
+  \quad 
+  Ay = 
+  \begin{bmatrix}
+    a & b  \\
+    c & d  \\
+  \end{bmatrix}
+  \begin{bmatrix}
+     y_1 \\
+     y_2 \\
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+     0 \\
+     1 \\
+  \end{bmatrix}
+\]
+
+
+
+We will need four determinant for \(x_1, x_2, y_1, y_2\)
+
+
+
+Giving us the determinants: \(d, -c, -b, a\). 
+
+
+\[
+  x_1 = \frac{d}{\vert A \vert },
+  \quad 
+  x_2 = \frac{-c}{\vert A \vert },
+  \quad 
+  x_3 = \frac{-b}{\vert A \vert }
+  \quad 
+  x_4 = \frac{a}{\vert A \vert }
+  \text{ and }
+  A^{-1} = \frac{1}{ad - bc}
+  \begin{bmatrix}
+    d & -b  \\
+    -c & a  \\
+  \end{bmatrix} 
+\]
+
+\(A^{-1} \) involves the cofactor of \(A\), and the determinant in each \(B_j\) in Cramer's rule is a cofactor of \(A\). 
+
+\[
+\det\!\begin{bmatrix}
+1 & a_{12} & a_{13}\\
+0 & a_{22} & a_{23}\\
+0 & a_{32} & a_{33}
+\end{bmatrix}\quad
+\det\!\begin{bmatrix}
+a_{11} & 1 & a_{13}\\
+a_{21} & 0 & a_{23}\\
+a_{31} & 0 & a_{33}
+\end{bmatrix}\quad
+\det\!\begin{bmatrix}
+a_{11} & a_{12} & 1\\
+a_{21} & a_{22} & 0\\
+a_{31} & a_{32} & 0
+\end{bmatrix}
+\]
+
+\[
+  C_{ij} = B_j 
+\]
+
+\(B_1\) is the cofactor \(C_{11} = a_{22}a_{33} - a_{23}a_{32}\), \(\det B_2 = -(a_{21}a_{33} - a_{23}a_{31})\). Notice how \(C_{12} \) go into column 1 of \(A^{-1} \)? 
+\[
+  (A^{-1} )_{ij} = \frac{C_{ji} }{\det A} 
+  \quad 
+  A^{-1} = \frac{C^T}{\det A} 
+\]     
+
+\subsection{The Big Formula for the Determinant: \(n!\) term }
+
+
+
 
 
 \section{Areas and Volumes by Determinants}
-
-
