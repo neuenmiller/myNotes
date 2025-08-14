@@ -4,60 +4,95 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "theNotesHERE/**"
+    paths-ignore:
+      - "theNotesHERE/**/*.pdf"
+  workflow_dispatch:
 
-# --- THIS IS THE FINAL FIX ---
-# Grant the GITHUB_TOKEN permissions to write to the repository
 permissions:
-  contents: write
+  contents: write  # keep the perm you set
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   build:
-    if: "!contains(github.event.head_commit.message, 'ci: Automatically build and commit PDFs')"
+    if: ${{ !contains(github.event.head_commit.message || '', 'Automatically build and commit PDFs') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Get changed note directories
         id: changed-dirs
         uses: tj-actions/changed-files@v41
         with:
-          files: theNotesHERE/**
+          files: |
+            theNotesHERE/**
 
-      - name: Build LaTeX and Rename PDFs
+      - name: Build LaTeX (auto-uncomment \include) and rename PDFs
         id: build-latex
         if: steps.changed-dirs.outputs.any_changed == 'true'
         continue-on-error: true
         run: |
+          set -euo pipefail
           HAD_ERROR=false
+          BUILT_ANY=false
+
           CHANGED_DIRS=$(echo "${{ steps.changed-dirs.outputs.all_changed_files }}" | xargs -n1 dirname | sort -u)
-          echo "Found changes in the following directories:"
+          echo "Found changes in:"
           echo "$CHANGED_DIRS"
+
           for dir in $CHANGED_DIRS; do
-            if [ -f "$dir/main.tex" ];
+            [[ -f "$dir/main.tex" ]] || continue
+
+            echo "--- Preparing CI main for $dir ---"
+            # Produce main.ci.tex by:
+            #  - uncommenting commented \include{...} lines (unless 'CI:keep' is on the line)
+            #  - stripping trailing '.tex' inside \include{...}
+            perl -0777 -pe \
+              "s/^[[:space:]]*%+[[:space:]]*(\\\\include\\{[^}]+\\})[[:space:]]*(?!.*CI:keep).*$/\\1/mg; \
+               s/\\\\include\\{([^}]+)\\.tex\\}/\\\\include{\\1}/g;" \
+              "$dir/main.tex" > "$dir/main.ci.tex"
+
+            echo '--- Building PDF ---'
+            if ! docker run --rm --user "$(id -u)":"$(id -g)" \
+                  -v "$(pwd)":/workdir -w /workdir \
+                  ghcr.io/xu-cheng/texlive-full:latest \
+                  latexmk -pdf -cd -interaction=nonstopmode -jobname=main "$dir/main.ci.tex"
             then
-              echo "--- Building PDF for $dir ---"
-              if ! docker run --rm --user $(id -u):$(id -g) -v "$(pwd)":/workdir -w /workdir ghcr.io/xu-cheng/texlive-full:latest latexmk -pdf -cd -interaction=nonstopmode "$dir/main.tex"; then
-                echo "::error::LaTeX compilation failed for $dir. Check the log files."
-                HAD_ERROR=true
-              else
-                FOLDER_NAME=$(basename "$dir")
-                PDF_NAME="_${FOLDER_NAME}-PDF.pdf"
-                mv "$dir/main.pdf" "$dir/$PDF_NAME"
-                echo "Successfully built and renamed $dir/$PDF_NAME"
-              fi
+              echo "::error::LaTeX compilation failed for $dir. Check the log files."
+              HAD_ERROR=true
+            else
+              FOLDER_NAME=$(basename "$dir")
+              PDF_NAME="_${FOLDER_NAME}-PDF.pdf"
+              mv "$dir/main.pdf" "$dir/$PDF_NAME"
+              echo "Built $dir/$PDF_NAME"
+              BUILT_ANY=true
             fi
           done
-          if [ "$HAD_ERROR" = true ]; then
-            exit 1
-          fi
+
+          echo "built_any=$BUILT_ANY" >> "$GITHUB_OUTPUT"
+          if [[ "$HAD_ERROR" == true ]]; then exit 1; fi
 
       - name: Forcefully add PDF files to git
-        if: steps.build-latex.outcome == 'success'
-        run: git add -f theNotesHERE/**/*.pdf
+        if: steps.build-latex.outcome == 'success' && steps.build-latex.outputs.built_any == 'true'
+        run: |
+          find theNotesHERE -type f -name '*.pdf' -print0 | xargs -0 git add -f
 
       - name: Commit PDF files
-        if: steps.build-latex.outcome == 'success'
+        if: steps.build-latex.outcome == 'success' && steps.build-latex.outputs.built_any == 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "ci: Automatically build and commit PDFs"
@@ -71,3 +106,5 @@ jobs:
           name: LaTeX-Logs-(check-for-errors)
           path: |
             theNotesHERE/*/*.log
+            theNotesHERE/*/*.fls
+            theNotesHERE/*/*.fdb_latexmk
