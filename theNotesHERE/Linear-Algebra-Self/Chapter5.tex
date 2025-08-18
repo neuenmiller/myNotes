@@ -624,9 +624,74 @@ a_{31} & a_{32} & 0
 
 \subsection{The Big Formula for the Determinant: \(n!\) term }
 
-This
-
-
 
 
 \section{Areas and Volumes by Determinants}
+
+\begin{enumerate}
+  \item Parallelogram in \(2D = \text{ side } e_1 = (a, b), e_2 = (c, d)\). 
+  \item Area of parallelogram = \(\vert \det E = [e_1, e_2] \vert = \vert ad - bc \vert  \)  
+  \item Tilted box in \(3D\) starts with three edges \(e_1, e_2, e_3\) out from \(0, 0, 0\). 
+  \item Volume of a tilted box \(= \vert 3 \times 3 \text{ edge matrix } E  \vert \).    
+\end{enumerate}
+
+How we can find the area of a parallelogram? Parallelogram can be broken down into 2 triangle, the area is simply \(base \times height\). However, we are not given base and height, but the position of the corners. Supposed the corners are \((0, 0), (a, b), (c, d)\), the forth corner would be \((a+c, b+d)\). 
+
+The equation would simply be: 
+\[
+  \text{Area of parallelogram} = \vert \det  \vert = 
+  \pm 
+  \begin{bmatrix}
+    a & c  \\
+    b & d  \\
+  \end{bmatrix}
+  = \vert ad - bc \vert 
+\]
+
+That's nice for \(2D\), but we will need to move to \(3D\). Start with four corners, \((0, 0, 0), (a, b, c), (p, q, r), (x, y, z)\). 
+
+\[
+  \text{Volume of box} = \vert \det  \vert = \pm 
+  \begin{bmatrix}
+    a & p & x  \\
+    b & q & y  \\
+    c & r & z  \\
+  \end{bmatrix} 
+\]
+
+\subsection{Areas and Volumes by Linear Algebra}
+
+\emph{A box in \(n\) dimensions has \(n\) edges \(e_1, e_2, \ldots, e_n\) going out from the origin  }. Parallel in \(2D\) have \(e_1, e_2\) coming out of them. 
+
+\[
+  \text{ Edge matrix} \quad 
+  E_2 = 
+  \begin{bmatrix}
+    a & c  \\
+    b & d  \\
+  \end{bmatrix}, \quad 
+  \begin{bmatrix}
+    e_1 & \ldots & e_n  \\
+  \end{bmatrix} \quad 
+  Columns = Box edges
+\]
+
+There are ways to prove that volume of the box is \(\det E\): 
+\begin{enumerate}
+  \item Lower times upper triangle, \(E = LU\). 
+  \item Orthogonal times upper triangular R, \(E = QR\).
+  \item Orthogonal-Diagonal-Orthogonal, \(E = U \Sigma V^T\).    
+\end{enumerate} 
+
+Remember, \(\det L = 1, \det Q = \pm 1\). \(\det L = \vert \det Q \vert = \vert \det U \vert = \vert \det V \vert = 1  \). 
+
+\[
+  \text{ Box volume } = \vert \det E \vert = \vert \det U \vert = \vert \det R \vert = \vert \det \Sigma  \vert   
+\]
+
+Do remember that \emph{multiplying all points by an orthogonal matrix \(Q\) does not change the volume.  Length and angles and box shapes and volumes are not changed by rotations \(Q\) }. Same goes for curved region, where they are cut into really small cubes plus super thin curved pieces which approach zero. 
+
+\(R\) is a triangular matrix, its box has a volume we can compute. For parallelogram, \(R = \begin{bmatrix}
+  u & v  \\
+  0 & w  \\
+\end{bmatrix}\)  has the base of \(u\) and the diagonal entries of \(u\) and \(w\), the volume is simply \(\det R\).    
